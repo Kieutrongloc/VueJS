@@ -67,6 +67,7 @@
                         <p>The free, fun, and effective way to learn a language!</p>
                         <RouterLink to="/sign-up"><button id="to-signup">GET STARTED</button></RouterLink>
                         <RouterLink to="/sign-in"><button id="to-signin">I ALREADY HAVE AN ACCOUNT</button></RouterLink>
+                        <RouterLink to="/user-home/learn"><p style="color: #77777;" id="title">Temporary quick access lesson</p></RouterLink>
                     </div>
                 </div>
             </body>

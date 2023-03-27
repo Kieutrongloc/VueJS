@@ -21,7 +21,7 @@ const router = createRouter({
           path: '/user-home/learn',
           name: 'learn',
           component: () => import('../components/UserHome/UserLearn.vue')
-        }
+        },
       ]
     },
     {
@@ -33,7 +33,12 @@ const router = createRouter({
       path: '/sign-up',
       name: 'sign-up',
       component: () => import('../views/SignUp.vue')
-    }
+    },
+    {
+      path: '/lesson',
+      name: 'first-lesson',
+      component: () => import('../components/Lesson/FirstLesson.vue')
+    },
 
   ]
 })

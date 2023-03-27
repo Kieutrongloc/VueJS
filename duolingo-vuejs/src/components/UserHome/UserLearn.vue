@@ -1,19 +1,25 @@
 <script>
+import { RouterLink } from 'vue-router';
 export default {
     data() {
         return {
+            startButton: true,
+            onClickStartButton: false,
             unitOne : [
-                {id: 1, icon: "fa-solid fa-star", status: 'learned'},
-                {id: 2, icon: "fa-solid fa-moon", status: 'learned'},
-                {id: 3, icon: "fa-solid fa-lock", status: 'learning'},
-                {id: 4, icon: "fa-solid fa-lock", status: 'not learned'},
-                {id: 6, icon: "fa-solid fa-lock", status: 'not learned'}
+                {id: 1, icon: "fa-solid fa-star", status: 'learned', lesson: ''},
+                {id: 2, icon: "fa-solid fa-moon", status: 'learned', lesson: ''},
+                {id: 3, icon: "fa-solid fa-sun", status: 'learning', lesson: 'lesson'},
+                {id: 4, icon: "fa-solid fa-moon", status: 'not learned', lesson: ''},
+                {id: 5, icon: "fa-solid fa-star", status: 'not learned', lesson: ''}
             ],
         }
     },
     methods: {
         isLearned(status) {
             return status === "learning"
+        },
+        startButtonHandle() {
+            return this.startButton = !this.startButton, this.onClickStartButton = !this.startButton
         }
     }
 }
@@ -37,12 +43,18 @@ export default {
             <div class="lesson">
                 <ul class="lesson-list">
                     <li v-for="(item) in unitOne" :key="item.id">
-                        <div v-if="isLearned(item.status)">
-                            <p>START</p>
+                        <div v-if="isLearned(item.status) && startButton" @click="startButtonHandle">
+                            <p id="button-start">START</p>
                         </div>
-                        <button class="lesson-learning-learned" v-if="item.status === 'learning' || item.status === 'learned'">
+                        <button class="lesson-learning-learned" v-if="item.status === 'learning' || item.status === 'learned'" @click="startButtonHandle">
                             <font-awesome-icon class="colored-icon" :icon="`${'fa ' + item.icon}`" />
                         </button>
+                        <div id="start-button" v-if="item.status === 'learning' && onClickStartButton">
+                            <h2>Describe actions</h2>
+                            <span>Lesson {{ item.id }} of {{ unitOne.length }}</span>
+                            <RouterLink id="enter-lesson" :to=item.lesson><div><p>START +10 XP</p></div></RouterLink>
+                        </div>
+
                         <button class="lesson-not-learned" v-else-if="item.status === 'not learned'">
                             <font-awesome-icon  class="gray-icon" icon="fa-solid fa-lock" />
                         </button>
@@ -179,7 +191,7 @@ export default {
     margin-top: 40px;
 }
 
-.unit .lesson .lesson-list div p {
+.unit .lesson .lesson-list div #button-start {
     color: rgb(88,204,2);
     font-weight: bolder;
     position: absolute;
@@ -192,7 +204,7 @@ export default {
     top: 16px;
 }
 
-.unit .lesson .lesson-list div p:hover {
+.unit .lesson .lesson-list div #button-start:hover {
     cursor: pointer;
 }
 
@@ -212,8 +224,44 @@ export default {
     cursor: pointer;
 }
 
+.unit .lesson ul li #enter-lesson {
+    text-decoration: none;
+}
+
 .unit .lesson ul li .lesson-learning-learned {
     background-color: rgb(88,204,2);
+}
+
+.unit .lesson ul li #start-button {
+    position: absolute;
+    z-index: 1;
+    background-color: rgb(88,204,2);
+    border-radius: 10px;
+    padding: 10px;
+    width: max-content;
+    color: white;
+    position: absolute;
+    right: 90px;
+    bottom: -18px;
+    /* transition: transform 0.5s ease-in-out; */
+}
+
+.unit .lesson ul li #start-button:hover {
+    cursor: pointer;
+    /* transform: scale(0.8); */
+}
+
+.unit .lesson ul li #start-button div {
+    background-color: white;
+    color: rgb(88,204,2);
+    padding: 6px;
+    margin-top: 4px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.unit .lesson ul li #start-button div:hover {
+    background-color: #eaeaea;
 }
 
 .unit .lesson ul li .lesson-not-learned {
