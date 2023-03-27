@@ -8,7 +8,7 @@ export default {
             unitOne : [
                 {id: 1, icon: "fa-solid fa-star", status: 'learned', lesson: ''},
                 {id: 2, icon: "fa-solid fa-moon", status: 'learned', lesson: ''},
-                {id: 3, icon: "fa-solid fa-sun", status: 'learning', lesson: 'lesson'},
+                {id: 3, icon: "fa-solid fa-sun", status: 'learning', lesson: '../lesson'},
                 {id: 4, icon: "fa-solid fa-moon", status: 'not learned', lesson: ''},
                 {id: 5, icon: "fa-solid fa-star", status: 'not learned', lesson: ''}
             ],
