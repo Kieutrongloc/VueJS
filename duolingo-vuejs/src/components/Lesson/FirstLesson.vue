@@ -41,7 +41,7 @@ export default {
   methods: {
     async getCourses() {
       try {
-        const response = await axios.get('http://localhost/www/AppleStore/Duolingo/get-courses.php');
+        const response = await axios.get('http://localhost/www/get-answers.php');
         this.posts = response.data;
       } catch (error) {
         console.error('Error fetching posts:', error);
