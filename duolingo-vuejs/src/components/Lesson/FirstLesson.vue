@@ -22,7 +22,7 @@
 
 </style> -->
 
-<template>
+<!-- <template>
   <div>
   </div>
 </template>
@@ -50,5 +50,37 @@ export default {
     },
   },
 };
+</script> -->
+
+<template>
+  <div>
+    <ul>
+      <li v-for="post in posts" :key="post.id">
+        <h2>{{ post.code }}</h2>
+        <p>{{ post.title }}</p>
+        <img :src="'data:image/jpeg;base64,' + post.image" />
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      posts: [],
+    };
+  },
+  async mounted() {
+    try {
+      const response = await fetch('http://localhost/www/get-answers.php');
+      const data = await response.json();
+      this.posts = data;
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  },
+};
 </script>
+
 
