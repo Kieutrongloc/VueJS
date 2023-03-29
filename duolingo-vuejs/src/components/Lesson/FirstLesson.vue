@@ -58,7 +58,7 @@ export default {
       <li v-for="post in posts" :key="post.id">
         <h2>{{ post.code }}</h2>
         <p>{{ post.title }}</p>
-        <img :src="'data:image/jpeg;base64,' + post.image" />
+        <img id="img" :src="'data:image/jpeg;base64,' + post.image" />
       </li>
     </ul>
   </div>
@@ -73,7 +73,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await fetch('http://localhost/www/get-answers.php');
+      const response = await fetch('http://localhost/www/VueJS/duolingo-vuejs/back-end/index.php'+'?folder=courses');
       const data = await response.json();
       this.posts = data;
     } catch (error) {
@@ -82,5 +82,11 @@ export default {
   },
 };
 </script>
+
+<style>
+#img {
+  width: 500px;
+}
+</style>
 
 
