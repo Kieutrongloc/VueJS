@@ -1,17 +1,36 @@
 <script>
   import { RouterLink } from 'vue-router';
+  import axios from 'axios'
+  import router from '../router';
   export default {
     data() {
       return {
-
+        signinMessage: ''
       }
     },
     methods: {
       signIn(e) {
         var formData = new FormData(this.$refs.signinForm);
-        console.log(formData.get('id'), formData.get('pw'))
+        axios.post('http://localhost/www/VueJS/duolingo-vuejs/back-end/index.php'+ '?folder=sign-in', formData)
+        .then(response => {
+          if (response.data.msg === 'ok') {
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            router.push('/user-home/learn')
+          } else {
+            this.signinMessage = 'Sign in failed';
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
       }
+    },
+    mounted() {
+    const user = localStorage.getItem("user");
+    if (user) {
+      router.push('/user-home/learn')
     }
+  },
   }
 </script>
 
@@ -33,6 +52,7 @@
             <input class="user-input" type="password" placeholder="Password" name="pw">
             <span id="forgot">FORGOT?</span>
           </div>
+          <p id="signin-message"> {{ signinMessage }}</p>
           <input id="submit" type="submit" value="LOG IN" name="submit">
         </form>
         <div id="text-or">
@@ -100,6 +120,14 @@
   align-items: center;
 }
 
+#signin-message {
+  position: absolute;
+  bottom: 90px;
+  color: red;
+  left: 20px;
+  font-size: 14px;
+}
+
 #body h2 {
   font-weight: bolder;
   margin-bottom: 20px;
@@ -124,7 +152,7 @@
   font-size: 18px;
   font-weight: bolder;
   color: white;
-  margin: 20px 0px;
+  margin: 40px 0px 20px;
 }
 
 #body form #submit:hover {

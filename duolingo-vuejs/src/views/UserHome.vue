@@ -1,4 +1,7 @@
 <script>
+import { RouterLink, RouterView } from 'vue-router'
+import UserLearn from '../components/UserHome/UserLearn.vue'
+import router from '../router';
 export default {
   data() {
     return {
@@ -11,11 +14,19 @@ export default {
     },
     isHideNavMoreHandle() {
       return this.isShowNavMore = false
+    },
+    logoutHandle() {
+      localStorage.removeItem('user')
+      router.push('/')
     }
-  }
+  },
+  mounted() {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push('/')
+    }
+  },
 }
-import { RouterLink, RouterView } from 'vue-router'
-import UserLearn from '../components/UserHome/UserLearn.vue'
 
 </script>
 
@@ -54,7 +65,7 @@ import UserLearn from '../components/UserHome/UserLearn.vue'
                 </div>
                 <li>SETTINGS</li>
                 <li>HELP</li>
-                <li>LOGOUT</li>
+                <li @click="logoutHandle">LOGOUT</li>
               </ul>
             </li>
           </ul>

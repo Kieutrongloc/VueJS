@@ -67,7 +67,6 @@
                         <p>The free, fun, and effective way to learn a language!</p>
                         <RouterLink to="/sign-up"><button id="to-signup">GET STARTED</button></RouterLink>
                         <RouterLink to="/sign-in"><button id="to-signin">I ALREADY HAVE AN ACCOUNT</button></RouterLink>
-                        <RouterLink to="/user-home/learn"><p style="color: #77777;" id="title">Sep Chinh bam vao day cho nhanh nhe</p></RouterLink>
                     </div>
                 </div>
             </body>
@@ -158,7 +157,8 @@ header #language-list ul li:hover,
 }
 
 #body #logo-earth {
-    width: 300px;
+    width: 320px;
+    height: 320px;
 }
 
 #body #body-content {
