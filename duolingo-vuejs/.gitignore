@@ -27,4 +27,4 @@ coverage
 *.sln
 *.sw?
 
-backend/config.php
+back-end/config.php
