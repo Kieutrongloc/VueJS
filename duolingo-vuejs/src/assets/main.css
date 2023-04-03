@@ -3,6 +3,7 @@
 #app {
   display: flex;
   flex-direction: row;
+  cursor: default;
 }
 main, .container {
   width: 100vw;

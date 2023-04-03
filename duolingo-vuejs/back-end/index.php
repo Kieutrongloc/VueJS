@@ -2,7 +2,10 @@
 $folder =  isset($_REQUEST['folder'])? $_REQUEST['folder']: '';
 switch ($folder) {
     case "courses":
-        require 'courses/loc-get-courses.php';
+        require 'courses/get-courses.php';
+        break;
+    case "question":
+        require "questions/index.php";
         break;
     case "lessons":
         require "lessons/index.php";
