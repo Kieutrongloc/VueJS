@@ -4,7 +4,7 @@ export default {
     return {
       questionDb: JSON.parse(localStorage.getItem('questions')),
       currentQuestion: 1,
-      QuestionTemplate: 'image selecting',
+      QuestionTemplate: '',
     };
   },
   methods: {
@@ -13,9 +13,10 @@ export default {
   computed: {
 
   },
-  mounted() {
-    this.QuestionTemplate = this.questionDb[currentQuestion].template_name,
-    this.currentQuestion = 2
+  created() {
+    this.QuestionTemplate = this.questionDb[1].template_name,
+    // this.currentQuestion = 3
+    console.log(typeof this.currentQuestion)
   }
 };
 </script>
