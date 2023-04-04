@@ -2,6 +2,8 @@
 export default {
   data() {
     return {
+      questionDb: JSON.parse(localStorage.getItem('questions')),
+      currentQuestion: 1,
       QuestionTemplate: 'image selecting',
     };
   },
@@ -10,6 +12,10 @@ export default {
   },
   computed: {
 
+  },
+  mounted() {
+    this.QuestionTemplate = this.questionDb[currentQuestion].template_name,
+    this.currentQuestion = 2
   }
 };
 </script>
@@ -19,7 +25,7 @@ export default {
     <content>
       <!-- Template image selecting -->
       <div v-if="QuestionTemplate === 'image selecting'" class="question-template" id="template-image-selecting">
-        <h1 class="question">question API</h1>
+        <h1 class="question">{{ questionDb[0].title }}</h1>
         <div class="answer-list">
           <div class="answer-box">
             <div class="image">

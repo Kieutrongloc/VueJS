@@ -1,11 +1,12 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import UserLearn from '../components/UserHome/UserLearn.vue'
-import router from '../router';
+// import UserLearn from '../components/UserHome/UserLearn.vue'
+import router from '../router'
 export default {
   data() {
     return {
       isShowNavMore: false,
+      userData : localStorage.getItem('user')
     }
   },
   methods: {
@@ -16,12 +17,13 @@ export default {
       return this.isShowNavMore = false
     },
     logoutHandle() {
-      localStorage.removeItem('user')
+      localStorage.removeItem('user'),
+      localStorage.removeItem('questions')
       router.push('/')
     }
   },
-  mounted() {
-    const user = localStorage.getItem("user");
+  created() {
+    const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       router.push('/')
     }
@@ -52,7 +54,8 @@ export default {
               <p>SHOP</p>
             </li>
             <li class="nav-list">
-              <img src="" alt="useravt-api">
+              <!-- <img id="img" :src="'data:image/jpeg;base64,' + user.avatar"/> -->
+              <img src="" alt="error">
               <p>PROFILE</p>
             </li>
             <li @mouseover="isShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" class="nav-list">

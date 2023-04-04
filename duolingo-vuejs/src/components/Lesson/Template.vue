@@ -76,6 +76,7 @@ export default {
       const response = await fetch('http://localhost/www/VueJS/duolingo-vuejs/back-end/index.php'+'?folder=courses');
       const data = await response.json();
       this.posts = data;
+      console.log(data[0].image)
     } catch (error) {
       console.error('Error fetching posts:', error);
     }

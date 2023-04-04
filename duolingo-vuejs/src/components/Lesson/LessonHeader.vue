@@ -3,35 +3,45 @@ import { RouterLink } from 'vue-router';
 export default {
   data() {
     return {
-      completedLessons: 1,
+      completedQuestions: 0,
+      totalQuestions: 0,
+      questionDb: JSON.parse(localStorage.getItem('questions')),
     };
   },
   methods: {
-    completeLesson() {
-    this.completedLessons++;
+    completeQuestions() {
+    this.completedQuestions++;
+    console.log(this.completedQuestions, this.totalQuestions)
   }
   },
   computed: {
-  progressPercent() {
-    return (this.completedLessons / 5) * 100;
+    progressPercent() {
+      return (this.completedQuestions / this.totalQuestions) * 100;
     }
-  }
-
+  },
+  mounted() {
+  },
+  created() {
+    this.totalQuestions = this.questionDb.length;
+    this.completedQuestions = 0;
+  },
 };
 </script>
 
 <template>
-  <div id="container">
-    <content>
-      <button>
-        <RouterLink to="/">
-          <font-awesome-icon id="close-icon" :icon="['fas', 'x']" />
-        </RouterLink>
-      </button>
-      <div>
-        <progress :value="progressPercent" max="100">{{ progressPercent }}%</progress>
-      </div>
-    </content>
+  <div>
+    <div id="container">
+      <content>
+        <button>
+          <RouterLink to="/user-home/learn">
+            <font-awesome-icon id="close-icon" :icon="['fas', 'x']" />
+          </RouterLink>
+        </button>
+        <div>
+          <progress :value="progressPercent" max="100">{{ progressPercent }}%</progress>
+        </div>
+      </content>
+    </div>
   </div>
 </template>
 

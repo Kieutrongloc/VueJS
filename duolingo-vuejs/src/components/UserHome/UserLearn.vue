@@ -1,16 +1,17 @@
 <script>
 import { RouterLink } from 'vue-router';
+import router from '../../router';
 export default {
     data() {
         return {
             startButton: true,
             onClickStartButton: false,
             unitOne : [
-                {id: 1, icon: "fa-solid fa-star", status: 'learned', lesson: ''},
-                {id: 2, icon: "fa-solid fa-moon", status: 'learned', lesson: ''},
-                {id: 3, icon: "fa-solid fa-sun", status: 'learning', lesson: '../lesson'},
-                {id: 4, icon: "fa-solid fa-moon", status: 'not learned', lesson: ''},
-                {id: 5, icon: "fa-solid fa-star", status: 'not learned', lesson: ''}
+                {id: 1, icon: "fa-solid fa-star", status: 'learned'},
+                {id: 2, icon: "fa-solid fa-moon", status: 'learned'},
+                {id: 3, icon: "fa-solid fa-sun", status: 'learning'},
+                {id: 4, icon: "fa-solid fa-moon", status: 'not learned'},
+                {id: 5, icon: "fa-solid fa-star", status: 'not learned'}
             ],
         }
     },
@@ -21,7 +22,13 @@ export default {
         startButtonHandle() {
             return this.startButton = !this.startButton, this.onClickStartButton = !this.startButton
         }
+    },
+    created() {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push('/')
     }
+  },
 }
 </script>
 
@@ -52,7 +59,7 @@ export default {
                         <div id="start-button" v-if="item.status === 'learning' && onClickStartButton">
                             <h2>Describe actions</h2>
                             <span>Lesson {{ item.id }} of {{ unitOne.length }}</span>
-                            <RouterLink id="enter-lesson" :to=item.lesson><div><p>START +10 XP</p></div></RouterLink>
+                            <RouterLink id="enter-lesson" to='../lesson'><div><p>START +10 XP</p></div></RouterLink>
                         </div>
 
                         <button class="lesson-not-learned" v-else-if="item.status === 'not learned'">

@@ -14,10 +14,14 @@ foreach ($result as $row) {
     if ($userpw == $row['userpw']) {
         $message = "ok";
         unset($row['userpw']);
+        if ($row['avatar']) {
+            $row['avatar'] = base64_encode($row['avatar']);
+        }
         echo json_encode(['msg' => $message, 'user' => $row]);
         die;
     }
 }
+
 $message = "no";
 echo json_encode(['msg' => $message]);
 die;

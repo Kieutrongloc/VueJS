@@ -7,8 +7,8 @@ switch ($folder) {
     case "courses":
         require 'courses/get-courses.php';
         break;
-    case "question":
-        require "questions/index.php";
+    case "questions":
+        require "questions/get-questions.php";
         break;
     case "lessons":
         require "lessons/get-lessons.php";
