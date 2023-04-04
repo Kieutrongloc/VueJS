@@ -11,7 +11,7 @@
     methods: {
       signIn(e) {
         var formData = new FormData(this.$refs.signinForm);
-        axios.post('http://localhost/www/VueJS/duolingo-vuejs/back-end/index.php'+ '?folder=sign-in', formData)
+        axios.post('http://localhost/www/VueJS/back-end/index.php'+ '?folder=sign-in', formData)
         .then(response => {
           if (response.data.msg === 'ok') {
             localStorage.setItem("user", JSON.stringify(response.data.user));

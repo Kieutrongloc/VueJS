@@ -14,9 +14,8 @@ export default {
 
   },
   created() {
-    this.QuestionTemplate = this.questionDb[1].template_name,
-    // this.currentQuestion = 3
-    console.log(typeof this.currentQuestion)
+    this.QuestionTemplate = this.questionDb[this.currentQuestion].template_name
+    this.currentQuestion = 3
   }
 };
 </script>
