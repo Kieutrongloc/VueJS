@@ -5,7 +5,7 @@ export default {
     return {
       completedQuestions: 0,
       totalQuestions: 0,
-      questionDb: JSON.parse(localStorage.getItem('questions')),
+      questionDb: null,
     };
   },
   methods: {
@@ -19,12 +19,20 @@ export default {
       return (this.completedQuestions / this.totalQuestions) * 100;
     }
   },
-  mounted() {
-  },
-  created() {
+
+  async created() {
+    while (JSON.parse(localStorage.getItem('questions')) === null) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+    this.questionDb = JSON.parse(localStorage.getItem('questions')),
     this.totalQuestions = this.questionDb.length;
     this.completedQuestions = 0;
   },
+  
+  mounted() {
+  },
+
+
 };
 </script>
 
