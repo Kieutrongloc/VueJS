@@ -5,13 +5,14 @@
   export default {
     data() {
       return {
-        signinMessage: ''
+        signinMessage: '',
+        apiUrl : import.meta.env.VITE_API_URL,
       }
     },
     methods: {
       signIn(e) {
         var formData = new FormData(this.$refs.signinForm);
-        axios.post('http://localhost/www/VueJS/back-end/index.php'+ '?folder=sign-in', formData)
+        axios.post(this.apiUrl + '?folder=sign-in', formData)
         .then(response => {
           if (response.data.msg === 'ok') {
             localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -26,10 +27,10 @@
       }
     },
     mounted() {
-    const user = localStorage.getItem("user");
-    if (user) {
+    if (localStorage.getItem("user")) {
       router.push('/user-home/learn')
     }
+    console.log(this.apiUrl)
   },
   }
 </script>

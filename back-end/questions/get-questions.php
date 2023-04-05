@@ -22,6 +22,7 @@ foreach ($results as &$result) {
     if ($result['audio']) {
         $result['audio'] = base64_encode($result['audio']);
     }
+    unset($result['answer']);
 }
 
 // output the results as a JSON object

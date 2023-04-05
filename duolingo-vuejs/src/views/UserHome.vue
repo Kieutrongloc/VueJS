@@ -18,13 +18,12 @@ export default {
     },
     logoutHandle() {
       localStorage.removeItem('user'),
-      localStorage.removeItem('questions')
+      localStorage.removeItem('questions'),
       router.push('/')
     }
   },
   created() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
+    if (!JSON.parse(localStorage.getItem("user"))) {
       router.push('/')
     }
   },

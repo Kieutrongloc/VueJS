@@ -2,8 +2,8 @@
 export default {
   data() {
     return {
-      questionDb: JSON.parse(localStorage.getItem('questions')),
-      currentQuestion: 1,
+      questionDb: null,
+      currentQuestion: 0,
       QuestionTemplate: '',
     };
   },
@@ -13,10 +13,19 @@ export default {
   computed: {
 
   },
-  created() {
+
+  async created() {
+    while (JSON.parse(localStorage.getItem('questions')) === null) {
+      await new Promise(resolve => setTimeout(resolve,100))
+    }
+    this.questionDb = JSON.parse(localStorage.getItem('questions')),
     this.QuestionTemplate = this.questionDb[this.currentQuestion].template_name
-    this.currentQuestion = 3
+  },
+
+  mounted() {
+    
   }
+
 };
 </script>
 
@@ -25,9 +34,10 @@ export default {
     <content>
       <!-- Template image selecting -->
       <div v-if="QuestionTemplate === 'image selecting'" class="question-template" id="template-image-selecting">
-        <h1 class="question">{{ questionDb[0].title }}</h1>
+        <h1 class="question">{{ questionDb[this.currentQuestion].title }}</h1>
         <div class="answer-list">
-          <div class="answer-box">
+
+          <div v-for="(question, index) in questionDb" :key="index" class="answer-box">
             <div class="image">
               <img src="" alt="answer">
             </div>
@@ -222,10 +232,12 @@ audio {
 /* template-image-selecting */
 #template-image-selecting .answer-list {
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }
 
 #template-image-selecting .answer-list .answer-box {
+  margin: 0px auto;
   border: 2px solid #bababa;
   width: 200px;
   height: 314px;
