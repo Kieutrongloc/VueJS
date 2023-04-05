@@ -10,6 +10,9 @@ switch ($folder) {
     case "questions":
         require "questions/get-questions.php";
         break;
+    case "answers":
+        require "answers/get-answers.php";
+        break;
     case "lessons":
         require "lessons/get-lessons.php";
         break;

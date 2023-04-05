@@ -3,6 +3,7 @@ import LessonHeader from './LessonHeader.vue'
 import LessonBody from './LessonBody.vue'
 import LessonFooter from './LessonFooter.vue'
 import router from '../../router'
+// import apiAnswer from './lessonApi'
 
 export default {
   name: 'Lesson',
@@ -13,7 +14,6 @@ export default {
   },
   data() {
     return {
-      // questions: []
       apiUrl : import.meta.env.VITE_API_URL,
       isLoading : true
     }
@@ -30,6 +30,7 @@ export default {
       this.questions = JSON.parse(JSON.stringify(data));
       localStorage.setItem("questions", JSON.stringify(this.questions));
       this.isLoading = false;
+      // console.log(apiAnswer)
     } catch (error) {
       console.error('Error fetching data:', error);
     }

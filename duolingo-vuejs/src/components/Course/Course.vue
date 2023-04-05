@@ -1,42 +1,53 @@
 <script>
-import { RouterLink } from 'vue-router';
-import router from '../../router';
 export default {
-    name: 'UserLearn',
-    data() {
-        return {
-            startButton: true,
-            onClickStartButton: false,
-            unitOne : [
-                {id: 1, icon: "fa-solid fa-star", status: 'learned'},
-                {id: 2, icon: "fa-solid fa-moon", status: 'learned'},
-                {id: 3, icon: "fa-solid fa-sun", status: 'learning'},
-                {id: 4, icon: "fa-solid fa-moon", status: 'not learned'},
-                {id: 5, icon: "fa-solid fa-star", status: 'not learned'}
-            ],
-        }
-    },
-    methods: {
+  name: 'Course',
+  components: {
+    
+  },
+  data() {
+    return {
+      apiUrl : import.meta.env.VITE_API_URL,
+      isLoading : true,
+      lessons: []
+    }
+  },
+  async created() {
+    const course_id = this.$route.params.course_id;
+    try {
+      const res = await fetch(this.apiUrl+'?folder=lessons'+'&course_id='+course_id);
+      const lessons = await res.json();
+      console.log('lessons', lessons)
+      this.lessons = lessons;
+      console.log('lessons: ', this.lessons[0].icon)
+      this.isLoading = false;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  },
+  methods: {
         isLearned(status) {
             return status === "learning"
         },
         startButtonHandle() {
             return this.startButton = !this.startButton, this.onClickStartButton = !this.startButton
+        },
+        goToGame(lesson){
+            this.$router.push(`/user-home/game/1`)
         }
     },
-    created() {
-    const user = localStorage.getItem("user");
-    if (!user) {
-      router.push('/')
-    }
-  },
+
+  mounted() {
+  }
 }
 </script>
 
 <template>
-    <div id="container">
-      <div>
-        <div class="unit">
+  <div id="loading" v-if="isLoading">
+    <img src="./../../assets/img/duolingo-loading.gif" alt="loading">
+    <p>15 minutes a day can teach you a language. What can 15 minutes of social media do?</p>
+  </div>
+  <div v-if="!isLoading" id="container">
+    <div class="unit">
             <div class="unit-box">
                 <div class="title">
                     <h2>Unit 1</h2>
@@ -50,7 +61,7 @@ export default {
 
             <div class="lesson">
                 <ul class="lesson-list">
-                    <li v-for="(item) in unitOne" :key="item.id">
+                    <li v-for="(item) in lessons" :key="item.id" @click="goToGame(item)">
                         <div v-if="isLearned(item.status) && startButton" @click="startButtonHandle">
                             <p id="button-start">START</p>
                         </div>
@@ -59,10 +70,9 @@ export default {
                         </button>
                         <div id="start-button" v-if="item.status === 'learning' && onClickStartButton">
                             <h2>Describe actions</h2>
-                            <span>Lesson {{ item.id }} of {{ unitOne.length }}</span>
+                            <span>Lesson {{ item.id }} of {{ lessons.length }}</span>
                             <RouterLink id="enter-lesson" to='../lesson'><div><p>START +10 XP</p></div></RouterLink>
                         </div>
-
                         <button class="lesson-not-learned" v-else-if="item.status === 'not learned'">
                             <font-awesome-icon  class="gray-icon" icon="fa-solid fa-lock" />
                         </button>
@@ -74,9 +84,7 @@ export default {
                 </div>
             </div>
         </div>
-    </div>
-
-    <aside>
+        <aside>
         <div id="aside">
             <div id="user">
                 <div>
@@ -132,9 +140,9 @@ export default {
             </div>
         </div>
       </aside>
-    </div>
-  </template>
-  
+  </div>
+</template>
+
 <style scoped>
 #container {
     display: flex;

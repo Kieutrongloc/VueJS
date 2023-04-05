@@ -1,0 +1,4 @@
+http://localhost/www/VueJS/back-end/courses/get-courses.php
+http://localhost/www/VueJS/back-end/lessons/get-lessons.php?course_id=1
+http://localhost/www/VueJS/back-end/skills/get-skills.php?lesson_id=1
+http://localhost/www/VueJS/back-end/questions/get-questions.php?skill_id=1

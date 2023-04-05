@@ -1,4 +1,3 @@
-
 <script>
     import { RouterLink } from 'vue-router';
     export default {
@@ -90,6 +89,11 @@
 </template>
 
 <style scoped>
+#container {
+    width: 100vw;
+    height: 100vh;
+}
+
 p {
     font-weight: bolder;
     color: white;

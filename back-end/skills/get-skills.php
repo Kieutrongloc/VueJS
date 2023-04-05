@@ -1,11 +1,11 @@
 <?php
 require dirname(__DIR__) . '/connection.php';
 
-$course_id = $_GET['course_id'];
+$lesson_id = $_GET['lesson_id'];
 
 // prepare and execute a SELECT statement
-$stmt = $dbh->prepare("SELECT * FROM lessons WHERE course_id=:course_id");
-$stmt->bindParam(':course_id', $course_id);
+$stmt = $dbh->prepare("SELECT * FROM skills WHERE lesson_id=:lesson_id");
+$stmt->bindParam(':lesson_id', $lesson_id);
 $stmt->execute();
 
 // fetch the results as an associative array

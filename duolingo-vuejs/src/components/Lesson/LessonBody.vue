@@ -3,7 +3,6 @@ import { defineAsyncComponent } from 'vue';
 
 export default {
   name: 'LessonBody',
-
   data() {
     return {
       questionDb: null,

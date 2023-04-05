@@ -1,8 +1,8 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-// import UserLearn from '../components/UserHome/UserLearn.vue'
-import router from '../router'
+import router from '../../router'
 export default {
+  name: 'UserNav',
   data() {
     return {
       isShowNavMore: false,
