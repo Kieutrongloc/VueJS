@@ -42,10 +42,6 @@ export default {
 </script>
 
 <template>
-  <div id="loading" v-if="isLoading">
-    <img src="./../../assets/img/duolingo-loading.gif" alt="loading">
-    <p>15 minutes a day can teach you a language. What can 15 minutes of social media do?</p>
-  </div>
   <div v-if="!isLoading" id="container">
     <LessonHeader />
     <LessonBody />

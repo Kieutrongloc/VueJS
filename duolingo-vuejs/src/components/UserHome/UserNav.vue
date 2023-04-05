@@ -17,8 +17,7 @@ export default {
       return this.isShowNavMore = false
     },
     logoutHandle() {
-      localStorage.removeItem('user'),
-      localStorage.removeItem('questions'),
+      localStorage.clear();
       router.push('/')
     }
   },

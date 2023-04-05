@@ -16,7 +16,7 @@
         .then(response => {
           if (response.data.msg === 'ok') {
             localStorage.setItem("user", JSON.stringify(response.data.user));
-            router.push('/user-home/learn')
+            router.push('/user-home')
           } else {
             this.signinMessage = 'Sign in failed';
           }
@@ -28,7 +28,7 @@
     },
     mounted() {
     if (localStorage.getItem("user")) {
-      router.push('/user-home/learn')
+      router.push('/user-home')
     }
     console.log(this.apiUrl)
   },

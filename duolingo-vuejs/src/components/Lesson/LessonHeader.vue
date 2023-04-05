@@ -41,7 +41,7 @@ export default {
     <div id="container">
       <content>
         <button>
-          <RouterLink to="/user-home/learn">
+          <RouterLink to="/user-home">
             <font-awesome-icon id="close-icon" :icon="['fas', 'x']" />
           </RouterLink>
         </button>

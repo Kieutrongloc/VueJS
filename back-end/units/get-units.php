@@ -4,7 +4,7 @@ require dirname(__DIR__) . '/connection.php';
 $course_id = $_GET['course_id'];
 
 // prepare and execute a SELECT statement
-$stmt = $dbh->prepare("SELECT * FROM lessons WHERE course_id=:course_id");
+$stmt = $dbh->prepare("SELECT * FROM units WHERE course_id=:course_id");
 $stmt->bindParam(':course_id', $course_id);
 $stmt->execute();
 
