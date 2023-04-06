@@ -17,10 +17,10 @@ foreach ($results as &$result) {
     }
 
     // encode audio data as Base64 string
-    if ($result['audio']) {
-        $result['audio'] = base64_encode($result['audio']);
-    }
-    unset($result['answer']);
+    // if ($result['audio']) {
+    //     $result['audio'] = base64_encode($result['audio']);
+    // }
+    // unset($result['answer']);
 }
 
 // output the results as a JSON object

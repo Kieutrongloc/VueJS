@@ -18,5 +18,4 @@ export const apiService = {
         const data = localStorage.getItem('questions');
         return data ? JSON.parse(data) : null;
     }
-  };
-  
+};

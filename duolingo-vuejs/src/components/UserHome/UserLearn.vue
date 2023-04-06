@@ -7,13 +7,16 @@ export default {
         return {
             startButton: true,
             onClickStartButton: false,
-            unitOne : [
-                {id: 1, icon: "fa-solid fa-star", status: 'learned'},
-                {id: 2, icon: "fa-solid fa-moon", status: 'learned'},
-                {id: 3, icon: "fa-solid fa-sun", status: 'learning'},
-                {id: 4, icon: "fa-solid fa-moon", status: 'not learned'},
-                {id: 5, icon: "fa-solid fa-star", status: 'not learned'}
-            ],
+            unit : JSON.parse(localStorage.getItem('unit')),
+            lesson : JSON.parse(localStorage.getItem('lesson'))
+
+            // unitOne : [
+            //     {id: 1, icon: "fa-solid fa-star", status: 'learned'},
+            //     {id: 2, icon: "fa-solid fa-moon", status: 'learned'},
+            //     {id: 3, icon: "fa-solid fa-sun", status: 'learning'},
+            //     {id: 4, icon: "fa-solid fa-moon", status: 'not learned'},
+            //     {id: 5, icon: "fa-solid fa-star", status: 'not learned'}
+            // ],
         }
     },
     methods: {
@@ -25,22 +28,25 @@ export default {
         }
     },
     created() {
-    const user = localStorage.getItem("user");
-    if (!user) {
-      router.push('/')
+        const user = localStorage.getItem("user");
+        if (!user) {
+        router.push('/')
+        }
+    },
+    mounted() {
+        console.log(this.lesson[0].id)
     }
-  },
 }
 </script>
 
 <template>
     <div id="container">
       <div>
-        <div class="unit">
+        <div class="unit" v-for="itemUnit in unit" :key="itemUnit.id">
             <div class="unit-box">
                 <div class="title">
-                    <h2>Unit 1</h2>
-                    <span>Describe actions, make basic sentences</span>
+                    <h2> Unit {{ itemUnit.id }}</h2>
+                    <span>{{ itemUnit.title }}</span>
                 </div>
                 <button>
                     <font-awesome-icon id="icon-book" icon="fa-solid fa-book" />
@@ -49,9 +55,10 @@ export default {
             </div>
 
             <div class="lesson">
-                <ul class="lesson-list">
-                    <li v-for="(item) in unitOne" :key="item.id">
-                        <div v-if="isLearned(item.status) && startButton" @click="startButtonHandle">
+                <ul class="lesson-list" v-for="itemLesson in lesson" :key="itemLesson.id">
+                    <li v-if="itemLesson.id === '1'">
+                        <p>{{ itemLesson.title }}</p>
+                        <!-- <div v-if="isLearned(item.status) && startButton" @click="startButtonHandle">
                             <p id="button-start">START</p>
                         </div>
                         <button class="lesson-learning-learned" v-if="item.status === 'learning' || item.status === 'learned'" @click="startButtonHandle">
@@ -62,10 +69,9 @@ export default {
                             <span>Lesson {{ item.id }} of {{ unitOne.length }}</span>
                             <RouterLink id="enter-lesson" to='../lesson'><div><p>START +10 XP</p></div></RouterLink>
                         </div>
-
                         <button class="lesson-not-learned" v-else-if="item.status === 'not learned'">
                             <font-awesome-icon  class="gray-icon" icon="fa-solid fa-lock" />
-                        </button>
+                        </button> -->
                     </li>
                 </ul>
                 <div>

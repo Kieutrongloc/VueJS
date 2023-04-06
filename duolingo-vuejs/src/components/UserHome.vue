@@ -2,8 +2,9 @@
 import UserNav from './UserHome/UserNav.vue'
 import UserLearn from './UserHome/UserLearn.vue'
 import router from '../router'
-import { apiService } from './apiService'
 import Loading from './Loading.vue'
+import { apiService } from './apiService'
+
 
 export default {
   name: 'UserHome',
@@ -16,6 +17,8 @@ export default {
   data() {
     return {
       isLoading: true,
+      unit: [],
+      lesson: []
     }
   },
 
@@ -68,7 +71,7 @@ export default {
 }
 
 #user-nav {
-  padding-right: 78vw;
+  margin-right: 28vw;
   position: absolute;
   z-index: 2;
 }
@@ -79,12 +82,13 @@ export default {
 
 #user-learn {
   width: 78vw;
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
 }
 
 #user-learn-component {
  display: flex;
  margin: 30px 0px 0px 30px;
+ justify-self: center;
 }
 </style>
