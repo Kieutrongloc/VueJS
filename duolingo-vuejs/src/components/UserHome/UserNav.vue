@@ -131,6 +131,7 @@ export default {
   width: max-content;
   background-color: white;
   width: 280px;
+  z-index: 2;
 }
 
 #navigation ul .nav-list ul div {

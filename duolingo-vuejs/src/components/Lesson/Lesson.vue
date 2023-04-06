@@ -30,13 +30,14 @@ export default {
       this.questions = JSON.parse(JSON.stringify(data));
       localStorage.setItem("questions", JSON.stringify(this.questions));
       this.isLoading = false;
-      // console.log(apiAnswer)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   },
 
   mounted() {
+    const lesson_id = this.$route.params.lesson_id;
+    console.log(lesson_id)
   }
 }
 </script>

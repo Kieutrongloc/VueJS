@@ -73,7 +73,6 @@ export default {
 #user-nav {
   margin-right: 28vw;
   position: absolute;
-  z-index: 2;
 }
 
 #user-nav-component {

@@ -5,26 +5,22 @@ export default {
     name: 'UserLearn',
     data() {
         return {
-            startButton: true,
             onClickStartButton: false,
             unit : JSON.parse(localStorage.getItem('unit')),
-            lesson : JSON.parse(localStorage.getItem('lesson'))
-
-            // unitOne : [
-            //     {id: 1, icon: "fa-solid fa-star", status: 'learned'},
-            //     {id: 2, icon: "fa-solid fa-moon", status: 'learned'},
-            //     {id: 3, icon: "fa-solid fa-sun", status: 'learning'},
-            //     {id: 4, icon: "fa-solid fa-moon", status: 'not learned'},
-            //     {id: 5, icon: "fa-solid fa-star", status: 'not learned'}
-            // ],
+            lesson : JSON.parse(localStorage.getItem('lesson')),
+            idClicked : ''
         }
     },
     methods: {
         isLearned(status) {
             return status === "learning"
         },
-        startButtonHandle() {
-            return this.startButton = !this.startButton, this.onClickStartButton = !this.startButton
+        startButtonHandle(id) {
+            this.idClicked = id
+            this.onClickStartButton = !this.onClickStartButton
+        },
+        alertReminder() {
+            alert('Please complete your lesson in turn!')
         }
     },
     created() {
@@ -34,7 +30,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.lesson[0].id)
     }
 }
 </script>
@@ -53,28 +48,29 @@ export default {
                     <p>GUIDEBOOK</p>
                 </button>
             </div>
-
-            <div class="lesson">
-                <ul class="lesson-list" v-for="itemLesson in lesson" :key="itemLesson.id">
-                    <li v-if="itemLesson.id === '1'">
-                        <p>{{ itemLesson.title }}</p>
-                        <!-- <div v-if="isLearned(item.status) && startButton" @click="startButtonHandle">
-                            <p id="button-start">START</p>
-                        </div>
-                        <button class="lesson-learning-learned" v-if="item.status === 'learning' || item.status === 'learned'" @click="startButtonHandle">
-                            <font-awesome-icon class="colored-icon" :icon="`${'fa ' + item.icon}`" />
-                        </button>
-                        <div id="start-button" v-if="item.status === 'learning' && onClickStartButton">
-                            <h2>Describe actions</h2>
-                            <span>Lesson {{ item.id }} of {{ unitOne.length }}</span>
-                            <RouterLink id="enter-lesson" to='../lesson'><div><p>START +10 XP</p></div></RouterLink>
-                        </div>
-                        <button class="lesson-not-learned" v-else-if="item.status === 'not learned'">
-                            <font-awesome-icon  class="gray-icon" icon="fa-solid fa-lock" />
-                        </button> -->
-                    </li>
-                </ul>
-                <div>
+            <div class="lesson-section">
+                <div class="lesson">
+                    <ul class="lesson-list" v-for="itemLesson in lesson" :key="itemLesson.id">
+                        <li v-if="itemLesson.unit_id == itemUnit.id">
+                            <div v-if="isLearned(itemLesson.status)" @click="startButtonHandle(itemLesson.id)">
+                                <p id="button-start">START</p>
+                            </div>
+                            <button class="lesson-learning-learned" v-if="itemLesson.status === 'learning' || itemLesson.status === 'learned'" @click="startButtonHandle(itemLesson.id)">
+                                <font-awesome-icon class="colored-icon" :icon="`${'fa ' + itemLesson.icon}`" />
+                            </button>
+                            <div id="start-button" v-if="onClickStartButton && idClicked === itemLesson.id">
+                                <h2>{{ itemLesson.title }}</h2>
+                                <span>Lesson of</span>
+                                <RouterLink id="enter-lesson" :to="'../lesson/' + itemLesson.id"><div><p>START +10 XP</p></div></RouterLink>
+                            </div>
+                            <button class="lesson-not-learned" v-else-if="itemLesson.status === 'not learned'" @click="alertReminder">
+                                <font-awesome-icon  class="gray-icon" icon="fa-solid fa-lock" />
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="img">
                     <img src="https://media2.giphy.com/media/wH8aFVGkdmOjxBxR3I/giphy.gif?cid=6c09b952f2510074370281ada164d82082e01063b70749bc&rid=giphy.gif&ct=s" alt="duolingo-bird">
                     <div></div>
                 </div>
@@ -154,6 +150,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 30px;
 }
 .unit .unit-box {
     display: flex;
@@ -198,9 +195,15 @@ export default {
     font-size: 26px;
 }
 
+.unit .lesson-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 .unit .lesson {
     display: flex;
+    flex-direction: column;
     align-items: center;
     margin-top: 40px;
 }
@@ -292,7 +295,7 @@ export default {
     font-size: 30px;
 }
 
-.unit .lesson img {
+.unit .img img {
     width: 200px;
     height: 150px;
 }
