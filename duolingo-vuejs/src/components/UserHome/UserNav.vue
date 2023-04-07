@@ -36,7 +36,7 @@ export default {
   <!-- <div id='container'> -->
     <nav id="side-bar">
       <div>
-        <RouterLink to="/user-home/learn"><img id="logo-duolingo" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg" alt="logo-duolingo"></RouterLink>
+        <RouterLink to="/user-home"><img id="logo-duolingo" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg" alt="logo-duolingo"></RouterLink>
         <div id="navigation">
           <ul>
             <li class="nav-list">
@@ -52,7 +52,7 @@ export default {
               <p>SHOP</p>
             </li>
             <li class="nav-list">
-              <!-- <img id="img" :src="'data:image/jpeg;base64,' + user.avatar"/> -->
+              <!-- <img id="img" :src="'data:image/jpeg;base64,' + (JSON.parse(localStorage.getItem('user'))).avatar"/> -->
               <img src="" alt="error">
               <p>PROFILE</p>
             </li>

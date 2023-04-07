@@ -3,11 +3,13 @@ import LessonHeader from './LessonHeader.vue'
 import LessonBody from './LessonBody.vue'
 import LessonFooter from './LessonFooter.vue'
 import router from '../../router'
-// import apiAnswer from './lessonApi'
+import loading from './../Loading.vue'
+import { apiService } from '../apiService'
 
 export default {
   name: 'Lesson',
   components: {
+    loading,
     LessonHeader,
     LessonBody,
     LessonFooter
@@ -15,7 +17,7 @@ export default {
   data() {
     return {
       apiUrl : import.meta.env.VITE_API_URL,
-      isLoading : true
+      isLoading : false
     }
   },
   async created() {
@@ -24,25 +26,20 @@ export default {
     };
 
     const userDb = JSON.parse(localStorage.getItem("user"))
-    try {
-      const questionsResponse = await fetch(this.apiUrl+'?folder=questions'+'&unit_id='+userDb.current_unit +'&lesson_id='+userDb.current_lesson);
-      const data = await questionsResponse.json();
-      this.questions = JSON.parse(JSON.stringify(data));
-      localStorage.setItem("questions", JSON.stringify(this.questions));
-      this.isLoading = false;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
   },
 
   mounted() {
     const lesson_id = this.$route.params.lesson_id;
-    console.log(lesson_id)
+    
+    console.log(lesson_id, this.apiUrl)
   }
 }
 </script>
 
 <template>
+  <div v-if="isLoading">
+    <loading />
+  </div>
   <div v-if="!isLoading" id="container">
     <LessonHeader />
     <LessonBody />

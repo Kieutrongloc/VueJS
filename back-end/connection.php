@@ -8,7 +8,7 @@ header('Access-Control-Allow-Methods: *');
 $host = "duolingo.cyfy53duasbw.ap-southeast-2.rds.amazonaws.com";
 $dbname = "duolingo";
 $user = "locmysqldb";
-//create file name config.php in the same folder with this file and add $db_password = "MY PASSWORD"
+//create file named config.php in the same folder with this file and add $db_password = "MY PASSWORD"
 $password = $db_password;
 
 
