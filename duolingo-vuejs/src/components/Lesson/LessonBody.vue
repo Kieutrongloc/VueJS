@@ -3,11 +3,30 @@ import { defineAsyncComponent } from 'vue';
 
 export default {
   name: 'LessonBody',
+  props: {
+    questionsData: {
+      type: Array,
+      required: true
+    },
+    currentQuestion: {
+      type: Number,
+      required: true
+    }
+  },
+
+  emits: ['next-question'],
+  watch: {
+    currentQuestion(newValue) {
+      this.$emit('next-question', newValue);
+      this.QuestionTemplate = this.questionsData[this.currentQuestion].template_name
+      // console.log(this.QuestionTemplate)
+    },
+  },
+
   data() {
     return {
-      questionDb: null,
-      currentQuestion: 0,
       QuestionTemplate: '',
+      isLoading: true,
     };
   },
   methods: {
@@ -15,8 +34,6 @@ export default {
   },
   computed: {
     QuestionComponent() {
-      if (!this.questionDb) return null;
-
       switch (this.QuestionTemplate) {
         case 'image selecting':
           return defineAsyncComponent(() => import('./BodyTemplate/ImageSelecting.vue'));
@@ -33,15 +50,14 @@ export default {
   },
 
   async created() {
-    while (JSON.parse(localStorage.getItem('questions')) === null) {
+    while ((this.questionsData) === null) {
       await new Promise(resolve => setTimeout(resolve,100))
     }
-    this.questionDb = JSON.parse(localStorage.getItem('questions')),
-    this.QuestionTemplate = this.questionDb[this.currentQuestion].template_name
+    this.QuestionTemplate = this.questionsData[this.currentQuestion].template_name
   },
 
-  mounted() {
-    
+  async mounted() {
+
   }
 
 };
@@ -51,6 +67,7 @@ export default {
   <div id="container">
     <content>
       <component :is="QuestionComponent" />
+      <!-- <p>{{ currentQuestion }}</p> -->
     </content>
   </div>
 </template>

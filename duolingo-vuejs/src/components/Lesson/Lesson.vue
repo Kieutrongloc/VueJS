@@ -17,7 +17,11 @@ export default {
   data() {
     return {
       apiUrl : import.meta.env.VITE_API_URL,
-      isLoading : false
+      isLoading : true,
+      skillsId : null,
+      questionsData : null,
+      currentQuestion: 0,
+      loadingMessage: '15 minutes a day can teach you a language. What can 15 minutes of social media do?'
     }
   },
   async created() {
@@ -25,25 +29,40 @@ export default {
       router.push('/')
     };
 
-    const userDb = JSON.parse(localStorage.getItem("user"))
+    const unitId = this.$route.params.unit_id;
+    const lessonId = this.$route.params.lesson_id;
+    try {
+      this.skillsId = (await apiService.fetchSkills()).map(obj => obj.id)
+    } catch (error) {
+      console.error('Fetching skills error:', error);
+    }
+
+    const shuffledSkillsId = this.skillsId.sort(() => Math.random() - 0.5);
+    const getQuestion = shuffledSkillsId.slice(0, 5).map((skillId) => apiService.getRandomQuestions(unitId, lessonId, skillId, 2));
+    this.questionsData = (await Promise.all(getQuestion)).flat();
+    
+    // console.log(unitId, lessonId, this.apiUrl, shuffledSkillsId, this.questionsData)
+    console.log(this.questionsData[1])
+    this.isLoading = false;
   },
 
-  mounted() {
-    const lesson_id = this.$route.params.lesson_id;
-    
-    console.log(lesson_id, this.apiUrl)
+  async mounted() {
+
+  },
+  
+  methods: {
   }
 }
 </script>
 
 <template>
   <div v-if="isLoading">
-    <loading />
+    <loading :loadingMessage="loadingMessage"/>
   </div>
   <div v-if="!isLoading" id="container">
-    <LessonHeader />
-    <LessonBody />
-    <LessonFooter />
+    <LessonHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
+    <LessonBody :questionsData="questionsData" :currentQuestion="currentQuestion" />
+    <LessonFooter :questionsData="questionsData" :currentQuestion="currentQuestion" @next-question="currentQuestion = $event"/>
   </div>
 </template>
 

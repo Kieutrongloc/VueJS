@@ -19,6 +19,9 @@ switch ($folder) {
     case "lessons":
         require "lessons/get-lessons.php";
         break;
+    case "skills":
+        require "skills/get-skills.php";
+        break;
     // default:
     //     require 'courses/get-courses.php';
   }

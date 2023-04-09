@@ -1,18 +1,36 @@
 <script>
 import { RouterLink } from 'vue-router';
 export default {
+  props: {
+    questionsData: {
+      type: Array,
+      required: true
+    },
+    currentQuestion: {
+      type: Number,
+      required: true
+    }
+  },
+
   data() {
     return {
       completedQuestions: 0,
       totalQuestions: 0,
-      questionDb: null,
     };
   },
+
+  emits: ['next-question'],
+  watch: {
+    currentQuestion(newValue) {
+      this.$emit('next-question', newValue);
+      this.completeQuestions()
+    },
+  },
+
   methods: {
     completeQuestions() {
     this.completedQuestions++;
-    console.log(this.completedQuestions, this.totalQuestions)
-  }
+    }
   },
   computed: {
     progressPercent() {
@@ -21,11 +39,10 @@ export default {
   },
 
   async created() {
-    while (JSON.parse(localStorage.getItem('questions')) === null) {
+    while (this.questionsData === null) {
       await new Promise(resolve => setTimeout(resolve, 100))
     }
-    this.questionDb = JSON.parse(localStorage.getItem('questions')),
-    this.totalQuestions = this.questionDb.length;
+    this.totalQuestions = this.questionsData.length;
     this.completedQuestions = 0;
   },
   

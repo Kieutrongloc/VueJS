@@ -1,14 +1,37 @@
 <script>
 export default {
+  props: {
+    questionsData: {
+      type: Array,
+      required: true
+    },
+    currentQuestion: {
+      type: Number,
+      required: true
+    }
+  },
+  components: {
+
+  },
+  
   data() {
     return {
-      // completedLessons: 0,
+      isSubmit: false
     };
   },
   methods: {
-
+    handleChecking() {
+      this.$emit('next-question', this.currentQuestion + 1);
+      // console.log(this.currentQuestion, this.questionsData.length)
+      if (this.currentQuestion === this.questionsData.length - 1) {
+        this.isSubmit = true
+      }
+    },
   },
   computed: {
+
+  },
+  mounted() {
 
   }
 
@@ -19,7 +42,8 @@ export default {
   <div id="container">
     <content>
       <button>SKIP</button>
-      <button>CHECK</button>
+      <button v-if="!isSubmit" @click="handleChecking">CHECK</button>
+      <!-- <button v-if="isSubmit">SUBMIT</button> -->
     </content>
   </div>
 </template>

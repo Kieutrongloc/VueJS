@@ -13,6 +13,17 @@ export const apiService = {
         localStorage.setItem('lesson', JSON.stringify(dataLesson));
     },
 
+    async fetchSkills() {
+        const responseSkills = await fetch(apiUrl + '?folder=skills');
+        const dataSkills = await responseSkills.json();
+        return dataSkills;
+    },
+
+    async getRandomQuestions(unitId, lessonId, skillId, count) {
+        const responseQuestion = await fetch(apiUrl + '?folder=questions&unit_id=' + unitId + '&lesson_id=' + lessonId + '&skill_id=' + skillId + '&count=' + count);
+        const dataQuestion = await responseQuestion.json();
+        return dataQuestion;
+    },
 
     getQuestions() {
         const data = localStorage.getItem('questions');

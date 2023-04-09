@@ -1,14 +1,18 @@
 <script>
 export default {
     name: 'loading',
+    props: {
+      loadingMessage: {
+      type: String,
+      required: true
+    }
+  },
     data() {
         return {
-            messageLoading : 'Please wait while we are fetching your data',
         }
     },
 
     created() {
-        if (localStorage.getItem('lesson')) {this.messageLoading = '15 minutes a day can teach you a language. What can 15 minutes of social media do?'}
     }
 }
 
@@ -17,7 +21,7 @@ export default {
 <template>
     <div id="loading">
         <img src="./../assets/img/duolingo-loading.gif" alt="loading">
-        <p>{{ messageLoading }}</p>
+        <p>{{ loadingMessage }}</p>
     </div>
 </template>
 

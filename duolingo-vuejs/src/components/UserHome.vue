@@ -18,7 +18,8 @@ export default {
     return {
       isLoading: true,
       unit: [],
-      lesson: []
+      lesson: [],
+      loadingMessage: 'Please wait while we are fetching your data'
     }
   },
 
@@ -41,7 +42,7 @@ export default {
       this.isLoading = false;
     } catch (error) {
       console.error('Error fetching data:', error);
-    } 
+    }
   },
 }
 
@@ -49,7 +50,7 @@ export default {
 
 
 <template>
-  <Loading v-if="isLoading"/>
+  <Loading v-if="isLoading" :loadingMessage="loadingMessage"/>
   <div id="container" v-if="!isLoading">
     <div id="to-padding-left"></div>
     <div id="user-nav">
