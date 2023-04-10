@@ -18,7 +18,6 @@ export default {
     }
     console.log(this.currentQuestionData)
   }
-
 };
 </script>
 
@@ -26,28 +25,8 @@ export default {
   <div id="image-selecting">
     <!-- Template image selecting -->
     <div class="question-template" id="template-image-selecting">
-      <h1 class="question">API</h1>
+      <h1 class="question">{{ currentQuestionData.title }}</h1>
       <div class="answer-list">
-
-        <div v-for="(question, index) in questionDb" :key="index" class="answer-box">
-          <div class="image">
-            <img src="" alt="answer">
-          </div>
-          <div class="text">
-            <p>answer API</p>
-            <span>API</span>
-          </div>
-        </div>
-
-        <div class="answer-box">
-          <div class="image">
-            <img src="" alt="answer">
-          </div>
-          <div class="text">
-            <p>answer API</p>
-            <span>API</span>
-          </div>
-        </div>
 
         <div class="answer-box">
           <div class="image">

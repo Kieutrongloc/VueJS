@@ -68,7 +68,6 @@ export default {
   <div id="container">
     <content>
       <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" />
-      <!-- <p>{{ currentQuestion }}</p> -->
     </content>
   </div>
 </template>

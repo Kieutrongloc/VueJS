@@ -41,8 +41,7 @@ export default {
     const getQuestion = shuffledSkillsId.slice(0, 5).map((skillId) => apiService.getRandomQuestions(unitId, lessonId, skillId, 2));
     this.questionsData = (await Promise.all(getQuestion)).flat();
     
-    // console.log(unitId, lessonId, this.apiUrl, shuffledSkillsId, this.questionsData)
-    console.log(this.questionsData[1])
+    // console.log(unitId, lessonId, this.apiUrl, shuffledSkillsId, this.questionsData, this.questionsData[1])
     this.isLoading = false;
   },
 
@@ -51,6 +50,7 @@ export default {
   },
   
   methods: {
+    
   }
 }
 </script>

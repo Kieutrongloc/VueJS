@@ -25,6 +25,12 @@ export const apiService = {
         return dataQuestion;
     },
 
+    async getAnswers() {
+        const responseAnswers = await fetch(apiUrl + 'folder=answers');
+        const dataAnswers = await responseAnswers.json();
+        return dataAnswers;
+    },
+
     getQuestions() {
         const data = localStorage.getItem('questions');
         return data ? JSON.parse(data) : null;
