@@ -19,11 +19,11 @@ export const apiService = {
         return dataSkills;
     },
 
-    async getRandomQuestions(unitId, lessonId, skillId, count) {
-        const responseQuestion = await fetch(apiUrl + '?folder=questions&unit_id=' + unitId + '&lesson_id=' + lessonId + '&skill_id=' + skillId + '&count=' + count);
-        const dataQuestion = await responseQuestion.json();
-        return dataQuestion;
-    },
+    // async getRandomQuestions(unitId, lessonId, skillId, count) {
+    //     const responseQuestion = await fetch(apiUrl + '?folder=questions&unit_id=' + unitId + '&lesson_id=' + lessonId + '&skill_id=' + skillId + '&count=' + count);
+    //     const dataQuestion = await responseQuestion.json();
+    //     return dataQuestion;
+    // },
     async getListQuestions(skillId) {
         const responseQuestion = await fetch(apiUrl + '?folder=questions&skill_id='+skillId);
         const dataQuestion = await responseQuestion.json();

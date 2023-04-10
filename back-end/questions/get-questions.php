@@ -7,6 +7,7 @@ $skill_id = $_GET['skill_id'];
 
 // prepare and execute a SELECT statement
 $stmt = $dbh->prepare("SELECT * FROM questions q left join answers a  on a.question_id = q.id WHERE skill_id=:skill_id");
+// $stmt = $dbh->prepare("SELECT * FROM questions WHERE skill_id=:skill_id");
 $stmt->bindParam(':skill_id', $skill_id);
 $stmt->execute();
 // fetch the results as an associative array

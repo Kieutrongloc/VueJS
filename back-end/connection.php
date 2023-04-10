@@ -5,11 +5,19 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Authorization');
 header('Access-Control-Allow-Methods: *');
 
+// aws
 $host = "duolingo.cyfy53duasbw.ap-southeast-2.rds.amazonaws.com";
 $dbname = "duolingo";
 $user = "locmysqldb";
 //create file named config.php in the same folder with this file and add $db_password = "MY PASSWORD"
 $password = $db_password;
+
+
+// //local
+// $host = "";
+// $dbname = "";
+// $user = "";
+// $password = "";
 
 
 try {
