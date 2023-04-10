@@ -28,20 +28,33 @@ export default {
     if (!localStorage.getItem("user")) {
       router.push('/')
     };
-
-    const unitId = this.$route.params.unit_id;
     const lessonId = this.$route.params.lesson_id;
+    const skillId = this.$route.params.skill_id;
     try {
-      this.skillsId = (await apiService.fetchSkills()).map(obj => obj.id)
+      this.skillsId = (await apiService.fetchSkills(lessonId)).map(obj => obj.id)
     } catch (error) {
       console.error('Fetching skills error:', error);
     }
-
-    const shuffledSkillsId = this.skillsId.sort(() => Math.random() - 0.5);
-    const getQuestion = shuffledSkillsId.slice(0, 5).map((skillId) => apiService.getRandomQuestions(unitId, lessonId, skillId, 2));
-    this.questionsData = (await Promise.all(getQuestion)).flat();
-    
-    // console.log(unitId, lessonId, this.apiUrl, shuffledSkillsId, this.questionsData, this.questionsData[1])
+    const getQuestion = await apiService.getListQuestions(skillId);
+    console.log('getQuestiond', getQuestion);
+    // const newQuestions = [
+    //   {
+    //     question: { id: 1, content: '', img : '', audio: '', answer: 'banh mi'},
+    //     answers: [
+    //       { id: 1, title: 'banh mi', img : '', audio: '', question_id: 1},
+    //       { id: 2, title: 'hoa qua', img : '', audio: '', question_id: 1},
+    //       { id: 3, title: 'cafe', img : '', audio: '', question_id: 1},
+    //     ]
+    //   },
+    //   {
+    //     question: { id: 2, content: '', img : '', audio: '', answer: 'banh mi'},
+    //     answers: [
+    //       { id: 1, title: 'banh mi', img : '', audio: '', question_id: 1},
+    //       { id: 2, title: 'hoa qua', img : '', audio: '', question_id: 1},
+    //       { id: 3, title: 'cafe', img : '', audio: '', question_id: 1},
+    //     ]
+    //   },
+    // ];
     this.isLoading = false;
   },
 

@@ -13,14 +13,19 @@ export const apiService = {
         localStorage.setItem('lesson', JSON.stringify(dataLesson));
     },
 
-    async fetchSkills() {
-        const responseSkills = await fetch(apiUrl + '?folder=skills');
+    async fetchSkills(lesson_id) {
+        const responseSkills = await fetch(apiUrl + '?folder=skills&lesson_id='+lesson_id);
         const dataSkills = await responseSkills.json();
         return dataSkills;
     },
 
     async getRandomQuestions(unitId, lessonId, skillId, count) {
         const responseQuestion = await fetch(apiUrl + '?folder=questions&unit_id=' + unitId + '&lesson_id=' + lessonId + '&skill_id=' + skillId + '&count=' + count);
+        const dataQuestion = await responseQuestion.json();
+        return dataQuestion;
+    },
+    async getListQuestions(skillId) {
+        const responseQuestion = await fetch(apiUrl + '?folder=questions&skill_id='+skillId);
         const dataQuestion = await responseQuestion.json();
         return dataQuestion;
     },
