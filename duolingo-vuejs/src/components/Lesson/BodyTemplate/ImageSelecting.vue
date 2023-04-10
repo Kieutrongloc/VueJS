@@ -1,11 +1,23 @@
 <script>
 export default {
   name: 'ImageSelecting',
+  props: {
+    currentQuestionData: {
+      type: Object,
+      required: true
+    },
+  },
   data() {
     return {
     };
   },
   
+  async created() {
+    while ((this.currentQuestionData) === null) {
+      await new Promise(resolve => setTimeout(resolve,100))
+    }
+    console.log(this.currentQuestionData)
+  }
 
 };
 </script>

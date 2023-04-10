@@ -19,7 +19,7 @@ export default {
     currentQuestion(newValue) {
       this.$emit('next-question', newValue);
       this.QuestionTemplate = this.questionsData[this.currentQuestion].template_name
-      // console.log(this.QuestionTemplate)
+      this.currentQuestionData = this.questionsData[this.currentQuestion]
     },
   },
 
@@ -27,6 +27,7 @@ export default {
     return {
       QuestionTemplate: '',
       isLoading: true,
+      currentQuestionData : null,
     };
   },
   methods: {
@@ -66,7 +67,7 @@ export default {
 <template>
   <div id="container">
     <content>
-      <component :is="QuestionComponent" />
+      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" />
       <!-- <p>{{ currentQuestion }}</p> -->
     </content>
   </div>
