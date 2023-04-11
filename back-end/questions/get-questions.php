@@ -5,7 +5,6 @@ error_reporting(E_ALL);
 
 $skill_id = $_GET['skill_id'];
 
-// prepare and execute a SELECT statement to get questions
 $stmt = $dbh->prepare("SELECT * FROM questions WHERE skill_id=:skill_id");
 $stmt->bindParam(':skill_id', $skill_id);
 $stmt->execute();
@@ -19,7 +18,6 @@ if (!$questions) {
 // loop through the questions and get answers for each question
 $questionAnswers = array();
 foreach ($questions as $question) {
-    // prepare and execute a SELECT statement to get answers for each question
     $stmt = $dbh->prepare("SELECT * FROM answers WHERE question_id=:question_id");
     $stmt->bindParam(':question_id', $question['id']);
     $stmt->execute();
@@ -51,7 +49,6 @@ foreach ($questions as $question) {
     );
 }
 
-// output the results as a JSON object
 header('Content-Type: application/json');
 echo json_encode($newQuestions);
 ?>
