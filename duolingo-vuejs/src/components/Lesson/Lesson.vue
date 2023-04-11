@@ -35,26 +35,26 @@ export default {
     } catch (error) {
       console.error('Fetching skills error:', error);
     }
+    console.log(this.skillsId)
+
     const getQuestion = await apiService.getListQuestions(skillId);
     console.log('getQuestiond', getQuestion);
-    // const newQuestions = [
-    //   {
-    //     question: { id: 1, content: '', img : '', audio: '', answer: 'banh mi'},
-    //     answers: [
-    //       { id: 1, title: 'banh mi', img : '', audio: '', question_id: 1},
-    //       { id: 2, title: 'hoa qua', img : '', audio: '', question_id: 1},
-    //       { id: 3, title: 'cafe', img : '', audio: '', question_id: 1},
-    //     ]
-    //   },
-    //   {
-    //     question: { id: 2, content: '', img : '', audio: '', answer: 'banh mi'},
-    //     answers: [
-    //       { id: 1, title: 'banh mi', img : '', audio: '', question_id: 1},
-    //       { id: 2, title: 'hoa qua', img : '', audio: '', question_id: 1},
-    //       { id: 3, title: 'cafe', img : '', audio: '', question_id: 1},
-    //     ]
-    //   },
-    // ];
+
+    const newQuestions = getQuestion.reduce((acc, {a_audio, a_id, a_image, a_question_id, a_title, q_answer, q_audio, q_description, q_id, q_image, q_template_name, q_title}) => {
+      const questionIndex = acc.findIndex(({question}) => question.q_id === q_id);
+      if (questionIndex === -1) {
+        acc.push({
+          question: {q_id, q_title, q_description, q_answer, q_template_name, q_audio, q_image},
+          answers: [{a_id, a_question_id, a_title, a_audio, a_image}]
+        });
+      } else {
+        acc[questionIndex].answers.push({a_id, a_question_id, a_title, a_audio, a_image});
+      }
+      return acc;
+    }, []);
+
+    console.log(newQuestions);
+
     this.isLoading = false;
   },
 
