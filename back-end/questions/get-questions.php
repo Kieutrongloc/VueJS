@@ -5,50 +5,30 @@ error_reporting(E_ALL);
 
 $skill_id = $_GET['skill_id'];
 
-$stmt = $dbh->prepare("SELECT * FROM questions WHERE skill_id=:skill_id");
+// prepare and execute a SELECT statement
+$stmt = $dbh->prepare("SELECT * FROM questions q left join answers a  on a.question_id = q.id WHERE skill_id=:skill_id");
 $stmt->bindParam(':skill_id', $skill_id);
 $stmt->execute();
-$questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// fetch the results as an associative array
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (!$questions) {
-    echo "No question found";
+if (!$results) {
+    echo "No results found";
     exit;
 }
-
-// loop through the questions and get answers for each question
-$questionAnswers = array();
-foreach ($questions as $question) {
-    $stmt = $dbh->prepare("SELECT * FROM answers WHERE question_id=:question_id");
-    $stmt->bindParam(':question_id', $question['id']);
-    $stmt->execute();
-    $answers = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // encode image/audio data as Base64 string
-    if ($question['image']) {
-        $question['image'] = base64_encode($question['image']);
+foreach ($results as &$result) {
+    // encode image data as Base64 string
+    if ($result['image']) {
+        $result['image'] = base64_encode($result['image']);
     }
 
-    if ($question['audio']) {
-        $question['audio'] = base64_encode($question['audio']);
+    // encode audio data as Base64 string
+    if ($result['audio']) {
+        $result['audio'] = base64_encode($result['audio']);
     }
-
-    foreach ($answers as &$answer) {
-        if ($answer['image']) {
-            $answer['image'] = base64_encode($answer['image']);
-        }
-
-        if ($answer['audio']) {
-            $answer['audio'] = base64_encode($answer['audio']);
-        }
-    }
-
-    // add the question and answers to the array
-    $newQuestions[] = array(
-        "question" => $question,
-        "answers" => $answers
-    );
 }
 
+// output the results as a JSON object
 header('Content-Type: application/json');
-echo json_encode($newQuestions);
+echo json_encode($results);
 ?>
