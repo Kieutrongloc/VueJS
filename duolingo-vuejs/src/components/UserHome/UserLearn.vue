@@ -61,7 +61,7 @@ export default {
                             <div id="start-button" v-if="onClickStartButton && idClicked === itemLesson.id">
                                 <h2>{{ itemLesson.title }}</h2>
                                 <span>Lesson of</span>
-                                <RouterLink id="enter-lesson" :to="'../lesson/' + itemUnit.id + '/'+ itemLesson.id"><div><p>START +10 XP</p></div></RouterLink>
+                                <RouterLink id="enter-lesson" :to="'../skill/' + itemUnit.id + '/'+ itemLesson.id"><div><p>START +10 XP</p></div></RouterLink>
                             </div>
                             <button class="lesson-not-learned" v-else-if="itemLesson.status === 'not learned'" @click="alertReminder">
                                 <font-awesome-icon  class="gray-icon" icon="fa-solid fa-lock" />

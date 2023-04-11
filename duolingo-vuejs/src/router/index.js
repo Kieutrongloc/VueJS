@@ -34,9 +34,9 @@ const router = createRouter({
       component: () => import('../components/SignUp.vue')
     },
     {
-      path: '/lesson/:lesson_id/:skill_id',
-      name: 'lesson',
-      component: () => import('../components/Lesson/Lesson.vue')
+      path: '/skill/:lesson_id/:skill_id',
+      name: 'skill',
+      component: () => import('../components/Skill/Skill.vue')
     },
 
   ]

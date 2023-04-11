@@ -1,18 +1,18 @@
 <script>
-import LessonHeader from './LessonHeader.vue'
-import LessonBody from './LessonBody.vue'
-import LessonFooter from './LessonFooter.vue'
+import SkillHeader from './SkillHeader.vue'
+import SkillBody from './SkillBody.vue'
+import SkillFooter from './SkillFooter.vue'
 import router from '../../router'
-import loading from './../Loading.vue'
+import loading from '../Loading.vue'
 import { apiService } from '../apiService'
 
 export default {
-  name: 'Lesson',
+  name: 'Skill',
   components: {
     loading,
-    LessonHeader,
-    LessonBody,
-    LessonFooter
+    SkillHeader,
+    SkillBody,
+    SkillFooter
   },
   data() {
     return {
@@ -40,18 +40,27 @@ export default {
     const getQuestion = await apiService.getListQuestions(skillId);
     console.log('getQuestiond', getQuestion);
 
-    const newQuestions = getQuestion.reduce((acc, {a_audio, a_id, a_image, a_question_id, a_title, q_answer, q_audio, q_description, q_id, q_image, q_template_name, q_title}) => {
-      const questionIndex = acc.findIndex(({question}) => question.q_id === q_id);
+    //get questions
+    const newQuestions = [];
+    getQuestion.forEach(({a_audio, a_id, a_image, a_question_id, a_title, q_answer, q_audio, q_description, q_id, q_image, q_template_name, q_title}) => {
+      const questionIndex = newQuestions.findIndex(({question}) => question.q_id === q_id);
       if (questionIndex === -1) {
-        acc.push({
+        newQuestions.push({
           question: {q_id, q_title, q_description, q_answer, q_template_name, q_audio, q_image},
           answers: [{a_id, a_question_id, a_title, a_audio, a_image}]
         });
       } else {
-        acc[questionIndex].answers.push({a_id, a_question_id, a_title, a_audio, a_image});
+        newQuestions[questionIndex].answers.push({a_id, a_question_id, a_title, a_audio, a_image});
       }
-      return acc;
-    }, []);
+    });
+
+    //shuffle the answers
+    newQuestions.forEach(({answers}) => {
+    for (let i = answers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [answers[i], answers[j]] = [answers[j], answers[i]];
+    }
+    });
 
     console.log(newQuestions);
 
@@ -73,9 +82,9 @@ export default {
     <loading :loadingMessage="loadingMessage"/>
   </div>
   <div v-if="!isLoading" id="container">
-    <LessonHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
-    <LessonBody :questionsData="questionsData" :currentQuestion="currentQuestion" />
-    <LessonFooter :questionsData="questionsData" :currentQuestion="currentQuestion" @next-question="currentQuestion = $event"/>
+    <SkillHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
+    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" />
+    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" @next-question="currentQuestion = $event"/>
   </div>
 </template>
 

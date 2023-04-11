@@ -37,13 +37,13 @@ export default {
     QuestionComponent() {
       switch (this.QuestionTemplate) {
         case 'image selecting':
-          return defineAsyncComponent(() => import('./BodyTemplate/ImageSelecting.vue'));
+          return defineAsyncComponent(() => import('./SkillTemplate/ImageSelecting.vue'));
         case 'text selecting':
-          return defineAsyncComponent(() => import('./BodyTemplate/TextSelecting.vue'));
+          return defineAsyncComponent(() => import('./SkillTemplate/TextSelecting.vue'));
         case 'list selecting':
-          return defineAsyncComponent(() => import('./BodyTemplate/ListSelecting.vue'));
+          return defineAsyncComponent(() => import('./SkillTemplate/ListSelecting.vue'));
         case 'list reordering':
-          return defineAsyncComponent(() => import('./BodyTemplate/ListReordering.vue'));
+          return defineAsyncComponent(() => import('./SkillTemplate/ListReordering.vue'));
         default:
           return null;
       }
