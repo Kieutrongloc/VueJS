@@ -9,6 +9,8 @@ export default {
   },
   data() {
     return {
+      selectedAnswerId : null,
+      selectedAnswer : [],
     };
   },
   
@@ -25,6 +27,11 @@ export default {
   methods: {
     replayQuestion() {
       (new Audio(`data:audio/mp3;base64,${this.currentQuestionData.question.q_audio}`)).play();
+    },
+    selectAnswer(answer) {
+      (new Audio(`data:audio/mp3;base64,${answer.a_audio}`)).play()
+
+      // this.$emit('select-answer', this.selectedAnswer);
     }
   }
 };
@@ -36,6 +43,7 @@ export default {
     <div class="question-template" id="template-list-reordering">
         <h1 class="question"> {{ currentQuestionData.question.q_title }}</h1>
         <div class="answer-list">
+
           <div class="question-detail">
             <div class="question-detail-img">
               <img :src="'data:image/jpeg;base64,' + currentQuestionData.question.q_image" alt="question-img" />
@@ -46,10 +54,6 @@ export default {
                   <font-awesome-icon class="audio-icon" :icon="['fas', 'volume-high']" />
                 </div>
                 <audio :src="'data:audio/mp3;base64,' + currentQuestionData.question.q_audio"></audio>
-                <!-- <audio controls autoplay>
-                  <source src="" type="audio/mpeg">
-                Your browser does not support the audio element.
-                </audio> -->
               </div>
               <p>{{ currentQuestionData.question.q_description }}</p>
             </div>
@@ -58,7 +62,7 @@ export default {
 
           <div class="answer-area">
 
-            <div class="answer-box" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id">
+            <div class="answer-box" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer">
               <div class="text">
                 <p>{{ answer.a_title }}</p>
               </div>
