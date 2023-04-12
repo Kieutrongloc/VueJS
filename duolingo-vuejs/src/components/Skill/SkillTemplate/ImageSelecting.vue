@@ -56,7 +56,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .question-template {
   width: 620px;
   min-height: 400px;

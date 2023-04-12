@@ -10,7 +10,8 @@ export default {
   data() {
     return {
       selectedAnswerId : null,
-      selectedAnswer : [],
+      selectedAnswer : null,
+      userAnswer : [],
     };
   },
   
@@ -28,10 +29,20 @@ export default {
     replayQuestion() {
       (new Audio(`data:audio/mp3;base64,${this.currentQuestionData.question.q_audio}`)).play();
     },
-    selectAnswer(answer) {
-      (new Audio(`data:audio/mp3;base64,${answer.a_audio}`)).play()
 
+    selectAnswer(index, answer) {
+      (new Audio(`data:audio/mp3;base64,${answer.a_audio}`)).play()
+      this.selectedAnswerId = answer.a_id
+      this.selectedAnswer = answer.a_title
+      console.log(this.selectedAnswerId)
       // this.$emit('select-answer', this.selectedAnswer);
+      this.userAnswer.push(this.items[index]);
+      this.items.splice(index, 1);
+    },
+
+    removeAnswer(index, answer) {
+      this.currentQuestionData.answer.push(this.selectedItems[index]);
+      this.selectedItems.splice(index, 1);
     }
   }
 };
@@ -58,11 +69,18 @@ export default {
               <p>{{ currentQuestionData.question.q_description }}</p>
             </div>
           </div>
-          <div class="user-answer"></div>
+
+          <div class="user-answer">
+            <div :class="['user-answer-box', { 'user-selected-answer': selectedAnswer === answer.a_id }]" v-for="(answer) in userAnswer" :key="answer.id" @click="removeAnswer(index, answer)">
+              <div class="text">
+                <p>{{ answer.a_title }}</p>
+              </div>
+            </div>
+          </div>
 
           <div class="answer-area">
 
-            <div class="answer-box" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer">
+            <div :class="['answer-box', { 'selected-answer': selectedAnswerId === answer.a_id }]" v-for="(answer) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(index, answer)">
               <div class="text">
                 <p>{{ answer.a_title }}</p>
               </div>
@@ -74,9 +92,7 @@ export default {
   </div>
 </template>
 
-
-
-<style>
+<style scoped>
 .question-template {
   width: 620px;
   min-height: 400px;
@@ -155,11 +171,17 @@ audio {
   justify-content: center;
 }
 
+.text {
+  display: flex;
+  align-items: center;
+}
+
 #template-list-reordering .answer-list .answer-area {
   display: flex;
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
+  height: 60px;
 }
 
 #template-list-reordering .answer-list .answer-area .answer-box {
@@ -170,7 +192,36 @@ audio {
   width: 60px;
   display: flex;
   justify-content: center;
+  height: 42px;
 }
+
+/* update css */
+#template-list-reordering .answer-list .user-answer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  flex-wrap: wrap;
+  height: 60px;
+}
+
+#template-list-reordering .answer-list .user-answer .user-answer-box {
+  border: 2px solid #cacaca;
+  border-radius: 10px;
+  padding: 8px 6px;
+  margin: 2px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  height: 42px;
+}
+
+.answer-box:hover,
+.user-answer-box:hover {
+  cursor: pointer;
+  background-color: #f4f4f4;
+}
+
 </style>
 
 
