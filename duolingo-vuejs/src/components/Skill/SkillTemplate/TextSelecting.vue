@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      selectedAnswerId : null,
       selectedAnswer : null,
     };
   },
@@ -22,7 +23,9 @@ export default {
   methods: {
     selectAnswer(answer) {
       (new Audio(`data:audio/mp3;base64,${answer.a_audio}`)).play()
-      this.selectedAnswer = answer.a_id
+      this.selectedAnswerId = answer.a_id
+      this.selectedAnswer = answer.a_title
+      this.$emit('select-answer', this.selectedAnswer);
     }
   }
 };

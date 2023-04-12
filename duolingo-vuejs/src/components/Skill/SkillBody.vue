@@ -13,22 +13,33 @@ export default {
       required: true
     }
   },
-  emits: ['next-question', 'select-answer'],
+
+  emits: ['next-question','select-answer'],
+  watch: {
+    currentQuestion(newValue) {
+      this.$emit('next-question', newValue);
+      this.QuestionTemplate = this.questionsData[this.currentQuestion].question.q_template_name
+      this.currentQuestionData = this.questionsData[this.currentQuestion]
+      console.log(newValue)
+    }
+  },
+
   data() {
     return {
       QuestionTemplate: '',
       isLoading: true,
-      currentQuestionData: null,
-      selectedAnswer: null,
+      currentQuestionData : null,
+      selectedAnswer : null,
     };
   },
+
   methods: {
-    onSelectAnswer(answer) {
-      this.selectedAnswer = answer;
-      this.$emit('select-answer', this.selectedAnswer);
-      console.log(this.selectedAnswer);
+    selectAnswer(answer) {
+      this.$emit('select-answer', answer)
+      console.log(answer)
     }
   },
+
   computed: {
     QuestionComponent() {
       switch (this.QuestionTemplate) {
@@ -45,24 +56,29 @@ export default {
       }
     },
   },
+
   async created() {
     while ((this.questionsData) === null) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve,100))
     }
-    this.currentQuestionData = this.questionsData[this.currentQuestion];
-    this.QuestionTemplate = this.currentQuestionData.question.q_template_name;
+    this.currentQuestionData = this.questionsData[this.currentQuestion]
+    this.QuestionTemplate = this.currentQuestionData.question.q_template_name
   },
+
+  async mounted() {
+
+  }
+
 };
 </script>
 
 <template>
   <div id="container">
     <content>
-      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="onSelectAnswer" />
+      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="selectAnswer" />
     </content>
   </div>
 </template>
-
 
 <style scoped>
 #container {

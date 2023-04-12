@@ -21,6 +21,7 @@ export default {
       skillsId : null,
       questionsData : [],
       currentQuestion: 0,
+      selectAnswerData: null,
       loadingMessage: '15 minutes a day can teach you a language. What can 15 minutes of social media do?'
     }
   },
@@ -60,8 +61,6 @@ export default {
     }
     });
 
-    console.log(typeof this.questionsData);
-
     this.isLoading = false;
   },
 
@@ -70,7 +69,9 @@ export default {
   },
   
   methods: {
-    
+    selectAnswerHandle(answer) {
+      this.selectAnswerData = answer
+    }
   }
 }
 </script>
@@ -81,8 +82,8 @@ export default {
   </div>
   <div v-if="!isLoading" id="container">
     <SkillHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
-    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="currentAnswer =$event"/>
-    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" @next-question="currentQuestion = $event"/>
+    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle"/>
+    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerData="selectAnswerData" @next-question="currentQuestion = $event"/>
   </div>
 </template>
 

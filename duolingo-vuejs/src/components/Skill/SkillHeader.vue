@@ -21,8 +21,8 @@ export default {
 
   emits: ['next-question'],
   watch: {
-    currentQuestion(newValue) {
-      this.$emit('next-question', newValue);
+    currentQuestion() {
+      // this.$emit('next-question', newValue);
       this.completeQuestions()
     },
   },
@@ -42,7 +42,7 @@ export default {
     while (this.questionsData === null) {
       await new Promise(resolve => setTimeout(resolve, 100))
     }
-    this.totalQuestions = this.questionsData.length;
+    this.totalQuestions = this.questionsData.length - 1;
     this.completedQuestions = 0;
   },
   

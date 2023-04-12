@@ -28,7 +28,6 @@ export default {
       this.selectedAnswerId = answer.a_id
       this.selectedAnswer = answer.a_title
       this.$emit('select-answer', this.selectedAnswer);
-      console.log(this.selectedAnswer)
     }
   }
 };
