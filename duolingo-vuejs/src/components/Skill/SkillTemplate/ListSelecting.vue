@@ -1,11 +1,32 @@
 <script>
 export default {
   name: 'ListSelecting',
+  props: {
+    currentQuestionData: {
+      type: Object,
+      required: true
+    },
+  },
   data() {
     return {
     };
   },
   
+  async created() {
+    while ((this.currentQuestionData) === null) {
+      await new Promise(resolve => setTimeout(resolve,100))
+    }
+  },
+
+  mounted() {
+    this.replayQuestion()
+  },
+
+  methods: {
+    replayQuestion() {
+      (new Audio(`data:audio/mp3;base64,${this.currentQuestionData.question.q_audio}`)).play();
+    }
+  }
 
 };
 </script>
@@ -14,42 +35,36 @@ export default {
   <div id="list-selecting">
     <!-- Template list selecting  -->
     <div class="question-template" id="template-list-selecting">
-        <h1 class="question">question API</h1>
+        <h1 class="question"> {{ currentQuestionData.question.q_title }}</h1>
         <div class="answer-list">
           <div class="question-detail">
             <div class="question-detail-img">
-              <img src="" alt="question img">
+              <img :src="'data:image/jpeg;base64,' + currentQuestionData.question.q_image" alt="question-img" />
             </div>
             <div class="question-detail-des">
               <div>
-                <font-awesome-icon class="audio-icon" :icon="['fas', 'volume-high']" />
-                <audio controls autoplay>
+                <div @click="replayQuestion()">
+                  <font-awesome-icon class="audio-icon" :icon="['fas', 'volume-high']"/>
+                </div>
+                <audio :src="'data:audio/mp3;base64,' + currentQuestionData.question.q_audio"></audio>
+                <!-- <audio controls autoplay>
                   <source src="" type="audio/mpeg">
                 Your browser does not support the audio element.
-                </audio>
+                </audio> -->
               </div>
-              <p>Description API</p>
+              <p>{{ currentQuestionData.question.q_description }}</p>
             </div>
           </div>
           <div class="user-answer"></div>
+
           <div class="answer-area">
-            <div class="answer-box">
+
+            <div class="answer-box" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id">
               <div class="text">
-                <p>answer API</p>
+                <p>{{ answer.a_title }}</p>
               </div>
             </div>
   
-            <div class="answer-box">
-              <div class="text">
-                <p>answer API</p>
-              </div>
-            </div>
-  
-            <div class="answer-box">
-              <div class="text">
-                <p>answer API</p>
-              </div>
-            </div>
           </div>
         </div>
     </div>
@@ -100,7 +115,6 @@ audio {
 #template-list-selecting .answer-list .question-detail .question-detail-img {
   height: 169px;
   width: 114px;
-  border: 1px solid;
 }
 
 #template-list-selecting .answer-list .question-detail .question-detail-img img {
@@ -151,5 +165,8 @@ audio {
   border-radius: 10px;
   padding: 8px 6px;
   margin: 2px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
 }
 </style>
