@@ -19,7 +19,7 @@ export default {
       apiUrl : import.meta.env.VITE_API_URL,
       isLoading : true,
       skillsId : null,
-      questionsData : null,
+      questionsData : [],
       currentQuestion: 0,
       loadingMessage: '15 minutes a day can teach you a language. What can 15 minutes of social media do?'
     }
@@ -38,31 +38,29 @@ export default {
     console.log(this.skillsId)
 
     const getQuestion = await apiService.getListQuestions(skillId);
-    console.log('getQuestiond', getQuestion);
 
     //get questions
-    const newQuestions = [];
     getQuestion.forEach(({a_audio, a_id, a_image, a_question_id, a_title, q_answer, q_audio, q_description, q_id, q_image, q_template_name, q_title}) => {
-      const questionIndex = newQuestions.findIndex(({question}) => question.q_id === q_id);
+      const questionIndex = this.questionsData.findIndex(({question}) => question.q_id === q_id);
       if (questionIndex === -1) {
-        newQuestions.push({
+        this.questionsData.push({
           question: {q_id, q_title, q_description, q_answer, q_template_name, q_audio, q_image},
           answers: [{a_id, a_question_id, a_title, a_audio, a_image}]
         });
       } else {
-        newQuestions[questionIndex].answers.push({a_id, a_question_id, a_title, a_audio, a_image});
+        this.questionsData[questionIndex].answers.push({a_id, a_question_id, a_title, a_audio, a_image});
       }
     });
 
     //shuffle the answers
-    newQuestions.forEach(({answers}) => {
+    this.questionsData.forEach(({answers}) => {
     for (let i = answers.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [answers[i], answers[j]] = [answers[j], answers[i]];
     }
     });
 
-    console.log(newQuestions);
+    console.log(typeof this.questionsData);
 
     this.isLoading = false;
   },
@@ -83,7 +81,7 @@ export default {
   </div>
   <div v-if="!isLoading" id="container">
     <SkillHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
-    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" />
+    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="currentAnswer =$event"/>
     <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" @next-question="currentQuestion = $event"/>
   </div>
 </template>

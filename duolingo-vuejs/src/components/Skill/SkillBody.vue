@@ -13,25 +13,21 @@ export default {
       required: true
     }
   },
-
-  emits: ['next-question'],
-  watch: {
-    currentQuestion(newValue) {
-      this.$emit('next-question', newValue);
-      this.QuestionTemplate = this.questionsData[this.currentQuestion].template_name
-      this.currentQuestionData = this.questionsData[this.currentQuestion]
-    },
-  },
-
+  emits: ['next-question', 'select-answer'],
   data() {
     return {
       QuestionTemplate: '',
       isLoading: true,
-      currentQuestionData : null,
+      currentQuestionData: null,
+      selectedAnswer: null,
     };
   },
   methods: {
-
+    onSelectAnswer(answer) {
+      this.selectedAnswer = answer;
+      this.$emit('select-answer', this.selectedAnswer);
+      console.log(this.selectedAnswer);
+    }
   },
   computed: {
     QuestionComponent() {
@@ -49,29 +45,23 @@ export default {
       }
     },
   },
-
   async created() {
     while ((this.questionsData) === null) {
-      await new Promise(resolve => setTimeout(resolve,100))
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
-    this.QuestionTemplate = this.questionsData[this.currentQuestion].template_name
+    this.currentQuestionData = this.questionsData[this.currentQuestion];
+    this.QuestionTemplate = this.currentQuestionData.question.q_template_name;
   },
-
-  async mounted() {
-
-  }
-
 };
 </script>
 
 <template>
   <div id="container">
     <content>
-      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" />
+      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="onSelectAnswer" />
     </content>
   </div>
 </template>
-
 
 
 <style scoped>
@@ -91,5 +81,3 @@ export default {
   height: 100%;
 }
 </style>
-
-

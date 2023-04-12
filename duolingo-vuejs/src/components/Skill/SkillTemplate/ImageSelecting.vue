@@ -1,4 +1,6 @@
 <script>
+import { METHOD_TYPES } from '@babel/types';
+
 export default {
   name: 'ImageSelecting',
   props: {
@@ -9,6 +11,8 @@ export default {
   },
   data() {
     return {
+      selectedAnswerId : null,
+      selectedAnswer : null
     };
   },
   
@@ -16,7 +20,16 @@ export default {
     while ((this.currentQuestionData) === null) {
       await new Promise(resolve => setTimeout(resolve,100))
     }
-    console.log(this.currentQuestionData)
+  },
+
+  methods: {
+    selectAnswer(answer) {
+      (new Audio(`data:audio/mp3;base64,${answer.a_audio}`)).play()
+      this.selectedAnswerId = answer.a_id
+      this.selectedAnswer = answer.a_title
+      this.$emit('select-answer', this.selectedAnswer);
+      console.log(this.selectedAnswer)
+    }
   }
 };
 </script>
@@ -25,17 +38,18 @@ export default {
   <div id="image-selecting">
     <!-- Template image selecting -->
     <div class="question-template" id="template-image-selecting">
-      <h1 class="question">{{ currentQuestionData.title }}</h1>
+      <h1 class="question">{{ currentQuestionData.question.q_title }}</h1>
       <div class="answer-list">
 
-        <div class="answer-box">
+        <div v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)" :class="['answer-box', { 'selected-answer': selectedAnswerId === answer.a_id }]">
           <div class="image">
-            <img src="" alt="answer">
+            <img class="img" :src="'data:image/jpeg;base64,' + answer.a_image" alt="answer-img" />
           </div>
           <div class="text">
-            <p>answer API</p>
-            <span>API</span>
+            <p>{{ answer.a_title }}</p>
+            <span>{{ index + 1}}</span>
           </div>
+          <audio :src="'data:audio/mp3;base64,' + answer.a_audio"></audio>
         </div>
 
       </div>
@@ -119,7 +133,13 @@ audio {
   font-size: 16px;
   border: 2px solid #d2d2d2;
   padding: 2px;
+  width: 30px;
   border-radius: 8px;
+  text-align: center;
+}
+
+.selected-answer {
+  background-color: #e6e6e6;
 }
 </style>
 

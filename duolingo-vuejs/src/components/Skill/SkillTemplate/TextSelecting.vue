@@ -1,12 +1,30 @@
 <script>
 export default {
   name: 'TextSelecting',
+  props: {
+    currentQuestionData: {
+      type: Object,
+      required: true
+    },
+  },
   data() {
     return {
+      selectedAnswer : null,
     };
   },
   
+  async created() {
+    while ((this.currentQuestionData) === null) {
+      await new Promise(resolve => setTimeout(resolve,100))
+    }
+  },
 
+  methods: {
+    selectAnswer(answer) {
+      (new Audio(`data:audio/mp3;base64,${answer.a_audio}`)).play()
+      this.selectedAnswer = answer.a_id
+    }
+  }
 };
 </script>
 
@@ -14,27 +32,16 @@ export default {
   <div id="text-selecting">
     <!-- Template text selecting  -->
     <div class="question-template" id="template-text-selecting">
-        <h1 class="question">question API</h1>
+        <h1 class="question">{{ currentQuestionData.question.q_title }}</h1>
+
         <div class="answer-list">
-          <div class="answer-box">
-            <div class="text">
-              <span>API</span>
-              <p>answer API</p>
-            </div>
-          </div>
 
-          <div class="answer-box">
+          <div :class="['answer-box', { 'selected-answer': selectedAnswer === answer.a_id }]" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)">
             <div class="text">
-              <span>API</span>
-              <p>answer API</p>
+              <span>{{ index + 1 }}</span>
+              <p>{{ answer.a_title }}</p>
             </div>
-          </div>
-
-          <div class="answer-box">
-            <div class="text">
-              <span>API</span>
-              <p>answer API</p>
-            </div>
+            <audio :src="'data:audio/mp3;base64,' + answer.a_audio"></audio>
           </div>
 
         </div>
@@ -91,5 +98,9 @@ audio {
 #template-text-selecting .answer-list .answer-box .text p {
   width: 100%;
   text-align: center;
+}
+
+.selected-answer {
+  background-color: #e6e6e6;
 }
 </style>
