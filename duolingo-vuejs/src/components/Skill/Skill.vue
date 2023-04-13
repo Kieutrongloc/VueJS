@@ -52,7 +52,7 @@ export default {
         this.questionsData[questionIndex].answers.push({a_id, a_question_id, a_title, a_audio, a_image});
       }
     });
-    console.log(questionsData)
+    console.log(this.questionsData)
 
     //shuffle the answers
     this.questionsData.forEach(({answers}) => {
