@@ -43,17 +43,16 @@ export default {
     //get questions
     getQuestion.forEach(({a_audio, a_id, a_image, a_question_id, a_title, q_answer, q_audio, q_description, q_id, q_image, q_template_name, q_title}) => {
       const questionIndex = this.questionsData.findIndex(({question}) => question.q_id === q_id);
-      if (questionIndex === -1) {
+      if (questionIndex === -1) {update
         this.questionsData.push({
           question: {q_id, q_title, q_description, q_answer, q_template_name, q_audio, q_image},
-          answers: [{id: a_id, question_id: a_question_id, title: a_title, audio: a_audio, image: a_image}]
+          answers: [{a_id, a_question_id, a_title, a_audio, a_image}]
         });
       } else {
-        this.questionsData[questionIndex].answers.push({id: a_id, question_id: a_question_id, title: a_title, audio: a_audio, image: a_image});
+        this.questionsData[questionIndex].answers.push({a_id, a_question_id, a_title, a_audio, a_image});
       }
     });
-
-    console.log(this.questionsData)
+    console.log(questionsData)
 
     //shuffle the answers
     this.questionsData.forEach(({answers}) => {
