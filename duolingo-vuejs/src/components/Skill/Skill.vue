@@ -43,7 +43,7 @@ export default {
     //get questions
     getQuestion.forEach(({a_audio, a_id, a_image, a_question_id, a_title, q_answer, q_audio, q_description, q_id, q_image, q_template_name, q_title}) => {
       const questionIndex = this.questionsData.findIndex(({question}) => question.q_id === q_id);
-      if (questionIndex === -1) {update
+      if (questionIndex === -1) {
         this.questionsData.push({
           question: {q_id, q_title, q_description, q_answer, q_template_name, q_audio, q_image},
           answers: [{a_id, a_question_id, a_title, a_audio, a_image}]
