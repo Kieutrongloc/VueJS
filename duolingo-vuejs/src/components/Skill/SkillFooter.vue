@@ -49,18 +49,20 @@ export default {
         this.isResultShow = true;
         if(this.selectAnswerData === this.questionsData[this.currentQuestion].question.q_answer) {
           // if true 
+          var audio = new Audio(require('@/./../../src/assets/audio/addition/audio-true.mp3'));
+          audio.play();
           this.backgroundStyle = { backgroundColor : '#d7ffb9' }
           this.resultMessage = 'CORRECT'
           this.resultColor = { color: '#58a700'};
         } else {
           // if false
+          new Audio(require('@/../../assets/audio/')).play();
           this.backgroundStyle = { backgroundColor : '#ffdfe0' };
           this.resultMessage = 'CORRECT SOLUTION:';
           this.resultColor = { color: '#ec0c1c'};
-        this.buttonStyle = { color: '#fff', backgroundColor : '#ec0c1c'}
+          this.buttonStyle = { color: '#fff', backgroundColor : '#ec0c1c'}
         }
       }
-
     },
 
     handleContinue() {
