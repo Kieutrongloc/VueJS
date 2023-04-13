@@ -49,8 +49,8 @@ export default {
         this.isResultShow = true;
         if(this.selectAnswerData === this.questionsData[this.currentQuestion].question.q_answer) {
           // if true 
-          // var audio = new Audio(require('@/assets/audio/addition/audio-true.mp3'));
-          // audio.play();
+          var audio = new Audio(require('@./../../src/assets/audio/addition/'));
+          audio.play();
           this.backgroundStyle = { backgroundColor : '#d7ffb9' }
           this.resultMessage = 'CORRECT'
           this.resultColor = { color: '#58a700'};
