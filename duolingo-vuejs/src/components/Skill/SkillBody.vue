@@ -16,11 +16,10 @@ export default {
 
   emits: ['next-question','select-answer'],
   watch: {
-    currentQuestion(newValue) {
-      this.$emit('next-question', newValue);
+    currentQuestion(nextQuestion) {
+      this.$emit('next-question', nextQuestion);
       this.QuestionTemplate = this.questionsData[this.currentQuestion].question.q_template_name
       this.currentQuestionData = this.questionsData[this.currentQuestion]
-      console.log(newValue)
     }
   },
 
@@ -29,14 +28,13 @@ export default {
       QuestionTemplate: '',
       isLoading: true,
       currentQuestionData : null,
-      selectedAnswer : null,
+      // selectedAnswer : null,
     };
   },
 
   methods: {
-    selectAnswer(answer) {
-      this.$emit('select-answer', answer)
-      console.log(answer)
+    selectAnswer(id, answer) {
+      this.$emit('select-answer', id, answer)
     }
   },
 
@@ -51,6 +49,12 @@ export default {
           return defineAsyncComponent(() => import('./SkillTemplate/ListSelecting.vue'));
         case 'list reordering':
           return defineAsyncComponent(() => import('./SkillTemplate/ListReordering.vue'));
+        case 'word filling':
+          return defineAsyncComponent(() => import('./SkillTemplate/WordFilling.vue'));
+        case 'sentence reading':
+          return defineAsyncComponent(() => import('./SkillTemplate/SentenceReading.vue'));
+        case 'word listening':
+          return defineAsyncComponent(() => import('./SkillTemplate/WordListening.vue'));
         default:
           return null;
       }

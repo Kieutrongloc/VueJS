@@ -20,7 +20,7 @@ export default {
 
 <template>
     <div id="loading">
-        <img src="./../assets/img/duolingo-loading.gif" alt="loading">
+        <img src="./../assets/img/addition/duolingo-loading.gif" alt="loading">
         <p>{{ loadingMessage }}</p>
     </div>
 </template>

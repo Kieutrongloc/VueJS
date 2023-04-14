@@ -2,7 +2,7 @@
 // import { METHOD_TYPES } from '@babel/types';
 
 export default {
-  name: 'ImageSelecting',
+  name: 'SentenceReading',
   props: {
     currentQuestionData: {
       type: Object,

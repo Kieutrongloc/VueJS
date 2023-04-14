@@ -17,14 +17,6 @@ if (!$results) {
     exit;
 }
 
-foreach ($results as &$result) {
-    foreach (array('a_image', 'a_audio', 'q_image', 'q_audio') as $field) {
-        if ($result[$field]) {
-            $result[$field] = base64_encode($result[$field]);
-        }
-    }
-}
-
 // output the results as a JSON object
 header('Content-Type: application/json');
 echo json_encode($results);

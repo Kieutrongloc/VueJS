@@ -7,27 +7,60 @@ export default {
       required: true
     },
   },
+
   data() {
     return {
+      selectedAnswerId : null,
+      selectedAnswer : null,
+      userAnswer : [],
+    };
+  },
+
+  data() {
+    return {
+      selectedAnswerId : null,
+      selectedAnswer : null,
+      userAnswer : [],
     };
   },
   
-  async created() {
-    while ((this.currentQuestionData) === null) {
-      await new Promise(resolve => setTimeout(resolve,100))
-    }
-  },
-
   mounted() {
     this.replayQuestion()
   },
 
   methods: {
     replayQuestion() {
-      (new Audio(`data:audio/mp3;base64,${this.currentQuestionData.question.q_audio}`)).play();
+      new Audio(this.currentQuestionData.question.q_audio).play()
+    },
+
+    selectAnswer(index, answer) {
+      new Audio(answer.audio).play()
+      this.selectedAnswerId = answer.id
+      this.selectedAnswer = answer.title
+      this.userAnswer.push(this.currentQuestionData.answers[index]);
+      this.hideItem(index)
+      this.finalAnswerHandle()
+    },
+
+    removeAnswer(index, answer) {
+      this.userAnswer.splice(index, 1);
+      this.currentQuestionData.answers.forEach((item) => {if(item.id===answer.id) {item.hidden=false}})
+    },
+
+    hideItem(index) {
+      this.currentQuestionData.answers[index].hidden = true
+    },
+
+    finalAnswerHandle() {
+      var finalAnswer = '';
+      var answerId = 0;
+      this.userAnswer.forEach((answer) => {
+        finalAnswer += answer.title;
+        answerId++
+      })
+      this.$emit('select-answer', answerId, finalAnswer);
     }
   }
-
 };
 </script>
 
@@ -39,30 +72,33 @@ export default {
         <div class="answer-list">
           <div class="question-detail">
             <div class="question-detail-img">
-              <img :src="'data:image/jpeg;base64,' + currentQuestionData.question.q_image" alt="question-img" />
+              <img :src="currentQuestionData.question.q_image" alt="question-img" />
             </div>
             <div class="question-detail-des">
               <div>
                 <div @click="replayQuestion()">
                   <font-awesome-icon class="audio-icon" :icon="['fas', 'volume-high']"/>
                 </div>
-                <audio :src="'data:audio/mp3;base64,' + currentQuestionData.question.q_audio"></audio>
-                <!-- <audio controls autoplay>
-                  <source src="" type="audio/mpeg">
-                Your browser does not support the audio element.
-                </audio> -->
               </div>
               <p>{{ currentQuestionData.question.q_description }}</p>
             </div>
           </div>
-          <div class="user-answer"></div>
+
+          <div class="user-answer">
+            <div :class="['user-answer-box', { 'user-selected-answer': selectedAnswer === answer.id }]" v-for="(answer, index) in userAnswer" :key="answer.id" @click="removeAnswer(index, answer)">
+              <div class="text answer-box">
+                <p>{{ answer.title }}</p>
+              </div>
+            </div>
+          </div>
 
           <div class="answer-area">
 
-            <div class="answer-box" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id">
-              <div class="text">
-                <p>{{ answer.a_title }}</p>
+            <div v-for="(answer, index) in currentQuestionData.answers" :key="answer.id">
+              <div :class="['answer-box', { 'selected-answer': answer.hidden === true }]"  @click="selectAnswer(index, answer)" class="text">
+                <p>{{ answer.title }}</p>
               </div>
+              <div class="box-background"></div>
             </div>
   
           </div>
@@ -119,7 +155,7 @@ audio {
 
 #template-list-selecting .answer-list .question-detail .question-detail-img img {
   height: 169px;
-  width: 114px;
+  width: 110px;
 }
 
 #template-list-selecting .answer-list .question-detail .question-detail-des {
@@ -145,7 +181,6 @@ audio {
   display: flex;
   flex-direction: row;
   border-top: solid 2px #c8c8c8;
-  padding: 10px;
   height: 60px;
   border-bottom: solid 2px #c8c8c8;
   margin-bottom: 40px;
@@ -165,8 +200,55 @@ audio {
   border-radius: 10px;
   padding: 8px 6px;
   margin: 2px;
-  width: 60px;
+  min-width: 60px;
+  width: fit-content;
   display: flex;
   justify-content: center;
+  background-color: #fff;
 }
+
+/* update css */
+
+#template-list-selecting .answer-list .user-answer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  flex-wrap: wrap;
+  height: 60px;
+}
+.selected-answer {
+  visibility: hidden;
+}
+
+.answer-box:hover,
+.user-answer-box:hover {
+  cursor: pointer;
+  background-color: #f4f4f4;
+}
+
+#template-list-selecting .answer-list .user-answer .user-answer-box {
+  border: 2px solid #cacaca;
+  border-radius: 10px;
+  padding: 8px 6px;
+  margin: 2px;
+  min-width: 60px;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  height: 42px;
+  margin: 6.5px 2px;
+}
+
+.box-background {
+  background-color: #cacaca;
+  border-radius: 10px;
+  margin: 2px;
+  width: 60px;
+  height: 42px;
+  position: absolute;
+  top: 0px;
+  z-index: -2;
+}
+
 </style>

@@ -22,10 +22,10 @@ export default {
 
   methods: {
     selectAnswer(answer) {
-      (new Audio(`data:audio/mp3;base64,${answer.a_audio}`)).play()
-      this.selectedAnswerId = answer.a_id
-      this.selectedAnswer = answer.a_title
-      this.$emit('select-answer', this.selectedAnswer);
+      new Audio(answer.audio).play()
+      this.selectedAnswerId = answer.id
+      this.selectedAnswer = answer.title
+      this.$emit('select-answer', this.selectedAnswerId, this.selectedAnswer);
     }
   }
 };
@@ -39,12 +39,11 @@ export default {
 
         <div class="answer-list">
 
-          <div :class="['answer-box', { 'selected-answer': selectedAnswer === answer.a_id }]" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)">
+          <div :class="['answer-box', { 'selected-answer': selectedAnswerId === answer.id }]" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)">
             <div class="text">
               <span>{{ index + 1 }}</span>
-              <p>{{ answer.a_title }}</p>
+              <p>{{ answer.title }}</p>
             </div>
-            <audio :src="'data:audio/mp3;base64,' + answer.a_audio"></audio>
           </div>
 
         </div>
@@ -74,6 +73,11 @@ export default {
 
 audio {
   display: none;
+}
+
+.answer-box:hover {
+  cursor: pointer;
+  background-color: #f4f4f4;
 }
 
 .question-template .answer-list {

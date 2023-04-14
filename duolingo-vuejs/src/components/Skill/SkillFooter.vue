@@ -11,20 +11,21 @@ export default {
       type: Number,
       required: true
     },
-    selectAnswerData: {
+    selectAnswerTitle: {
+      type: Array,
+      required: false
+    },
+    selectAnswerId: {
       type: Array,
       required: false
     },
   },
-  components: {
-
-  },
 
   emits: ['select-answer'],
   watch: {
-    selectAnswerData() {
+    selectAnswerId() {
       this.isButtonDisable = false;
-      this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer'}
+      this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer'};
     },
   },
   
@@ -36,33 +37,32 @@ export default {
       backgroundStyle : null,
       isResultShow : false,
       resultMessage : null,
-      resultColor : null
+      resultColor : null,
     };
   },
 
   methods: {
-    handleChecking() {
-      if (this.currentQuestion === this.questionsData.length - 1) {
-        this.checkButtonText = 'SUBMIT';
-      } else {
-        this.checkButtonText = 'CONTINUE';
-        this.isResultShow = true;
-        if(this.selectAnswerData === this.questionsData[this.currentQuestion].question.q_answer) {
-          // if true 
-          var audio = new Audio(require('@./../../src/assets/audio/addition/'));
-          audio.play();
-          this.backgroundStyle = { backgroundColor : '#d7ffb9' }
-          this.resultMessage = 'CORRECT'
-          this.resultColor = { color: '#58a700'};
-        } else {
-          // if false
-          // new Audio(require('@/../../assets/audio/')).play();
-          this.backgroundStyle = { backgroundColor : '#ffdfe0' };
-          this.resultMessage = 'CORRECT SOLUTION:';
-          this.resultColor = { color: '#ec0c1c'};
-          this.buttonStyle = { color: '#fff', backgroundColor : '#ec0c1c'}
-        }
-      }
+    handleCheck() {
+    this.isResultShow = true;
+    if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.q_answer.toLowerCase().replace(/\s/g,'')) {
+      // if true
+      this.playAudio(new Audio('/src/assets/audio/addition/audio-true.mp3'))
+      this.backgroundStyle = { backgroundColor : '#d7ffb9' }
+      this.resultMessage = 'CORRECT'
+      this.resultColor = { color: '#58a700'};
+    } else {
+      // if false
+      this.playAudio(new Audio('/src/assets/audio/addition/audio-false.mp3'))
+      this.backgroundStyle = { backgroundColor : '#ffdfe0' };
+      this.resultMessage = 'CORRECT SOLUTION:';
+      this.resultColor = { color: '#ec0c1c'};
+      this.buttonStyle = { color: '#fff', backgroundColor : '#ec0c1c'}
+    }
+    if (this.currentQuestion !== this.questionsData.length - 1) {
+      this.checkButtonText = 'CONTINUE';
+    } else {
+      this.checkButtonText = 'SUBMIT';
+    }
     },
 
     handleContinue() {
@@ -71,10 +71,15 @@ export default {
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default'}
       this.isResultShow = false;
+      this.isButtonDisable = true
     },
 
     handleSubmit() {
 
+    },
+
+    playAudio(audio) {
+      audio.play()
     }
   },
   computed: {
@@ -100,7 +105,7 @@ export default {
         </div>
       </div>
 
-      <button v-if="!isSubmit" :disabled="isButtonDisable" v-bind:style="buttonStyle" @click="checkButtonText==='CHECK' ? handleChecking() : checkButtonText==='CONTINUE' ? handleContinue() : handleSubmit()">{{ checkButtonText }}</button>
+      <button v-if="!isSubmit" :disabled="isButtonDisable" v-bind:style="buttonStyle" @click="checkButtonText==='CHECK' ? handleCheck() : checkButtonText==='CONTINUE' ? handleContinue() : handleSubmit()">{{ checkButtonText }}</button>
     </content>
   </div>
 </template>
