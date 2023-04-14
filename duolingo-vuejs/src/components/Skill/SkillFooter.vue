@@ -42,7 +42,7 @@ export default {
   methods: {
     handleCheck() {
     this.isResultShow = true;
-    if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.q_answer.toLowerCase().replace(/\s/g,'')) {
+    if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.answer.toLowerCase().replace(/\s/g,'')) {
       // if true
       this.playAudio(new Audio('/src/assets/audio/addition/audio-true.mp3'))
       this.backgroundStyle = { backgroundColor : '#d7ffb9' }
@@ -99,7 +99,7 @@ export default {
         <font-awesome-icon id="result-icon" v-bind:style="resultColor" :icon="resultMessage === 'CORRECT' ? ['fas', 'circle-check'] : ['fas', 'circle-xmark']" />
         <div>
           <p v-bind:style="resultColor">{{ resultMessage }}</p>
-          <span v-if="resultMessage !== 'CORRECT'" v-bind:style="resultColor">{{ questionsData[currentQuestion].question.q_answer }}</span>
+          <span v-if="resultMessage !== 'CORRECT'" v-bind:style="resultColor">{{ questionsData[currentQuestion].question.answer }}</span>
         </div>
       </div>
 

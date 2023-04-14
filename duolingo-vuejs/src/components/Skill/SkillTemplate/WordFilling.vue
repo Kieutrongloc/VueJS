@@ -46,14 +46,14 @@ export default {
   <div id="list-selecting">
     <!-- Template word filling  -->
     <div class="question-template" id="template-list-selecting">
-        <h1 class="question"> {{ currentQuestionData.question.q_title }}</h1>
+        <h1 class="question"> {{ currentQuestionData.question.title }}</h1>
         <div class="answer-list">
           <div class="question-detail">
             <div class="question-detail-img">
-              <img :src="currentQuestionData.question.q_image" alt="question-img" />
+              <img :src="currentQuestionData.question.image" alt="question-img" />
             </div>
             <div class="question-detail-des">
-              <p>{{ currentQuestionData.question.q_description }}</p>
+              <p>{{ currentQuestionData.question.description }}</p>
             </div>
           </div>
 

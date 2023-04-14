@@ -42,11 +42,10 @@ export default {
 
     //get questions
     getQuestion.forEach(({a_audio, a_id, a_image, a_question_id, a_title, q_answer, q_audio, q_description, q_id, q_image, q_template_name, q_title}) => {
-      const questionIndex = this.questionsData.findIndex(({question}) => question.q_id === q_id);
+      const questionIndex = this.questionsData.findIndex(({question}) => question.id === q_id);
       if (questionIndex === -1) {
-        // const questionsObj = {id: q_id, title: q_title, description: q_description, answer: q_answer, template: q_template_name, audio: q_audio, image: q_image};
         this.questionsData.push({
-          question: {q_id, q_title, q_description, q_answer, q_template_name, q_audio, q_image},
+          question: {id: q_id, title: q_title, description: q_description, answer: q_answer, template_name: q_template_name, audio: q_audio, image: q_image},
           answers: [{id: a_id, question_id: a_question_id, title: a_title, audio: a_audio, image: a_image}]
         });
       } else {

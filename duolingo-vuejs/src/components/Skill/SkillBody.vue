@@ -18,7 +18,7 @@ export default {
   watch: {
     currentQuestion(nextQuestion) {
       this.$emit('next-question', nextQuestion);
-      this.QuestionTemplate = this.questionsData[this.currentQuestion].question.q_template_name
+      this.QuestionTemplate = this.questionsData[this.currentQuestion].question.template_name
       this.currentQuestionData = this.questionsData[this.currentQuestion]
     }
   },
@@ -66,7 +66,7 @@ export default {
       await new Promise(resolve => setTimeout(resolve,100))
     }
     this.currentQuestionData = this.questionsData[this.currentQuestion]
-    this.QuestionTemplate = this.currentQuestionData.question.q_template_name
+    this.QuestionTemplate = this.currentQuestionData.question.template_name
   },
 
   async mounted() {

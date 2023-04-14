@@ -38,6 +38,16 @@ const router = createRouter({
       name: 'skill',
       component: () => import('../components/Skill/Skill.vue')
     },
+    {
+      path: '/:catchAll(.*)',
+      name: 'not-found',
+      component: () => import('../components/NotFound.vue')
+    },
+    {
+      path: '/template',
+      name: 'template',
+      component: () => import('../components/Template.vue')
+    },
 
   ]
 })

@@ -38,7 +38,7 @@ export default {
   <div id="image-selecting">
     <!-- Template image selecting -->
     <div class="question-template" id="template-image-selecting">
-      <h1 class="question">{{ currentQuestionData.question.q_title }}</h1>
+      <h1 class="question">{{ currentQuestionData.question.title }}</h1>
       <div class="answer-list">
 
         <div v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)" :class="['answer-box', { 'selected-answer': selectedAnswerId === answer.id }]">

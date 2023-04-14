@@ -33,7 +33,7 @@ export default {
     },
 
     playQuestionAudio(){
-      this.playAudio(new Audio(this.currentQuestionData.question.q_audio))
+      this.playAudio(new Audio(this.currentQuestionData.question.audio))
     },
 
     playAudio(audio) {
@@ -47,7 +47,7 @@ export default {
   <div id="image-selecting">
     <!-- Template image selecting -->
     <div class="question-template" id="template-image-selecting">
-      <h1 class="question">{{ currentQuestionData.question.q_title }}</h1>
+      <h1 class="question">{{ currentQuestionData.question.title }}</h1>
 
       <div id='answer-area'>
 

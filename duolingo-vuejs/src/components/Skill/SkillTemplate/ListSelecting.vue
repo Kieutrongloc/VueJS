@@ -15,14 +15,6 @@ export default {
       userAnswer : [],
     };
   },
-
-  data() {
-    return {
-      selectedAnswerId : null,
-      selectedAnswer : null,
-      userAnswer : [],
-    };
-  },
   
   mounted() {
     this.replayQuestion()
@@ -30,7 +22,7 @@ export default {
 
   methods: {
     replayQuestion() {
-      new Audio(this.currentQuestionData.question.q_audio).play()
+      new Audio(this.currentQuestionData.question.audio).play()
     },
 
     selectAnswer(index, answer) {
@@ -45,6 +37,7 @@ export default {
     removeAnswer(index, answer) {
       this.userAnswer.splice(index, 1);
       this.currentQuestionData.answers.forEach((item) => {if(item.id===answer.id) {item.hidden=false}})
+      this.finalAnswerHandle()
     },
 
     hideItem(index) {
@@ -58,6 +51,7 @@ export default {
         finalAnswer += answer.title;
         answerId++
       })
+      console.log(finalAnswer)
       this.$emit('select-answer', answerId, finalAnswer);
     }
   }
@@ -68,11 +62,11 @@ export default {
   <div id="list-selecting">
     <!-- Template list selecting  -->
     <div class="question-template" id="template-list-selecting">
-        <h1 class="question"> {{ currentQuestionData.question.q_title }}</h1>
+        <h1 class="question"> {{ currentQuestionData.question.title }}</h1>
         <div class="answer-list">
           <div class="question-detail">
             <div class="question-detail-img">
-              <img :src="currentQuestionData.question.q_image" alt="question-img" />
+              <img :src="currentQuestionData.question.image" alt="question-img" />
             </div>
             <div class="question-detail-des">
               <div>
@@ -80,7 +74,7 @@ export default {
                   <font-awesome-icon class="audio-icon" :icon="['fas', 'volume-high']"/>
                 </div>
               </div>
-              <p>{{ currentQuestionData.question.q_description }}</p>
+              <p>{{ currentQuestionData.question.description }}</p>
             </div>
           </div>
 

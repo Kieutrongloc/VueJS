@@ -35,7 +35,7 @@ export default {
   <div id="text-selecting">
     <!-- Template text selecting  -->
     <div class="question-template" id="template-text-selecting">
-        <h1 class="question">{{ currentQuestionData.question.q_title }}</h1>
+        <h1 class="question">{{ currentQuestionData.question.title }}</h1>
 
         <div class="answer-list">
 
