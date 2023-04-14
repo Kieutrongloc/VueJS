@@ -22,7 +22,6 @@ export default {
       await new Promise(resolve => setTimeout(resolve,100))
     }
     this.answerLength = this.currentQuestionData.answers.length;
-    console.log(this.answerLength)
   },
 
   mounted() {
@@ -130,10 +129,6 @@ export default {
   color: #3c3c3c;
 }
 
-audio {
-  display: none;
-}
-
 .question-template .answer-list {
   display: flex;
 }
@@ -187,7 +182,7 @@ audio {
   height: 56px;
   border-bottom: solid 2px #c8c8c8;
   margin-bottom: 40px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 #template-list-reordering .answer-list .user-answer-double-line {
@@ -197,7 +192,7 @@ audio {
   height: 112px;
   border-bottom: solid 2px #c8c8c8;
   margin-bottom: 40px;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 

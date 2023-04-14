@@ -12,11 +12,9 @@ export default {
       required: true
     },
     selectAnswerTitle: {
-      type: Array,
       required: false
     },
     selectAnswerId: {
-      type: Array,
       required: false
     },
   },

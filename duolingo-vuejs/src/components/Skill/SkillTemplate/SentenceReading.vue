@@ -1,6 +1,4 @@
 <script>
-// import { METHOD_TYPES } from '@babel/types';
-
 export default {
   name: 'SentenceReading',
   props: {
@@ -9,52 +7,73 @@ export default {
       required: true
     },
   },
+
   data() {
     return {
       selectedAnswerId : null,
-      selectedAnswer : null
+      selectedAnswer : null,
+      userAnswer : [],
+    };
+  },
+
+  data() {
+    return {
+      selectedAnswerId : null,
+      selectedAnswer : null,
+      userAnswer : [],
     };
   },
   
-  async created() {
-    while ((this.currentQuestionData) === null) {
-      await new Promise(resolve => setTimeout(resolve,100))
-    }
+  mounted() {
+    this.playAudio()
   },
 
   methods: {
-    selectAnswer(answer) {
-      new Audio(answer.audio).play()
-      this.selectedAnswerId = answer.id
-      this.selectedAnswer = answer.title
-      this.$emit('select-answer',this.selectedAnswerId, this.selectedAnswer);
-      console.log(this.selectedAnswerId, this.selectedAnswer)
+    playAudio() {
+      new Audio(this.currentQuestionData.question.q_audio).play()
+    },
+
+    recordHandle() {
+      var answerId = 0;
+      // this.$emit('select-answer', answerId, finalAnswer);
+      alert('updating')
     }
   }
 };
 </script>
 
 <template>
-  <div id="image-selecting">
-    <!-- Template image selecting -->
-    <div class="question-template" id="template-image-selecting">
-      <h1 class="question">{{ currentQuestionData.question.q_title }}</h1>
-      <div class="answer-list">
-
-        <div v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)" :class="['answer-box', { 'selected-answer': selectedAnswerId === answer.id }]">
-          <div class="image">
-            <img class="img" :src="answer.image" alt="answer-img" />
+  <div id="list-selecting">
+    <!-- Template list selecting  -->
+    <div class="question-template" id="template-list-selecting">
+        <h1 class="question"> {{ currentQuestionData.question.q_title }}</h1>
+        <div class="answer-list">
+          <div class="question-detail">
+            <div class="question-detail-img">
+              <img :src="currentQuestionData.question.q_image" alt="question-img" />
+            </div>
+            <div class="question-detail-des">
+              <div>
+                <div @click="playAudio()">
+                  <font-awesome-icon class="audio-icon" :icon="['fas', 'volume-high']"/>
+                </div>
+              </div>
+              <p>{{ currentQuestionData.question.q_description }}</p>
+            </div>
           </div>
-          <div class="text">
-            <p>{{ answer.title }}</p>
-            <span>{{ index + 1}}</span>
+
+          <div class="answer-area">
+            <div @click="recordHandle" id="record-button">
+              <font-awesome-icon class="microphone-icon" :icon="['fas', 'microphone']" />
+              <p>CLICK TO SPEAK</p>
+            </div>
           </div>
         </div>
-
-      </div>
-      </div>
+    </div>
   </div>
 </template>
+
+
 
 <style scoped>
 .question-template {
@@ -82,64 +101,78 @@ audio {
   display: flex;
 }
 
-/* template-image-selecting */
-#template-image-selecting .answer-list {
+/* Template list selecting  */
+#template-list-selecting .answer-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+#template-list-selecting .answer-list .question-detail {
+  display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
 }
 
-#template-image-selecting .answer-list .answer-box {
-  margin: 0px auto;
-  border: 2px solid #bababa;
-  width: 200px;
-  height: 314px;
-  border-radius: 20px;
+#template-list-selecting .answer-list .question-detail .question-detail-img {
+  height: 169px;
+  width: 114px;
+}
+
+#template-list-selecting .answer-list .question-detail .question-detail-img img {
+  height: 169px;
+  width: 110px;
+}
+
+#template-list-selecting .answer-list .question-detail .question-detail-des {
+  margin-left: 10px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.answer-box:hover {
-  cursor: pointer;
-  background-color: #f4f4f4;
-}
-
-#template-image-selecting .answer-list .answer-box .image {
-  height: 160px;
-  width: 140px;
-  margin: 0px auto;
-}
-
-#template-image-selecting .answer-list .answer-box .image img {
-  height: 160px;
-  width: 140px;
-}
-#template-image-selecting .answer-list .answer-box .text {
-  display: flex;
-  justify-content: space-between;
-  width: 180px;
-  margin: 0px auto;
-}
-
-#template-image-selecting .answer-list .answer-box .text p {
-  font-size: 18px;
-}
-
-.text span {
-  color: #8a8a8a;
-  font-weight: bolder;
-  font-size: 16px;
-  border: 2px solid #d2d2d2;
-  padding: 2px;
-  width: 30px;
+  align-items: center;
+  border: solid 2px #c8c8c8;
   border-radius: 8px;
-  text-align: center;
+  padding: 4px;
 }
 
-.selected-answer {
-  background-color: #e6e6e6;
+.audio-icon {
+  color: #1cb0f6;
+  height: 26px;
+  margin: 6px;
 }
+
+.audio-icon:hover {
+  cursor: pointer;
+}
+
+#template-list-selecting .answer-list .answer-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px #c8c8c8;
+  height: 70px;
+  border-radius: 14px;
+  margin-bottom: 80px;
+}
+
+.answer-area #record-button {
+  display: flex;
+  align-items: center;
+}
+
+.answer-area #record-button:hover {
+  cursor: pointer;
+}
+
+.answer-area .microphone-icon {
+  font-size: 28px;
+  color: #1cb0f6;
+  margin-right: 8px;
+}
+
+.answer-area p {
+  color: #1cb0f6;
+  font-size: 18px;
+  font-weight: bolder;
+}
+
 </style>
-
-

@@ -1,4 +1,6 @@
 <script>
+// import { METHOD_TYPES } from '@babel/types';
+
 export default {
   name: 'WordListening',
   props: {
@@ -7,107 +9,67 @@ export default {
       required: true
     },
   },
-
   data() {
     return {
       selectedAnswerId : null,
-      selectedAnswer : null,
-      userAnswer : [],
-    };
-  },
-
-  data() {
-    return {
-      selectedAnswerId : null,
-      selectedAnswer : null,
-      userAnswer : [],
+      selectedAnswer : null
     };
   },
   
-  mounted() {
-    this.replayQuestion()
+  async created() {
+    while ((this.currentQuestionData) === null) {
+      await new Promise(resolve => setTimeout(resolve,100))
+    }
+
+    this.playQuestionAudio()
   },
 
   methods: {
-    replayQuestion() {
-      new Audio(this.currentQuestionData.question.q_audio).play()
-    },
-
-    selectAnswer(index, answer) {
-      new Audio(answer.audio).play()
+    selectAnswer(answer) {
+      this.playAudio(new Audio(answer.audio))
       this.selectedAnswerId = answer.id
       this.selectedAnswer = answer.title
-      this.userAnswer.push(this.currentQuestionData.answers[index]);
-      this.hideItem(index)
-      this.finalAnswerHandle()
+      this.$emit('select-answer',this.selectedAnswerId, this.selectedAnswer);
     },
 
-    removeAnswer(index, answer) {
-      this.userAnswer.splice(index, 1);
-      this.currentQuestionData.answers.forEach((item) => {if(item.id===answer.id) {item.hidden=false}})
+    playQuestionAudio(){
+      this.playAudio(new Audio(this.currentQuestionData.question.q_audio))
     },
 
-    hideItem(index) {
-      this.currentQuestionData.answers[index].hidden = true
-    },
-
-    finalAnswerHandle() {
-      var finalAnswer = '';
-      var answerId = 0;
-      this.userAnswer.forEach((answer) => {
-        finalAnswer += answer.title;
-        answerId++
-      })
-      this.$emit('select-answer', answerId, finalAnswer);
+    playAudio(audio) {
+      audio.play()
     }
   }
 };
 </script>
 
 <template>
-  <div id="list-selecting">
-    <!-- Template list selecting  -->
-    <div class="question-template" id="template-list-selecting">
-        <h1 class="question"> {{ currentQuestionData.question.q_title }}</h1>
-        <div class="answer-list">
-          <div class="question-detail">
-            <div class="question-detail-img">
-              <img :src="currentQuestionData.question.q_image" alt="question-img" />
-            </div>
-            <div class="question-detail-des">
-              <div>
-                <div @click="replayQuestion()">
-                  <font-awesome-icon class="audio-icon" :icon="['fas', 'volume-high']"/>
-                </div>
-              </div>
-              <p>{{ currentQuestionData.question.q_description }}</p>
-            </div>
-          </div>
+  <div id="image-selecting">
+    <!-- Template image selecting -->
+    <div class="question-template" id="template-image-selecting">
+      <h1 class="question">{{ currentQuestionData.question.q_title }}</h1>
 
-          <div class="user-answer">
-            <div :class="['user-answer-box', { 'user-selected-answer': selectedAnswer === answer.id }]" v-for="(answer, index) in userAnswer" :key="answer.id" @click="removeAnswer(index, answer)">
-              <div class="text answer-box">
-                <p>{{ answer.title }}</p>
-              </div>
-            </div>
-          </div>
+      <div id='answer-area'>
 
-          <div class="answer-area">
-
-            <div v-for="(answer, index) in currentQuestionData.answers" :key="answer.id">
-              <div :class="['answer-box', { 'selected-answer': answer.hidden === true }]"  @click="selectAnswer(index, answer)" class="text">
-                <p>{{ answer.title }}</p>
-              </div>
-              <div class="box-background"></div>
-            </div>
-  
-          </div>
+        <div id="question-audio" @click="playQuestionAudio">
+          <img src="/src/assets/img/addition/speaker.png" alt="question-audio">
         </div>
-    </div>
+
+        <div class="answer-list">
+  
+          <div v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)" :class="['answer-box', { 'selected-answer': selectedAnswerId === answer.id }]">
+            <div class="text">
+              <span>{{ index + 1}}</span>
+              <p>{{ answer.title }}</p>
+              <span style="visibility: hidden;"></span>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+      </div>
   </div>
 </template>
-
-
 
 <style scoped>
 .question-template {
@@ -127,128 +89,75 @@ export default {
   color: #3c3c3c;
 }
 
-audio {
-  display: none;
+.question-template #answer-area {
+  display: flex;
+  flex-direction: row;
 }
 
 .question-template .answer-list {
   display: flex;
 }
 
-/* Template list selecting  */
-#template-list-selecting .answer-list {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 30px;
+/* template-image-selecting */
+#question-audio img {
+  width: 160px;
 }
 
-#template-list-selecting .answer-list .question-detail {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-#template-list-selecting .answer-list .question-detail .question-detail-img {
-  height: 169px;
-  width: 114px;
-}
-
-#template-list-selecting .answer-list .question-detail .question-detail-img img {
-  height: 169px;
-  width: 110px;
-}
-
-#template-list-selecting .answer-list .question-detail .question-detail-des {
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  border: solid 2px #c8c8c8;
-  border-radius: 8px;
-  padding: 4px;
-}
-
-.audio-icon {
-  color: #1cb0f6;
-  height: 26px;
-  margin: 6px;
-}
-
-.audio-icon:hover {
+#question-audio img:hover {
   cursor: pointer;
 }
 
-#template-list-selecting .answer-list .user-answer {
-  display: flex;
-  flex-direction: row;
-  border-top: solid 2px #c8c8c8;
-  height: 60px;
-  border-bottom: solid 2px #c8c8c8;
-  margin-bottom: 40px;
-  justify-content: center;
-
-}
-
-#template-list-selecting .answer-list .answer-area {
+#template-image-selecting .answer-list {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+  width: 600px;
   flex-wrap: wrap;
+  height: 140px;
 }
 
-#template-list-selecting .answer-list .answer-area .answer-box {
-  border: 2px solid #cacaca;
+#template-image-selecting .answer-list .answer-box {
+  margin: 0px auto;
+  border: 2px solid #bababa;
+  width: 222px;
+  height: 56px;
   border-radius: 10px;
-  padding: 8px 6px;
-  margin: 2px;
-  min-width: 60px;
-  width: fit-content;
   display: flex;
-  justify-content: center;
-  background-color: #fff;
+  padding: 4px 10px;
+  align-items: center;
 }
 
-/* update css */
-
-#template-list-selecting .answer-list .user-answer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-content: center;
-  flex-wrap: wrap;
-  height: 60px;
-}
-.selected-answer {
-  visibility: hidden;
-}
-
-.answer-box:hover,
-.user-answer-box:hover {
+.answer-box:hover {
   cursor: pointer;
   background-color: #f4f4f4;
 }
 
-#template-list-selecting .answer-list .user-answer .user-answer-box {
-  border: 2px solid #cacaca;
-  border-radius: 10px;
-  padding: 8px 6px;
-  margin: 2px;
-  min-width: 60px;
-  width: fit-content;
+#template-image-selecting .answer-list .answer-box .text {
   display: flex;
-  justify-content: center;
-  height: 42px;
-  margin: 6.5px 2px;
+  justify-content: space-between;
+  width: 180px;
+  margin: 0px auto;
 }
 
-.box-background {
-  background-color: #cacaca;
-  border-radius: 10px;
-  margin: 2px;
-  width: 60px;
-  height: 42px;
-  position: absolute;
-  top: 0px;
-  z-index: -2;
+#template-image-selecting .answer-list .answer-box .text p {
+  font-size: 18px;
 }
 
+.text span {
+  color: #8a8a8a;
+  font-weight: bolder;
+  font-size: 16px;
+  border: 2px solid #d2d2d2;
+  padding: 2px;
+  width: 30px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.selected-answer {
+  background-color: #e6e6e6;
+}
 </style>
+
+

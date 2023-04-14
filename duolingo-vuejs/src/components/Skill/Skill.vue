@@ -37,7 +37,6 @@ export default {
     } catch (error) {
       console.error('Fetching skills error:', error);
     }
-    console.log(this.skillsId)
 
     const getQuestion = await apiService.getListQuestions(skillId);
 
@@ -55,8 +54,6 @@ export default {
       }
     });
 
-    console.log(this.questionsData)
-
     //shuffle the answers
     this.questionsData.forEach(({answers}) => {
     for (let i = answers.length - 1; i > 0; i--) {
@@ -66,10 +63,6 @@ export default {
     });
 
     this.isLoading = false;
-  },
-
-  async mounted() {
-
   },
   
   methods: {

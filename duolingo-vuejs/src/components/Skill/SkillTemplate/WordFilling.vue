@@ -13,60 +13,38 @@ export default {
       selectedAnswerId : null,
       selectedAnswer : null,
       userAnswer : [],
+      answerSentence : this.currentQuestionData.answers[0].title,
+      missingIndex : null,
+      answerId : 0,
     };
   },
 
-  data() {
-    return {
-      selectedAnswerId : null,
-      selectedAnswer : null,
-      userAnswer : [],
-    };
+  computed: {
+    newSentence() {
+      return this.answerSentence.split(" ")
+    }
   },
   
-  mounted() {
-    this.replayQuestion()
+  async created() {
+    while ((this.currentQuestionData) === null) {
+      await new Promise(resolve => setTimeout(resolve,100))
+    };
+    this.missingIndex = this.newSentence.indexOf("...")
   },
 
   methods: {
-    replayQuestion() {
-      new Audio(this.currentQuestionData.question.q_audio).play()
-    },
-
-    selectAnswer(index, answer) {
-      new Audio(answer.audio).play()
-      this.selectedAnswerId = answer.id
-      this.selectedAnswer = answer.title
-      this.userAnswer.push(this.currentQuestionData.answers[index]);
-      this.hideItem(index)
-      this.finalAnswerHandle()
-    },
-
-    removeAnswer(index, answer) {
-      this.userAnswer.splice(index, 1);
-      this.currentQuestionData.answers.forEach((item) => {if(item.id===answer.id) {item.hidden=false}})
-    },
-
-    hideItem(index) {
-      this.currentQuestionData.answers[index].hidden = true
-    },
-
-    finalAnswerHandle() {
-      var finalAnswer = '';
-      var answerId = 0;
-      this.userAnswer.forEach((answer) => {
-        finalAnswer += answer.title;
-        answerId++
-      })
-      this.$emit('select-answer', answerId, finalAnswer);
+    answerHandle() {
+      this.answerId = this.answerId + 1;
+      this.$emit('select-answer', this.answerId, this.userAnswer);
     }
+
   }
 };
 </script>
 
 <template>
   <div id="list-selecting">
-    <!-- Template list selecting  -->
+    <!-- Template word filling  -->
     <div class="question-template" id="template-list-selecting">
         <h1 class="question"> {{ currentQuestionData.question.q_title }}</h1>
         <div class="answer-list">
@@ -75,30 +53,24 @@ export default {
               <img :src="currentQuestionData.question.q_image" alt="question-img" />
             </div>
             <div class="question-detail-des">
-              <div>
-                <div @click="replayQuestion()">
-                  <font-awesome-icon class="audio-icon" :icon="['fas', 'volume-high']"/>
-                </div>
-              </div>
               <p>{{ currentQuestionData.question.q_description }}</p>
-            </div>
-          </div>
-
-          <div class="user-answer">
-            <div :class="['user-answer-box', { 'user-selected-answer': selectedAnswer === answer.id }]" v-for="(answer, index) in userAnswer" :key="answer.id" @click="removeAnswer(index, answer)">
-              <div class="text answer-box">
-                <p>{{ answer.title }}</p>
-              </div>
             </div>
           </div>
 
           <div class="answer-area">
 
-            <div v-for="(answer, index) in currentQuestionData.answers" :key="answer.id">
-              <div :class="['answer-box', { 'selected-answer': answer.hidden === true }]"  @click="selectAnswer(index, answer)" class="text">
-                <p>{{ answer.title }}</p>
+            <div class="text" v-for="(word, index) in newSentence" :key="index">
+              <div>
+
+                <div v-if="index !== missingIndex">
+                  <p>{{ word }}</p>
+                </div>
+
+                <div v-else>
+                  <input v-model="userAnswer" type="text" @input ="answerHandle" placeholder="...................">
+                </div>
+
               </div>
-              <div class="box-background"></div>
             </div>
   
           </div>
@@ -125,10 +97,6 @@ export default {
   font-size: 36px;
   font-weight: bolder;
   color: #3c3c3c;
-}
-
-audio {
-  display: none;
 }
 
 .question-template .answer-list {
@@ -165,90 +133,44 @@ audio {
   border: solid 2px #c8c8c8;
   border-radius: 8px;
   padding: 4px;
+  padding: 10px;
 }
 
-.audio-icon {
-  color: #1cb0f6;
-  height: 26px;
-  margin: 6px;
-}
-
-.audio-icon:hover {
-  cursor: pointer;
-}
-
-#template-list-selecting .answer-list .user-answer {
-  display: flex;
-  flex-direction: row;
-  border-top: solid 2px #c8c8c8;
-  height: 60px;
-  border-bottom: solid 2px #c8c8c8;
-  margin-bottom: 40px;
-  justify-content: center;
-
+#template-list-selecting .answer-list .question-detail .question-detail-des p {
+  font-size: larger;
+  font-weight: 500;
+  color: #808080;
 }
 
 #template-list-selecting .answer-list .answer-area {
+  border: 1px solid#c8c8c8;
+  border-radius: 10px;
+  height: 200px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  padding: 10px;
   flex-wrap: wrap;
 }
 
-#template-list-selecting .answer-list .answer-area .answer-box {
-  border: 2px solid #cacaca;
-  border-radius: 10px;
-  padding: 8px 6px;
-  margin: 2px;
-  min-width: 60px;
-  width: fit-content;
-  display: flex;
-  justify-content: center;
-  background-color: #fff;
+#template-list-selecting .answer-list .answer-area .text {
+  margin: 4px;
 }
 
-/* update css */
-
-#template-list-selecting .answer-list .user-answer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-content: center;
-  flex-wrap: wrap;
-  height: 60px;
-}
-.selected-answer {
-  visibility: hidden;
+#template-list-selecting .answer-list .answer-area .text p {
+  font-size: 18px;
+  font-weight: bolder;
+  color: #646464;
 }
 
-.answer-box:hover,
-.user-answer-box:hover {
-  cursor: pointer;
-  background-color: #f4f4f4;
-}
-
-#template-list-selecting .answer-list .user-answer .user-answer-box {
-  border: 2px solid #cacaca;
-  border-radius: 10px;
-  padding: 8px 6px;
-  margin: 2px;
-  min-width: 60px;
-  width: fit-content;
-  display: flex;
-  justify-content: center;
-  height: 42px;
-  margin: 6.5px 2px;
-}
-
-.box-background {
-  background-color: #cacaca;
-  border-radius: 10px;
-  margin: 2px;
-  width: 60px;
-  height: 42px;
-  position: absolute;
-  top: 0px;
-  z-index: -2;
+input {
+  width: 100px;
+  font-size: 18px;
+  border: none;
+  margin-top: 3.5px;
+  outline: none;
+  font-weight: bolder;
+  color: #646464;
+  text-align: center;
 }
 
 </style>

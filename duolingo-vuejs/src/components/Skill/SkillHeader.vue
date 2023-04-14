@@ -22,7 +22,6 @@ export default {
   emits: ['next-question'],
   watch: {
     currentQuestion() {
-      // this.$emit('next-question', newValue);
       this.completeQuestions()
     },
   },
