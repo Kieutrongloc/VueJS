@@ -51,7 +51,6 @@ export default {
         finalAnswer += answer.title;
         answerId++
       })
-      console.log(finalAnswer)
       this.$emit('select-answer', answerId, finalAnswer);
     }
   }

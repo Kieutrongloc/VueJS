@@ -26,6 +26,8 @@ export default {
       this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer'};
     },
   },
+
+  emits: ['next-question'],
   
   data() {
     return {
@@ -36,6 +38,7 @@ export default {
       isResultShow : false,
       resultMessage : null,
       resultColor : null,
+      buttonStyle : null
     };
   },
 
