@@ -16,6 +16,7 @@ export default {
       answerSentence : this.currentQuestionData.answers[0].title,
       missingIndex : null,
       answerId : 0,
+      missingIndexArray : [],
     };
   },
 
@@ -29,15 +30,23 @@ export default {
     while ((this.currentQuestionData) === null) {
       await new Promise(resolve => setTimeout(resolve,100))
     };
-    this.missingIndex = this.newSentence.indexOf("...")
+
+    console.log(this.newSentence)
+
+    // this.missingIndex = this.newSentence.indexOf("...");
+    // while (this.missingIndex !== -1) {
+    //   this.missingIndexArray.push(this.missingIndex);
+    //   this.missingIndex = this.newSentence.indexOf('...', this.missingIndex + 1);
+    // }
+    // console.log(this.missingIndexArray, this.missingIndex)
   },
 
   methods: {
-    answerHandle() {
+    answerHandle(index) {
       this.answerId = this.answerId + 1;
       this.$emit('select-answer', this.answerId, this.userAnswer);
+      console.log(this.userAnswer[index])
     }
-
   }
 };
 </script>
@@ -57,22 +66,24 @@ export default {
             </div>
           </div>
 
-          <div class="answer-area">
-
-            <div class="text" v-for="(word, index) in newSentence" :key="index">
-              <div>
-
-                <div v-if="index !== missingIndex">
-                  <p>{{ word }}</p>
-                </div>
-
-                <div v-else>
-                  <input v-model="userAnswer" type="text" @input ="answerHandle" placeholder="...................">
-                </div>
-
-              </div>
-            </div>
+          <div id="answer-box">
+            <div class="answer-area">
+              
+              <div class="text" v-for="(word, index) in newSentence" :key="index">
+                <div>
+                  
+                  <div v-if="word !== '...'">
+                    <p>{{ word }}</p>
+                  </div>
   
+                  <div v-else>
+                    <input v-model="userAnswer[index]" type="text" @input ="answerHandle(index)">
+                  </div>
+  
+                </div>
+              </div>
+    
+            </div>
           </div>
         </div>
     </div>
@@ -142,10 +153,14 @@ export default {
   color: #808080;
 }
 
-#template-list-selecting .answer-list .answer-area {
+#answer-box {
+  height: 200px;
   border: 1px solid#c8c8c8;
   border-radius: 10px;
-  height: 200px;
+}
+
+#template-list-selecting .answer-list .answer-area {
+
   display: flex;
   flex-direction: row;
   padding: 10px;
@@ -154,6 +169,7 @@ export default {
 
 #template-list-selecting .answer-list .answer-area .text {
   margin: 4px;
+  height: fit-content;
 }
 
 #template-list-selecting .answer-list .answer-area .text p {
@@ -171,6 +187,8 @@ input {
   font-weight: bolder;
   color: #646464;
   text-align: center;
+  border-bottom: 1px dashed #c0c0c0;
 }
+
 
 </style>

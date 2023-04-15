@@ -25,7 +25,9 @@ export default {
   },
   
   mounted() {
-    this.playAudio()
+    this.playAudio(),
+    // TEST
+    this.$emit('select-answer', 1, 'test');
   },
 
   methods: {

@@ -22,12 +22,17 @@ export default {
   emits: ['select-answer'],
   watch: {
     selectAnswerId() {
-      this.isButtonDisable = false;
-      this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer'};
+      if (this.selectAnswerTitle !=='') {
+        this.isButtonDisable = false;
+        this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer'};
+      } else {
+        this.isButtonDisable = true;
+        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default'}
+      }
     },
   },
 
-  emits: ['next-question'],
+  emits: ['next-question','disable-click'],
   
   data() {
     return {
@@ -38,13 +43,14 @@ export default {
       isResultShow : false,
       resultMessage : null,
       resultColor : null,
-      buttonStyle : null
+      buttonStyle : null,
     };
   },
 
   methods: {
     handleCheck() {
     this.isResultShow = true;
+    this.$emit('disable-click', true);
     if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.answer.toLowerCase().replace(/\s/g,'')) {
       // if true
       this.playAudio(new Audio('/src/assets/audio/addition/audio-true.mp3'))
@@ -72,7 +78,8 @@ export default {
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default'}
       this.isResultShow = false;
-      this.isButtonDisable = true
+      this.isButtonDisable = true;
+      this.$emit('disable-click', false);
     },
 
     handleSubmit() {
@@ -95,6 +102,7 @@ export default {
 
 <template>
   <div id="container" v-bind:style="backgroundStyle">
+    <!-- <div v-if="disableClick" id="to-disable-click"></div> -->
     <content>
       <button v-if="!isResultShow" @click="">SKIP</button>
 
@@ -172,6 +180,13 @@ export default {
   background-color: #d8d8d8;
 }
 
+/* update css */
+/* #to-disable-click {
+  position: absolute;
+  width: 100vw;
+  height: 80vh;
+  bottom: 100px;
+} */
 </style>
 
 

@@ -23,7 +23,8 @@ export default {
       questionsData : [],
       currentQuestion: 0,
       selectAnswerTitle: null,
-      loadingMessage: '15 minutes a day can teach you a language. What can 15 minutes of social media do?'
+      loadingMessage: '15 minutes a day can teach you a language. What can 15 minutes of social media do?',
+      disableClick : null,
     }
   },
   async created() {
@@ -68,6 +69,9 @@ export default {
     selectAnswerHandle(id, answer) {
       this.selectAnswerTitle = answer,
       this.selectAnswerId = id
+    },
+    handleDisbaleClick(newValue) {
+      this.disableClick = newValue;
     }
   }
 }
@@ -79,8 +83,8 @@ export default {
   </div>
   <div v-if="!isLoading" id="container">
     <SkillHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
-    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle"/>
-    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event"/>
+    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick"/>
+    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick"/>
   </div>
 </template>
 

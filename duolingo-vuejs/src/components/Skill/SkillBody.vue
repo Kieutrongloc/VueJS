@@ -11,16 +11,19 @@ export default {
     currentQuestion: {
       type: Number,
       required: true
+    },
+    disableClick: {
+      required: true
     }
   },
 
-  emits: ['next-question','select-answer'],
+  // emits: ['next-question','select-answer'],
   watch: {
     currentQuestion(nextQuestion) {
       this.$emit('next-question', nextQuestion);
       this.QuestionTemplate = this.questionsData[this.currentQuestion].question.template_name
       this.currentQuestionData = this.questionsData[this.currentQuestion]
-    }
+    },
   },
 
   data() {
@@ -70,7 +73,6 @@ export default {
   },
 
   async mounted() {
-
   }
 
 };
@@ -78,6 +80,7 @@ export default {
 
 <template>
   <div id="container">
+    <div v-if="disableClick" id="disable-click"></div>
     <content>
       <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="selectAnswer" />
     </content>
@@ -99,5 +102,12 @@ export default {
   justify-content: center;
   flex-direction: row;
   height: 100%;
+}
+
+#disable-click {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 </style>
