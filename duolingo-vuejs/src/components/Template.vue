@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 import Micromatch from 'micromatch';
 
 export default {
@@ -69,4 +69,6 @@ export default {
 
 </style>
 
+ -->
 
+ <template></template>

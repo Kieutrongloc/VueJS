@@ -9,16 +9,6 @@ const router = createRouter({
       component: () => import('../components/HomePage.vue')
     },
     {
-      path: '/user-home/course/:course_id',
-      name: 'course',
-      component: () => import('../components/Course/Course.vue')
-    },
-    {
-      path: '/user-home/game/:skill_id',
-      name: 'game',
-      component: () => import('../components/Game/Game.vue')
-    },
-    {
       path: '/user-home',
       name: 'user-home',
       component: () => import('../components/UserHome.vue'),
