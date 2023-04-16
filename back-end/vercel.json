@@ -1,6 +1,21 @@
 {
     "routes": [
-      { "src": "/(.*)", "dest": "/index.php" }
+      {
+        "src": "/(.*)\\.php",
+        "dest": "/index.php"
+      }
+    ],
+    "env": {
+      "DATABASE_HOST": "duolingo.cyfy53duasbw.ap-southeast-2.rds.amazonaws.com",
+      "DATABASE_NAME": "duolingo",
+      "DATABASE_USER": "locmysqldb",
+      "DATABASE_PASSWORD": "Kieutrongloc123"
+    },
+    "builds": [
+      {
+        "src": "index.php",
+        "use": "@vercel/php"
+      }
     ]
   }
   
