@@ -155,8 +155,10 @@ audio {
   margin-left: 10px;
   display: flex;
   align-items: center;
-  border: solid 2px #c8c8c8;
-  border-radius: 8px;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
+  border-radius: 14px;
   padding: 4px;
 }
 
@@ -189,7 +191,9 @@ audio {
 }
 
 #template-list-selecting .answer-list .answer-area .answer-box {
-  border: 2px solid #cacaca;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   border-radius: 10px;
   padding: 8px 6px;
   margin: 2px;
@@ -221,7 +225,9 @@ audio {
 }
 
 #template-list-selecting .answer-list .user-answer .user-answer-box {
-  border: 2px solid #cacaca;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   border-radius: 10px;
   padding: 8px 6px;
   margin: 2px;
@@ -231,6 +237,7 @@ audio {
   justify-content: center;
   height: 42px;
   margin: 6.5px 2px;
+  align-items: center;
 }
 
 .box-background {
@@ -238,7 +245,7 @@ audio {
   border-radius: 10px;
   margin: 2px;
   width: 60px;
-  height: 42px;
+  height: 46px;
   position: absolute;
   top: 0px;
   z-index: -2;

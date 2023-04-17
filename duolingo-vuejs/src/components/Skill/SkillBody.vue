@@ -14,16 +14,36 @@ export default {
     },
     disableClick: {
       required: true
+    },
+    trueInRow: {
+      type: Number,
+      required : true
+    },
+    isBreakSection: {
+      type: Boolean,
+      required : true
     }
   },
 
-  // emits: ['next-question','select-answer'],
+  emits: ['next-question','select-answer'],
   watch: {
     currentQuestion(nextQuestion) {
       this.$emit('next-question', nextQuestion);
       this.QuestionTemplate = this.questionsData[this.currentQuestion].question.template_name
       this.currentQuestionData = this.questionsData[this.currentQuestion]
     },
+    isBreakSection: {
+      immediate: true,
+      handler(newVal) {
+        this.handleBreakSectionChange(newVal);
+      }
+    },
+    trueInRow: {
+      immediate: true,
+      handler(newVal) {
+        this.handleTrueInRowChange(newVal);
+      }
+    }
   },
 
   data() {
@@ -31,13 +51,28 @@ export default {
       QuestionTemplate: '',
       isLoading: true,
       currentQuestionData : null,
-      // selectedAnswer : null,
     };
   },
 
   methods: {
     selectAnswer(id, answer) {
       this.$emit('select-answer', id, answer)
+    },
+    handleBreakSectionChange(newVal) {
+      if (newVal === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
+        this.QuestionTemplate = 'break template';
+      } else {
+        this.currentQuestionData = this.questionsData[this.currentQuestion]
+        this.QuestionTemplate = this.currentQuestionData.question.template_name
+      }
+    },
+    handleTrueInRowChange(newVal) {
+      if (this.isBreakSection === true && (newVal === 5 || newVal === 10)) {
+        this.QuestionTemplate = 'break template';
+      } else {
+        this.currentQuestionData = this.questionsData[this.currentQuestion]
+        this.QuestionTemplate = this.currentQuestionData.question.template_name
+      }
     }
   },
 
@@ -58,22 +93,13 @@ export default {
           return defineAsyncComponent(() => import('./SkillTemplate/SentenceReading.vue'));
         case 'word listening':
           return defineAsyncComponent(() => import('./SkillTemplate/WordListening.vue'));
+        case 'break template':
+          return defineAsyncComponent(() => import('./SkillTemplate/BreakTemplate.vue'));
         default:
           return null;
       }
     },
   },
-
-  async created() {
-    while ((this.questionsData) === null) {
-      await new Promise(resolve => setTimeout(resolve,100))
-    }
-    this.currentQuestionData = this.questionsData[this.currentQuestion]
-    this.QuestionTemplate = this.currentQuestionData.question.template_name
-  },
-
-  async mounted() {
-  }
 
 };
 </script>
@@ -82,7 +108,7 @@ export default {
   <div id="container">
     <div v-if="disableClick" id="disable-click"></div>
     <content>
-      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="selectAnswer" />
+      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="selectAnswer" :trueInRow = "trueInRow" />
     </content>
   </div>
 </template>

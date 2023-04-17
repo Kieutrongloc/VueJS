@@ -39,7 +39,7 @@
         <div id="top-page">
             <header>
                 <div id="header">
-                    <RouterLink to="/user-home/learn"><p id="title">Duolingo</p></RouterLink>
+                    <RouterLink to="/user-home/learn"><p id="title">duolingo</p></RouterLink>
                     <div @mouseover="showLanguage" @mouseleave="hideLanguage">
                         <div @mouseover="showLanguage" id="language">
                             <p>SITE LANGUAGE:</p>
@@ -61,7 +61,7 @@
     
             <body>
                 <div id="body">
-                    <img id="logo-earth" src="https://png.monster/wp-content/uploads/2022/03/png.monster-1050.png" alt="earth-img">
+                    <img id="logo-earth" src="src/assets/img/addition/global-img.png" alt="earth-img">
                     <div id="body-content">
                         <p>The free, fun, and effective way to learn a language!</p>
                         <RouterLink to="/sign-up"><button id="to-signup">GET STARTED</button></RouterLink>

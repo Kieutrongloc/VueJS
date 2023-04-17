@@ -100,7 +100,7 @@ export default {
 
 /* template-image-selecting */
 #question-audio img {
-  width: 160px;
+  width: 152px;
 }
 
 #question-audio img:hover {
@@ -119,7 +119,9 @@ export default {
 
 #template-image-selecting .answer-list .answer-box {
   margin: 0px auto;
-  border: 2px solid #bababa;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   width: 222px;
   height: 56px;
   border-radius: 10px;
@@ -157,6 +159,16 @@ export default {
 
 .selected-answer {
   background-color: #e6e6e6;
+}
+
+.selected-answer {
+  background-color: #ddf3ff;
+  border-color: #84d8ff!important;
+  border-width: 2px 2px 4px 2px!important;
+}
+
+.selected-answer:hover {
+  background-color: #ddf3ff;
 }
 </style>
 

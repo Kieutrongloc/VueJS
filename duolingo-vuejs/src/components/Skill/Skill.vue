@@ -25,6 +25,8 @@ export default {
       selectAnswerTitle: null,
       loadingMessage: '15 minutes a day can teach you a language. What can 15 minutes of social media do?',
       disableClick : null,
+      trueInRow : null,
+      isBreakSection : null
     }
   },
   async created() {
@@ -72,6 +74,10 @@ export default {
     },
     handleDisbaleClick(newValue) {
       this.disableClick = newValue;
+    },
+    handleBreakSection(trueAnswer, isBreakSection) {
+      this.trueInRow = trueAnswer;
+      this.isBreakSection = isBreakSection
     }
   }
 }
@@ -83,8 +89,8 @@ export default {
   </div>
   <div v-if="!isLoading" id="container">
     <SkillHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
-    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick"/>
-    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick"/>
+    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isBreakSection = "isBreakSection"/>
+    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @break-section = "handleBreakSection"/>
   </div>
 </template>
 

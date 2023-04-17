@@ -24,15 +24,17 @@ export default {
     selectAnswerId() {
       if (this.selectAnswerTitle !=='') {
         this.isButtonDisable = false;
-        this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer'};
+        this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
       } else {
         this.isButtonDisable = true;
-        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default'}
+        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px'}
       }
     },
+
+
   },
 
-  emits: ['next-question','disable-click'],
+  emits: ['next-question','disable-click', 'break-section'],
   
   data() {
     return {
@@ -44,42 +46,59 @@ export default {
       resultMessage : null,
       resultColor : null,
       buttonStyle : null,
+      trueInRow : 0,
+      isBreakSection : true
     };
+  },
+
+  computed: {
+
   },
 
   methods: {
     handleCheck() {
     this.isResultShow = true;
     this.$emit('disable-click', true);
-    if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.answer.toLowerCase().replace(/\s/g,'')) {
+    if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.answer.toLowerCase().replace(/ /g, '').replace(/\//g, '')) {
       // if true
       this.playAudio(new Audio('/src/assets/audio/addition/audio-true.mp3'))
       this.backgroundStyle = { backgroundColor : '#d7ffb9' }
-      this.resultMessage = 'CORRECT'
       this.resultColor = { color: '#58a700'};
+      if (this.currentQuestion !== this.questionsData.length - 1) {
+        this.resultMessage = 'CORRECT'
+        this.checkButtonText = 'CONTINUE';
+        this.trueInRow = this.trueInRow + 1;
+        this.isBreakSection = true
+      } else {
+        this.checkButtonText = 'SUBMIT';
+      }
     } else {
       // if false
       this.playAudio(new Audio('/src/assets/audio/addition/audio-false.mp3'))
       this.backgroundStyle = { backgroundColor : '#ffdfe0' };
       this.resultMessage = 'CORRECT SOLUTION:';
       this.resultColor = { color: '#ec0c1c'};
-      this.buttonStyle = { color: '#fff', backgroundColor : '#ec0c1c'}
-    }
-    if (this.currentQuestion !== this.questionsData.length - 1) {
+      this.buttonStyle = { color: '#fff', backgroundColor : '#ec0c1c', borderColor: '#ea2a2b', borderWidth: '0px 0px 4px 0px'}
       this.checkButtonText = 'CONTINUE';
-    } else {
-      this.checkButtonText = 'SUBMIT';
+      this.trueInRow = 0
     }
+
     },
 
     handleContinue() {
-      this.$emit('next-question', this.currentQuestion + 1);
-      this.checkButtonText = 'CHECK';
       this.backgroundStyle = { backgroundColor : '#fff' };
-      this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default'}
-      this.isResultShow = false;
-      this.isButtonDisable = true;
       this.$emit('disable-click', false);
+      if((this.isBreakSection === true && this.trueInRow === 5) || (this.isBreakSection === true && this.trueInRow === 10)) {
+        this.$emit('break-section', this.trueInRow, this.isBreakSection);
+        this.isBreakSection = false;
+      } else {
+        this.$emit('next-question', this.currentQuestion + 1);
+        this.checkButtonText = 'CHECK';
+        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px' }
+        this.isButtonDisable = true;
+        this.isResultShow = false;
+      }
+
     },
 
     handleSubmit() {
@@ -102,7 +121,6 @@ export default {
 
 <template>
   <div id="container" v-bind:style="backgroundStyle">
-    <!-- <div v-if="disableClick" id="to-disable-click"></div> -->
     <content>
       <button v-if="!isResultShow" @click="">SKIP</button>
 
@@ -141,7 +159,9 @@ export default {
   height: 48px;
   background-color: #fff;
   border-radius: 12px;
-  border: solid 2px #e5e5e5;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   font-size: 18px;
   color: #a3a3a3;
   font-weight: bolder;
@@ -179,14 +199,6 @@ export default {
   cursor: pointer;
   background-color: #d8d8d8;
 }
-
-/* update css */
-/* #to-disable-click {
-  position: absolute;
-  width: 100vw;
-  height: 80vh;
-  bottom: 100px;
-} */
 </style>
 
 

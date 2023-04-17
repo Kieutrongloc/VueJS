@@ -67,7 +67,6 @@ export default {
     <div id="container">
       <content>
         <button>
-          <!-- <RouterLink to="/user-home"> -->
           <div @click="quitBoxHandle" id="quit-button">
             <font-awesome-icon id="close-icon" :icon="['fas', 'x']" />
           </div>

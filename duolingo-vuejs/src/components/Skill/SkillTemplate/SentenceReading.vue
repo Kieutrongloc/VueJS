@@ -130,8 +130,10 @@ audio {
   margin-left: 10px;
   display: flex;
   align-items: center;
-  border: solid 2px #c8c8c8;
-  border-radius: 8px;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
+  border-radius: 14px;
   padding: 4px;
 }
 
@@ -150,7 +152,9 @@ audio {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: solid 2px #c8c8c8;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   height: 70px;
   border-radius: 14px;
   margin-bottom: 80px;

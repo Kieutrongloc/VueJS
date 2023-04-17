@@ -16,7 +16,6 @@ export default {
       answerSentence : this.currentQuestionData.answers[0].title,
       missingIndex : null,
       answerId : 0,
-      missingIndexArray : [],
     };
   },
 
@@ -30,22 +29,13 @@ export default {
     while ((this.currentQuestionData) === null) {
       await new Promise(resolve => setTimeout(resolve,100))
     };
-
-    console.log(this.newSentence)
-
-    // this.missingIndex = this.newSentence.indexOf("...");
-    // while (this.missingIndex !== -1) {
-    //   this.missingIndexArray.push(this.missingIndex);
-    //   this.missingIndex = this.newSentence.indexOf('...', this.missingIndex + 1);
-    // }
-    // console.log(this.missingIndexArray, this.missingIndex)
   },
 
   methods: {
     answerHandle(index) {
       this.answerId = this.answerId + 1;
-      this.$emit('select-answer', this.answerId, this.userAnswer);
-      console.log(this.userAnswer[index])
+      this.$emit('select-answer', this.answerId, this.userAnswer.join('').toLowerCase().replace(/\s/g,''));
+      console.log(this.userAnswer.join('').toLowerCase().replace(/\s/g,''))
     }
   }
 };
@@ -141,7 +131,9 @@ export default {
   margin-left: 10px;
   display: flex;
   align-items: center;
-  border: solid 2px #c8c8c8;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   border-radius: 8px;
   padding: 4px;
   padding: 10px;
@@ -150,12 +142,14 @@ export default {
 #template-list-selecting .answer-list .question-detail .question-detail-des p {
   font-size: larger;
   font-weight: 500;
-  color: #808080;
+  color: #626262;
 }
 
 #answer-box {
   height: 200px;
-  border: 1px solid#c8c8c8;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   border-radius: 10px;
 }
 

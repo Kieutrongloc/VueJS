@@ -32,7 +32,6 @@ export default {
     };
 
     const userDb = JSON.parse(localStorage.getItem('user'));
-    
     try {
       while (localStorage.getItem('user') === null) {
         await new Promise(resolve => setTimeout(resolve, 100))

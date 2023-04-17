@@ -71,7 +71,7 @@ export default {
                 </div>
     
                 <div class="img">
-                    <img src="https://media2.giphy.com/media/wH8aFVGkdmOjxBxR3I/giphy.gif?cid=6c09b952f2510074370281ada164d82082e01063b70749bc&rid=giphy.gif&ct=s" alt="duolingo-bird">
+                    <img :src="itemUnit.image" alt="duolingo-bird">
                     <div></div>
                 </div>
             </div>
@@ -162,6 +162,12 @@ export default {
     color: white;
     width: 600px;
     height: 110px;
+}
+
+.lesson-section {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
 }
 
 .unit .unit-box h2,

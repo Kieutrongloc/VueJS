@@ -91,7 +91,9 @@ audio {
 }
 
 #template-text-selecting .answer-list .answer-box {
-  border: solid 2px #bababa;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 5px 2px;
   width: 560px;
   margin: 4px auto;
   border-radius: 10px;
@@ -109,5 +111,24 @@ audio {
 
 .selected-answer {
   background-color: #e6e6e6;
+}
+
+.selected-answer {
+  background-color: #ddf3ff;
+  border-color: #84d8ff!important;
+  border-width: 2px 2px 5px 2px!important;
+}
+
+.selected-answer:hover {
+  background-color: #ddf3ff;
+}
+
+.text span {
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
+  width: 22px;
+  text-align: center;
+  border-radius: 8px;
 }
 </style>

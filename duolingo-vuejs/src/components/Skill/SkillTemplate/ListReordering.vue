@@ -14,6 +14,7 @@ export default {
       selectedAnswer : null,
       userAnswer : [],
       answerLength : null,
+      audioAnswer : null
     };
   },
 
@@ -22,15 +23,16 @@ export default {
       await new Promise(resolve => setTimeout(resolve,100))
     }
     this.answerLength = this.currentQuestionData.answers.length;
+    this.audioAnswer = new Audio(this.currentQuestionData.question.audio)
   },
 
   mounted() {
-    this.replayQuestion()
+    this.audioAnswer.play()
   },
 
   methods: {
     replayQuestion() {
-      new Audio(this.currentQuestionData.question.audio).play()
+      this.audioAnswer.play()
     },
 
     selectAnswer(index, answer) {
@@ -171,8 +173,10 @@ export default {
   margin-left: 10px;
   display: flex;
   align-items: center;
-  border: solid 2px #c8c8c8;
-  border-radius: 8px;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
+  border-radius: 14px;
   padding: 4px;
 }
 
@@ -218,7 +222,9 @@ export default {
 }
 
 #template-list-reordering .answer-list .answer-area .answer-box {
-  border: 2px solid #cacaca;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   border-radius: 10px;
   padding: 8px 6px;
   margin: 2px;
@@ -241,7 +247,9 @@ export default {
 }
 
 .user-answer-box {
-  border: 2px solid #cacaca;
+  border-style: solid;
+  border-color: #bababa;
+  border-width: 2px 2px 4px 2px;
   border-radius: 10px;
   padding: 8px 6px;
   margin: 2px;
@@ -252,7 +260,6 @@ export default {
   height: 42px;
   margin: 6.5px 2px;
 }
-
 
 .answer-box:hover,
 .user-answer-box:hover {
