@@ -28,6 +28,7 @@ export default {
       trueInRow : null,
       isSummationSection : null,
       missedQuestionData : [],
+      trueAnswerTotal : 0,
     }
   },
   async created() {
@@ -89,6 +90,9 @@ export default {
       if (!result) {
         this.missedQuestionData.push(this.questionsData[id])
         console.log(this.missedQuestionData)
+      } else {
+        this.trueAnswerTotal++;
+        console.log(this.trueAnswerTotal)
       }
     }
   }
@@ -100,7 +104,7 @@ export default {
     <loading :loadingMessage="loadingMessage"/>
   </div>
   <div v-if="!isLoading" id="container">
-    <SkillHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
+    <SkillHeader :questionsData="questionsData" :trueAnswerTotal="trueAnswerTotal"/>
     <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isSummationSection = "isSummationSection"/>
     <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate"/>
   </div>

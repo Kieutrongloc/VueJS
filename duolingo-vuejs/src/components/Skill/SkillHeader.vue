@@ -7,7 +7,7 @@ export default {
       type: Array,
       required: true
     },
-    currentQuestion: {
+    trueAnswerTotal: {
       type: Number,
       required: true
     }
@@ -23,7 +23,7 @@ export default {
 
   emits: ['next-question'],
   watch: {
-    currentQuestion() {
+    trueAnswerTotal() {
       this.completeQuestions()
     },
   },

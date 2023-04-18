@@ -70,10 +70,11 @@ export default {
       this.playAudio(new Audio('/src/assets/audio/addition/audio-true.mp3'));
       this.backgroundStyle = { backgroundColor : '#d7ffb9' }
       this.resultColor = { color: '#58a700'};
+      this.$emit('answer-validate', this.currentQuestion, true);
       if (this.currentQuestion !== this.questionsData.length - 1) {
         this.resultMessage = 'CORRECT'
         this.checkButtonText = 'CONTINUE';
-        this.trueInRow = this.trueInRow + 1;
+        this.trueInRow++;
         this.isSummationSection = true
         console.log(this.currentQuestion, this.questionsData.length - 1)
       } else {
