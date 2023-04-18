@@ -14,6 +14,7 @@ export default {
     SkillBody,
     SkillFooter
   },
+
   data() {
     return {
       apiUrl : import.meta.env.VITE_API_URL,
@@ -31,6 +32,7 @@ export default {
       trueAnswerTotal : 0,
     }
   },
+
   async created() {
     if (!localStorage.getItem("user")) {
       router.push('/')
@@ -44,7 +46,6 @@ export default {
     }
 
     const getQuestion = await apiService.getListQuestions(skillId);
-
     //get questions
     getQuestion.forEach(({a_audio, a_id, a_image, a_question_id, a_title, q_answer, q_audio, q_description, q_id, q_image, q_template_name, q_title}) => {
       const questionIndex = this.questionsData.findIndex(({question}) => question.id === q_id);
@@ -68,6 +69,15 @@ export default {
 
     this.isLoading = false;
   },
+
+  watch: {
+    currentQuestion(newValue, oldValue) {
+      if (newValue === this.questionsData.length - 1) {
+        this.currentQuestion = this.missedQuestionData
+        this.currentQuestion = 0
+      }
+    }
+  },
   
   methods: {
     selectAnswerHandle(id, answer) {
@@ -85,14 +95,12 @@ export default {
     },
 
     answerValidate(id, result) {
-      //Go to next question without plussing the progress
-      console.log(id, result, this.questionsData)
+      console.log(id, result, this.questionsData, this.currentQuestion, this.questionsData.length)
       if (!result) {
         this.missedQuestionData.push(this.questionsData[id])
-        console.log(this.missedQuestionData)
+        console.log(this.missedQuestionData, this.currentQuestion)
       } else {
         this.trueAnswerTotal++;
-        console.log(this.trueAnswerTotal)
       }
     }
   }
