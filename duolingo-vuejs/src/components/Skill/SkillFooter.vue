@@ -93,7 +93,6 @@ export default {
     },
     
     handleContinue() {
-      console.log('alo')
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
