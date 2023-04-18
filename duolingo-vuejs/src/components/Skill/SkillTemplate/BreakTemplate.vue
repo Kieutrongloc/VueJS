@@ -11,12 +11,12 @@ export default {
   },
   data() {
     return {
-      breakMessage : null,
+      summationMessage : null,
     };
   },
   
   async created() {
-    this.breakMessage = this.trueInRow
+    this.summationMessage = this.trueInRow
 
   },
 
@@ -31,7 +31,7 @@ export default {
     <!-- Template true in row -->
     <div id="message-box">
       <div id="message">
-        <p> CONGRATULATIONS. You got {{ breakMessage }} correct answers in a row. Keep it up!</p>
+        <p> CONGRATULATIONS. You got {{ summationMessage }} correct answers in a row. Keep it up!</p>
       </div>
       <div id="image">
         <img src="/src/assets/img/addition/duolingo-jump.gif" alt="break-img">

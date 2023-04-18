@@ -13,15 +13,16 @@ export default {
       required: true
     },
     disableClick: {
-      required: true
+      type: Boolean,
+      // required: true
     },
     trueInRow: {
       type: Number,
-      required : true
+      // required : true
     },
-    isBreakSection: {
+    isSummationSection: {
       type: Boolean,
-      required : true
+      // required : true
     }
   },
 
@@ -32,7 +33,7 @@ export default {
       this.QuestionTemplate = this.questionsData[this.currentQuestion].question.template_name
       this.currentQuestionData = this.questionsData[this.currentQuestion]
     },
-    isBreakSection: {
+    isSummationSection: {
       immediate: true,
       handler(newVal) {
         this.handleBreakSectionChange(newVal);
@@ -67,7 +68,7 @@ export default {
       }
     },
     handleTrueInRowChange(newVal) {
-      if (this.isBreakSection === true && (newVal === 5 || newVal === 10)) {
+      if (this.isSummationSection === true && (newVal === 5 || newVal === 10)) {
         this.QuestionTemplate = 'break template';
       } else {
         this.currentQuestionData = this.questionsData[this.currentQuestion]
@@ -94,6 +95,8 @@ export default {
         case 'word listening':
           return defineAsyncComponent(() => import('./SkillTemplate/WordListening.vue'));
         case 'break template':
+          return defineAsyncComponent(() => import('./SkillTemplate/BreakTemplate.vue'));
+        case 'ending-section':
           return defineAsyncComponent(() => import('./SkillTemplate/BreakTemplate.vue'));
         default:
           return null;

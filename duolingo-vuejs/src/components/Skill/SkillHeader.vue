@@ -138,7 +138,7 @@ progress::-webkit-progress-value {
   width: 100vw;
   height: 100vh;
   z-index: 2;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(53, 53, 53, 0.1);
   backdrop-filter: blur(1px);
   display: flex;
   justify-content: center;
@@ -146,7 +146,9 @@ progress::-webkit-progress-value {
 }
 
 #confirm-quit #quit-box {
-  border: 3px solid #cacaca;
+  border-color: #cacaca;
+  border-style: solid;
+  border-width: 2px 2px 4px 2px;
   width: fit-content;
   height: fit-content;
   display: flex;
@@ -169,7 +171,8 @@ progress::-webkit-progress-value {
   width: 110px;
   height: 38px;
   border-radius: 10px;
-  border: 2px solid #d8d8d8;
+  border-style: solid;
+  border-width: 2px 2px 4px 2px;
   font-size: 16px;
   font-weight: bolder;
   margin: 18px 8px 0px 8px;
@@ -177,20 +180,22 @@ progress::-webkit-progress-value {
 }
 
 #confirm-quit #quit-box button:nth-of-type(1) {
+  border-color: #bababa;
   color: #989898;
 }
 
 #confirm-quit #quit-box button:nth-of-type(1):hover {
-  background-color: #dedede;
+  background-color: #ebebeb;
 }
 
 #confirm-quit #quit-box button:nth-of-type(2) {
-  background-color: #58cb05;
+  background-color: #1cb0f6;
   color: white;
+  border-color: #1899d6;
 }
 
 #confirm-quit #quit-box button:nth-of-type(2):hover {
-  background-color: #78dc31;
+  background-color: #30beff;
 }
 
 #confirm-quit #quit-box button:hover {

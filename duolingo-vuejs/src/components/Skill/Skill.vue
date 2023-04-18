@@ -26,7 +26,8 @@ export default {
       loadingMessage: '15 minutes a day can teach you a language. What can 15 minutes of social media do?',
       disableClick : null,
       trueInRow : null,
-      isBreakSection : null
+      isSummationSection : null,
+      missedQuestionData : [],
     }
   },
   async created() {
@@ -72,12 +73,23 @@ export default {
       this.selectAnswerTitle = answer,
       this.selectAnswerId = id
     },
+
     handleDisbaleClick(newValue) {
       this.disableClick = newValue;
     },
-    handleBreakSection(trueAnswer, isBreakSection) {
+
+    handleSummationSection(trueAnswer, isSummationSection) {
       this.trueInRow = trueAnswer;
-      this.isBreakSection = isBreakSection
+      this.isSummationSection = isSummationSection
+    },
+
+    answerValidate(id, result) {
+      //Go to next question without plussing the progress
+      console.log(id, result, this.questionsData)
+      if (!result) {
+        this.missedQuestionData.push(this.questionsData[id])
+        console.log(this.missedQuestionData)
+      }
     }
   }
 }
@@ -89,8 +101,8 @@ export default {
   </div>
   <div v-if="!isLoading" id="container">
     <SkillHeader :questionsData="questionsData" :currentQuestion="currentQuestion"/>
-    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isBreakSection = "isBreakSection"/>
-    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @break-section = "handleBreakSection"/>
+    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isSummationSection = "isSummationSection"/>
+    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate"/>
   </div>
 </template>
 

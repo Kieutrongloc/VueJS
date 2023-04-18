@@ -34,7 +34,7 @@ export default {
 
   },
 
-  emits: ['next-question','disable-click', 'break-section'],
+  emits: ['next-question','disable-click', 'summation-section'],
   
   data() {
     return {
@@ -47,7 +47,7 @@ export default {
       resultColor : null,
       buttonStyle : null,
       trueInRow : 0,
-      isBreakSection : true
+      isSummationSection : true
     };
   },
 
@@ -61,6 +61,15 @@ export default {
     this.$emit('disable-click', true);
     if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.answer.toLowerCase().replace(/ /g, '').replace(/\//g, '')) {
       // if true
+      this.handleTrue()
+    } else {
+      // if false
+      this.handleSkip()
+    }
+
+    },
+
+    handleTrue() {
       this.playAudio(new Audio('/src/assets/audio/addition/audio-true.mp3'))
       this.backgroundStyle = { backgroundColor : '#d7ffb9' }
       this.resultColor = { color: '#58a700'};
@@ -68,12 +77,14 @@ export default {
         this.resultMessage = 'CORRECT'
         this.checkButtonText = 'CONTINUE';
         this.trueInRow = this.trueInRow + 1;
-        this.isBreakSection = true
+        this.isSummationSection = true
+        console.log(this.currentQuestion, this.questionsData.length - 1)
       } else {
         this.checkButtonText = 'SUBMIT';
       }
-    } else {
-      // if false
+    },
+
+    handleFalse() {
       this.playAudio(new Audio('/src/assets/audio/addition/audio-false.mp3'))
       this.backgroundStyle = { backgroundColor : '#ffdfe0' };
       this.resultMessage = 'CORRECT SOLUTION:';
@@ -81,16 +92,15 @@ export default {
       this.buttonStyle = { color: '#fff', backgroundColor : '#ec0c1c', borderColor: '#ea2a2b', borderWidth: '0px 0px 4px 0px'}
       this.checkButtonText = 'CONTINUE';
       this.trueInRow = 0
-    }
-
+      this.$emit('answer-validate', this.currentQuestion, false);
     },
-
+    
     handleContinue() {
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
-      if((this.isBreakSection === true && this.trueInRow === 5) || (this.isBreakSection === true && this.trueInRow === 10)) {
-        this.$emit('break-section', this.trueInRow, this.isBreakSection);
-        this.isBreakSection = false;
+      if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
+        this.$emit('summation-section', this.trueInRow, this.isSummationSection);
+        this.isSummationSection = false;
       } else {
         this.$emit('next-question', this.currentQuestion + 1);
         this.checkButtonText = 'CHECK';
@@ -98,11 +108,15 @@ export default {
         this.isButtonDisable = true;
         this.isResultShow = false;
       }
-
     },
 
     handleSubmit() {
+      this.$emit('disable-click', false);
+      this.$emit('summation-section', this.trueInRow, this.isSummationSection);
+    },
 
+    handleSkip() {
+      
     },
 
     playAudio(audio) {
@@ -122,9 +136,9 @@ export default {
 <template>
   <div id="container" v-bind:style="backgroundStyle">
     <content>
-      <button v-if="!isResultShow" @click="">SKIP</button>
+      <button v-if="!isResultShow" @click="handleSkip">SKIP</button>
 
-      <div v-if="isResultShow" id="result">
+      <div v-if="isResultShow" id="result" :class="{'invisible' : !isSummationSection && (trueInRow === 5 || trueInRow === 10)}">
         <font-awesome-icon id="result-icon" v-bind:style="resultColor" :icon="resultMessage === 'CORRECT' ? ['fas', 'circle-check'] : ['fas', 'circle-xmark']" />
         <div>
           <p v-bind:style="resultColor">{{ resultMessage }}</p>
@@ -198,6 +212,10 @@ export default {
 #container content button:nth-of-type(1):hover {
   cursor: pointer;
   background-color: #d8d8d8;
+}
+
+.invisible {
+  visibility: hidden;
 }
 </style>
 
