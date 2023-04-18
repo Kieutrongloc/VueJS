@@ -34,7 +34,7 @@ export default {
 
   },
 
-  emits: ['next-question','disable-click', 'summation-section'],
+  emits: ['next-question','disable-click', 'summation-section', 'answer-validate'],
   
   data() {
     return {
@@ -60,17 +60,14 @@ export default {
     this.isResultShow = true;
     this.$emit('disable-click', true);
     if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.answer.toLowerCase().replace(/ /g, '').replace(/\//g, '')) {
-      // if true
       this.handleTrue()
     } else {
-      // if false
-      this.handleSkip()
+      this.handleFalse()
     }
-
     },
 
     handleTrue() {
-      this.playAudio(new Audio('/src/assets/audio/addition/audio-true.mp3'))
+      this.playAudio(new Audio('/src/assets/audio/addition/audio-true.mp3'));
       this.backgroundStyle = { backgroundColor : '#d7ffb9' }
       this.resultColor = { color: '#58a700'};
       if (this.currentQuestion !== this.questionsData.length - 1) {
@@ -85,17 +82,18 @@ export default {
     },
 
     handleFalse() {
-      this.playAudio(new Audio('/src/assets/audio/addition/audio-false.mp3'))
+      this.playAudio(new Audio('/src/assets/audio/addition/audio-false.mp3'));
       this.backgroundStyle = { backgroundColor : '#ffdfe0' };
       this.resultMessage = 'CORRECT SOLUTION:';
       this.resultColor = { color: '#ec0c1c'};
       this.buttonStyle = { color: '#fff', backgroundColor : '#ec0c1c', borderColor: '#ea2a2b', borderWidth: '0px 0px 4px 0px'}
       this.checkButtonText = 'CONTINUE';
-      this.trueInRow = 0
+      this.trueInRow = 0;
       this.$emit('answer-validate', this.currentQuestion, false);
     },
     
     handleContinue() {
+      console.log('alo')
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
@@ -104,7 +102,7 @@ export default {
       } else {
         this.$emit('next-question', this.currentQuestion + 1);
         this.checkButtonText = 'CHECK';
-        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px' }
+        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px' };
         this.isButtonDisable = true;
         this.isResultShow = false;
       }
@@ -116,7 +114,10 @@ export default {
     },
 
     handleSkip() {
-      
+      this.handleFalse();
+      this.isButtonDisable = false;
+      this.isResultShow = true;
+      this.$emit('disable-click', true);
     },
 
     playAudio(audio) {
