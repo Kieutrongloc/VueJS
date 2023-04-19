@@ -35,7 +35,6 @@ export default {
     answerHandle(index) {
       this.answerId = this.answerId + 1;
       this.$emit('select-answer', this.answerId, this.userAnswer.join('').toLowerCase().replace(/\s/g,''));
-      console.log(this.userAnswer.join('').toLowerCase().replace(/\s/g,''))
     }
   }
 };

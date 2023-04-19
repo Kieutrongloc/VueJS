@@ -27,7 +27,7 @@ export default {
   },
 
   mounted() {
-    this.audioAnswer.play()
+    this.replayQuestion()
   },
 
   methods: {

@@ -76,7 +76,6 @@ export default {
         this.checkButtonText = 'CONTINUE';
         this.trueInRow++;
         this.isSummationSection = true
-        console.log(this.currentQuestion, this.questionsData.length - 1)
       } else {
         this.checkButtonText = 'SUBMIT';
       }

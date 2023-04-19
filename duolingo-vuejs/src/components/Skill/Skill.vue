@@ -30,6 +30,7 @@ export default {
       isSummationSection : null,
       missedQuestionData : [],
       trueAnswerTotal : 0,
+      fixedQuestionsData : []
     }
   },
 
@@ -37,8 +38,10 @@ export default {
     if (!localStorage.getItem("user")) {
       router.push('/')
     };
+
     const lessonId = this.$route.params.lesson_id;
     const skillId = this.$route.params.skill_id;
+    
     try {
       this.skillsId = (await apiService.fetchSkills(lessonId)).map(obj => obj.id)
     } catch (error) {
@@ -67,14 +70,21 @@ export default {
     }
     });
 
+    this.fixedQuestionsData = this.questionsData
+
     this.isLoading = false;
   },
 
   watch: {
     currentQuestion(newValue, oldValue) {
-      if (newValue === this.questionsData.length - 1) {
-        this.currentQuestion = this.missedQuestionData
-        this.currentQuestion = 0
+      if (newValue === this.fixedQuestionsData.length - 1) {
+        alert('wrong answer review')
+        // this.currentQuestion = 0
+        // this.questionsData = this.missedQuestionData
+        // console.log(this.missedQuestionData)
+        // this.missedQuestionData = []
+        // console.log(this.missedQuestionData)
+
       }
     }
   },
@@ -97,8 +107,9 @@ export default {
     answerValidate(id, result) {
       console.log(id, result, this.questionsData, this.currentQuestion, this.questionsData.length)
       if (!result) {
-        this.missedQuestionData.push(this.questionsData[id])
-        console.log(this.missedQuestionData, this.currentQuestion)
+        console.log(this.questionsData)
+        this.questionsData.push(this.questionsData[id])
+        console.log(this.questionsData)
       } else {
         this.trueAnswerTotal++;
       }

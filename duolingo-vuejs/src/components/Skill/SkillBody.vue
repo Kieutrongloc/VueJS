@@ -31,14 +31,17 @@ export default {
     currentQuestion(nextQuestion) {
       this.$emit('next-question', nextQuestion);
       this.QuestionTemplate = this.questionsData[this.currentQuestion].question.template_name
+      console.log(this.questionsData[this.currentQuestion].question)
       this.currentQuestionData = this.questionsData[this.currentQuestion]
     },
+
     isSummationSection: {
       immediate: true,
       handler(newVal) {
-        this.handleBreakSectionChange(newVal);
+        this.handleSummationSection(newVal);
       }
     },
+
     trueInRow: {
       immediate: true,
       handler(newVal) {
@@ -59,7 +62,7 @@ export default {
     selectAnswer(id, answer) {
       this.$emit('select-answer', id, answer)
     },
-    handleBreakSectionChange(newVal) {
+    handleSummationSection(newVal) {
       if (newVal === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
         this.QuestionTemplate = 'break template';
       } else {
