@@ -21,6 +21,13 @@ export default {
 
   emits: ['select-answer'],
   watch: {
+
+    currentQuestion(newVal) {
+      if (newVal === this.fixedQuestionsData.length - 1) {
+        this.isMissedQuestionsSection = true
+      }
+    },
+
     selectAnswerId() {
       if (this.selectAnswerTitle !=='') {
         this.isButtonDisable = false;
@@ -30,24 +37,24 @@ export default {
         this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px'}
       }
     },
-
-
   },
 
-  emits: ['next-question','disable-click', 'summation-section', 'answer-validate'],
+  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section'],
   
   data() {
     return {
       isSubmit: false,
       checkButtonText: 'CHECK',
       isButtonDisable : true,
-      backgroundStyle : null,
+      backgroundStyle : { color: 'white'},
       isResultShow : false,
       resultMessage : null,
       resultColor : null,
       buttonStyle : null,
       trueInRow : 0,
-      isSummationSection : true
+      isSummationSection : true,
+      fixedQuestionsData : [],
+      isMissedQuestionsSection : false,
     };
   },
 
@@ -75,7 +82,6 @@ export default {
         this.resultMessage = 'CORRECT'
         this.checkButtonText = 'CONTINUE';
         this.trueInRow++;
-        this.isSummationSection = true
       } else {
         this.checkButtonText = 'SUBMIT';
       }
@@ -98,12 +104,16 @@ export default {
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
         this.$emit('summation-section', this.trueInRow, this.isSummationSection);
         this.isSummationSection = false;
+      } else if (this.isMissedQuestionsSection === true) {
+        this.$emit('missed-questions-section', this.isMissedQuestionsSection);
+        this.isMissedQuestionsSection = !this.isMissedQuestionsSection
       } else {
         this.$emit('next-question', this.currentQuestion + 1);
         this.checkButtonText = 'CHECK';
         this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px' };
         this.isButtonDisable = true;
         this.isResultShow = false;
+        this.isSummationSection = true
       }
     },
 
@@ -126,8 +136,9 @@ export default {
   computed: {
 
   },
-  mounted() {
 
+  mounted() {
+    this.fixedQuestionsData = [...this.questionsData];
   }
 
 };

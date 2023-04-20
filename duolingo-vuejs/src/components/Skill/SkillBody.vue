@@ -23,6 +23,10 @@ export default {
     isSummationSection: {
       type: Boolean,
       // required : true
+    },
+
+    isMissedQuestionSection: {
+      type: Boolean
     }
   },
 
@@ -47,7 +51,13 @@ export default {
       handler(newVal) {
         this.handleTrueInRowChange(newVal);
       }
+    },
+
+    isMissedQuestionSection(newVal) {
+    if (newVal) {
+      this.QuestionTemplate = 'missed questions'
     }
+  }
   },
 
   data() {
@@ -99,6 +109,8 @@ export default {
           return defineAsyncComponent(() => import('./SkillTemplate/WordListening.vue'));
         case 'break template':
           return defineAsyncComponent(() => import('./SkillTemplate/BreakTemplate.vue'));
+        case 'missed questions':
+          return defineAsyncComponent(() => import('./SkillTemplate/MissedQuestionsTemplate.vue'));
         case 'ending-section':
           return defineAsyncComponent(() => import('./SkillTemplate/BreakTemplate.vue'));
         default:
@@ -106,7 +118,6 @@ export default {
       }
     },
   },
-
 };
 </script>
 

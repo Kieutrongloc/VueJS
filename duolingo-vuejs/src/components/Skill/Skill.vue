@@ -30,7 +30,7 @@ export default {
       isSummationSection : null,
       missedQuestionData : [],
       trueAnswerTotal : 0,
-      fixedQuestionsData : []
+      isMissedQuestionSection : null
     }
   },
 
@@ -70,23 +70,7 @@ export default {
     }
     });
 
-    this.fixedQuestionsData = this.questionsData
-
     this.isLoading = false;
-  },
-
-  watch: {
-    currentQuestion(newValue, oldValue) {
-      if (newValue === this.fixedQuestionsData.length - 1) {
-        alert('wrong answer review')
-        // this.currentQuestion = 0
-        // this.questionsData = this.missedQuestionData
-        // console.log(this.missedQuestionData)
-        // this.missedQuestionData = []
-        // console.log(this.missedQuestionData)
-
-      }
-    }
   },
   
   methods: {
@@ -107,12 +91,16 @@ export default {
     answerValidate(id, result) {
       console.log(id, result, this.questionsData, this.currentQuestion, this.questionsData.length)
       if (!result) {
-        console.log(this.questionsData)
+        // console.log(this.questionsData)
         this.questionsData.push(this.questionsData[id])
-        console.log(this.questionsData)
+        // console.log(this.questionsData)
       } else {
         this.trueAnswerTotal++;
       }
+    },
+
+    missedQuestionsSection(isMissedQuestionSection) {
+      this.isMissedQuestionSection = isMissedQuestionSection
     }
   }
 }
@@ -124,8 +112,8 @@ export default {
   </div>
   <div v-if="!isLoading" id="container">
     <SkillHeader :questionsData="questionsData" :trueAnswerTotal="trueAnswerTotal"/>
-    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isSummationSection = "isSummationSection"/>
-    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate"/>
+    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isSummationSection = "isSummationSection" :isMissedQuestionSection = "isMissedQuestionSection"/>
+    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate" @missed-questions-section = "missedQuestionsSection"  />
   </div>
 </template>
 
