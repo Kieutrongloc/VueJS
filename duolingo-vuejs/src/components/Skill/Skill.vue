@@ -30,7 +30,9 @@ export default {
       isSummationSection : null,
       missedQuestionData : [],
       trueAnswerTotal : 0,
-      isMissedQuestionSection : null
+      isMissedQuestionSection : null,
+      isEndingSection : null,
+      endingSectionTemplate : null
     }
   },
 
@@ -99,6 +101,11 @@ export default {
 
     missedQuestionsSection(isMissedQuestionSection) {
       this.isMissedQuestionSection = isMissedQuestionSection
+    },
+
+    endingSection(isEndingSection, template) {
+      this.isEndingSection = isEndingSection;
+      this.endingSectionTemplate = template
     }
   }
 }
@@ -110,8 +117,8 @@ export default {
   </div>
   <div v-if="!isLoading" id="container">
     <SkillHeader :questionsData="questionsData" :trueAnswerTotal="trueAnswerTotal"/>
-    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isSummationSection = "isSummationSection" :isMissedQuestionSection = "isMissedQuestionSection"/>
-    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate" @missed-questions-section = "missedQuestionsSection"  />
+    <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isSummationSection = "isSummationSection" :isMissedQuestionSection = "isMissedQuestionSection" :isEndingSection = "isEndingSection" :endingSectionTemplate = "endingSectionTemplate"/>
+    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate" @missed-questions-section = "missedQuestionsSection" @ending-section="endingSection" />
   </div>
 </template>
 

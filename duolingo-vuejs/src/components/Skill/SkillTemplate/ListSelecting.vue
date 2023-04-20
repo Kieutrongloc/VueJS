@@ -60,7 +60,7 @@ export default {
 
     finalAnswerHandle() {
       var finalAnswer = '';
-      var answerId = 0;
+      var answerId = 1;
       this.userAnswer.forEach((answer) => {
         finalAnswer += answer.title;
         answerId++

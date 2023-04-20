@@ -18,7 +18,7 @@ export default {
     },
   },
 
-  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section', 'select-answer'],
+  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section', 'select-answer', 'ending-section'],
 
   watch: {
     currentQuestion(newVal) {
@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       isSubmit: false,
+      skipButtonText : 'SKIP',
       checkButtonText: 'CHECK',
       isButtonDisable : true,
       backgroundStyle : { color: 'white'},
@@ -53,6 +54,8 @@ export default {
       isSummationSection : true,
       fixedQuestionsData : [],
       isMissedQuestionsSection : false,
+      isEndingSection : false,
+      endingSectionTemplate : 1,
     };
   },
 
@@ -114,7 +117,12 @@ export default {
 
     handleSubmit() {
       this.$emit('disable-click', false);
-      this.$emit('ending-section', this.trueInRow, this.isSummationSection);
+      this.isEndingSection = !this.isEndingSection
+      this.$emit('ending-section',  this.isEndingSection, this.endingSectionTemplate);
+      this.isResultShow = false;
+      this.backgroundStyle = { backgroundColor : '#fff' };
+      this.skipButtonText = 'REVIEW LESSON'
+      this.playAudio(new Audio('/src/assets/audio/addition/audio-ending.mp3'));
     },
 
     handleSkip() {
@@ -122,6 +130,10 @@ export default {
       this.isButtonDisable = false;
       this.isResultShow = true;
       this.$emit('disable-click', true);
+    },
+
+    handleReviewLesson() {
+      alert('catched')
     },
 
     playAudio(audio) {
@@ -145,7 +157,7 @@ export default {
 <template>
   <div id="container" v-bind:style="backgroundStyle">
     <section>
-      <button v-if="!isResultShow" @click="handleSkip">SKIP</button>
+      <button v-if="!isResultShow" @click="skipButtonText === 'SKIP' ? handleSkip() : handleReviewLesson()">{{ skipButtonText }}</button>
 
       <div v-if="isResultShow" id="result" :class="{'invisible' : !isSummationSection && (trueInRow === 5 || trueInRow === 10)}">
         <font-awesome-icon id="result-icon" v-bind:style="resultColor" :icon="resultMessage === 'CORRECT' ? ['fas', 'circle-check'] : ['fas', 'circle-xmark']" />
@@ -179,6 +191,7 @@ export default {
 
 #container section button {
   width: 150px;
+  min-width: fit-content;
   height: 48px;
   background-color: #fff;
   border-radius: 12px;

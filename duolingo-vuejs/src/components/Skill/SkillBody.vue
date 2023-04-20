@@ -24,7 +24,17 @@ export default {
 
     isMissedQuestionSection: {
       type: Boolean
+    },
+
+    isEndingSection: {
+      type: Boolean
+    },
+
+    endingSectionTemplate : {
+      type: Number
     }
+
+
   },
 
   emits: ['next-question','select-answer'],
@@ -52,8 +62,14 @@ export default {
     isMissedQuestionSection(newVal) {
     if (newVal) {
       this.QuestionTemplate = 'missed questions'
+      }
+    },
+
+    isEndingSection(newVal) {
+    if (newVal === true) {
+      this.QuestionTemplate = 'ending section'
+      }
     }
-  }
   },
 
   data() {
@@ -109,8 +125,8 @@ export default {
           return defineAsyncComponent(() => import('./SkillTemplate/BreakTemplate.vue'));
         case 'missed questions':
           return defineAsyncComponent(() => import('./SkillTemplate/MissedQuestionsTemplate.vue'));
-        case 'ending-section':
-          return defineAsyncComponent(() => import('./SkillTemplate/BreakTemplate.vue'));
+        case 'ending section':
+          return defineAsyncComponent(() => import('./SkillTemplate/EndingSection.vue'));
         default:
           return null;
       }
@@ -123,7 +139,7 @@ export default {
   <div id="container">
     <div v-if="disableClick" id="disable-click"></div>
     <section>
-      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="selectAnswer" :trueInRow = "trueInRow" :currentQuestion = "currentQuestion" />
+      <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="selectAnswer" :trueInRow = "trueInRow" :currentQuestion = "currentQuestion" :endingSectionTemplate = "endingSectionTemplate" />
     </section>
   </div>
 </template>
