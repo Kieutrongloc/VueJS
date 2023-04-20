@@ -8,21 +8,29 @@ export default {
     },
   },
 
+  watch: {
+    currentQuestionData: {
+      immediate: true,
+      handler(newVal) {
+        this.newSentence = this.currentQuestionData.answers[0].title.split(" ")
+        this.userAnswer = []
+      }
+    }
+  },
+
   data() {
     return {
       selectedAnswerId : null,
       selectedAnswer : null,
       userAnswer : [],
-      answerSentence : this.currentQuestionData.answers[0].title,
       missingIndex : null,
       answerId : 0,
+      newSentence : null
     };
   },
 
   computed: {
-    newSentence() {
-      return this.answerSentence.split(" ")
-    }
+
   },
   
   async created() {
@@ -34,7 +42,6 @@ export default {
   methods: {
     answerHandle(index) {
       this.answerId++;
-      console.log(this.answerId)
       this.$emit('select-answer', this.answerId, this.userAnswer.join('').toLowerCase().replace(/\s/g,''));
     }
   }

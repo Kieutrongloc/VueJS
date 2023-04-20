@@ -22,6 +22,16 @@ export default {
     }
   },
 
+  watch: {
+    currentQuestionData: {
+      immediate: true,
+      handler(newVal) {
+        this.selectedAnswerId = null,
+        this.selectedAnswer = null
+      }
+    }
+  },
+
   methods: {
     selectAnswer(answer) {
       new Audio(answer.audio).play()

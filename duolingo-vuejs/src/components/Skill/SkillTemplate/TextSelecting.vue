@@ -7,11 +7,22 @@ export default {
       required: true
     },
   },
+
   data() {
     return {
       selectedAnswerId : null,
       selectedAnswer : null,
     };
+  },
+
+  watch: {
+    currentQuestionData: {
+      immediate: true,
+      handler(newVal) {
+        this.selectedAnswerId = null,
+        this.selectedAnswer = null
+      }
+    }
   },
   
   async created() {

@@ -16,12 +16,15 @@ export default {
     };
   },
 
-  data() {
-    return {
-      selectedAnswerId : null,
-      selectedAnswer : null,
-      userAnswer : [],
-    };
+  watch: {
+    currentQuestionData: {
+      immediate: true,
+      handler(newVal) {
+        this.selectedAnswerId = null,
+        this.selectedAnswer = null,
+        this.userAnswer = []
+      }
+    }
   },
   
   mounted() {

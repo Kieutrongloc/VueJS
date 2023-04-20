@@ -1,5 +1,4 @@
 <script>
-// import { is } from '@babel/types';
 
 export default {
   props: {
@@ -19,7 +18,8 @@ export default {
     },
   },
 
-  emits: ['select-answer'],
+  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section', 'select-answer'],
+
   watch: {
     currentQuestion(newVal) {
       if (newVal === this.fixedQuestionsData.length - 1) {
@@ -27,7 +27,7 @@ export default {
       }
     },
 
-    selectAnswerId() {
+    answerId() {
       if (this.selectAnswerTitle !=='') {
         this.isButtonDisable = false;
         this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
@@ -38,7 +38,6 @@ export default {
     },
   },
 
-  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section'],
   
   data() {
     return {
@@ -96,6 +95,7 @@ export default {
     handleContinue() {
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
+      this.answerId = 0;
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
         this.$emit('summation-section', this.trueInRow, this.isSummationSection);
         this.isSummationSection = false;
@@ -130,7 +130,9 @@ export default {
   },
 
   computed: {
-
+    answerId() {
+      return this.selectAnswerId;
+    }
   },
 
   mounted() {
