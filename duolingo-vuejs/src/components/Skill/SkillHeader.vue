@@ -65,7 +65,7 @@ export default {
 <template>
   <div>
     <div id="container">
-      <content>
+      <section>
         <button>
           <div @click="quitBoxHandle" id="quit-button">
             <font-awesome-icon id="close-icon" :icon="['fas', 'x']" />
@@ -74,7 +74,7 @@ export default {
         <div>
           <progress :value="progressPercent" max="100">{{ progressPercent }}%</progress>
         </div>
-      </content>
+      </section>
     </div>
   </div>
   <div v-if="isQuitBox" id="confirm-quit">
@@ -96,7 +96,7 @@ export default {
   align-items: center;
 }
 
-#container content {
+#container section {
   width: 1000px;
   min-width: 670px;
   margin: 0 auto;
@@ -108,12 +108,12 @@ export default {
   align-items: center;
 }
 
-#container content button {
+#container section button {
   background-color: #fff;
   border: none;
 }
 
-#container content button #close-icon {
+#container section button #close-icon {
   height: 20px;
   color: #bababa;
 }

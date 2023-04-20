@@ -27,7 +27,7 @@ export default {
       new Audio(answer.audio).play()
       this.selectedAnswerId = answer.id
       this.selectedAnswer = answer.title
-      this.$emit('select-answer',this.selectedAnswerId, this.selectedAnswer);
+      this.$emit('select-answer', this.selectedAnswerId, this.selectedAnswer);
     }
   }
 };

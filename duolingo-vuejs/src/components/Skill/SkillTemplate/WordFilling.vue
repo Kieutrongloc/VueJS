@@ -33,7 +33,8 @@ export default {
 
   methods: {
     answerHandle(index) {
-      this.answerId = this.answerId + 1;
+      this.answerId++;
+      console.log(this.answerId)
       this.$emit('select-answer', this.answerId, this.userAnswer.join('').toLowerCase().replace(/\s/g,''));
     }
   }

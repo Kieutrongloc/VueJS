@@ -12,16 +12,15 @@ export default {
       required: true
     },
     selectAnswerTitle: {
-      required: false
+      required: true
     },
     selectAnswerId: {
-      required: false
+      required: true
     },
   },
 
   emits: ['select-answer'],
   watch: {
-
     currentQuestion(newVal) {
       if (newVal === this.fixedQuestionsData.length - 1) {
         this.isMissedQuestionsSection = true
@@ -56,10 +55,6 @@ export default {
       fixedQuestionsData : [],
       isMissedQuestionsSection : false,
     };
-  },
-
-  computed: {
-
   },
 
   methods: {
@@ -119,7 +114,7 @@ export default {
 
     handleSubmit() {
       this.$emit('disable-click', false);
-      this.$emit('summation-section', this.trueInRow, this.isSummationSection);
+      this.$emit('ending-section', this.trueInRow, this.isSummationSection);
     },
 
     handleSkip() {
@@ -133,6 +128,7 @@ export default {
       audio.play()
     }
   },
+
   computed: {
 
   },
@@ -146,7 +142,7 @@ export default {
 
 <template>
   <div id="container" v-bind:style="backgroundStyle">
-    <content>
+    <section>
       <button v-if="!isResultShow" @click="handleSkip">SKIP</button>
 
       <div v-if="isResultShow" id="result" :class="{'invisible' : !isSummationSection && (trueInRow === 5 || trueInRow === 10)}">
@@ -158,7 +154,7 @@ export default {
       </div>
 
       <button v-if="!isSubmit" :disabled="isButtonDisable" v-bind:style="buttonStyle" @click="checkButtonText==='CHECK' ? handleCheck() : checkButtonText==='CONTINUE' ? handleContinue() : handleSubmit()">{{ checkButtonText }}</button>
-    </content>
+    </section>
   </div>
 </template>
 
@@ -169,7 +165,7 @@ export default {
   border-top: 2px solid #e5e5e5 ;
 }
 
-#container content {
+#container section {
   width: 1000px;
   min-width: 670px;
   margin: auto;
@@ -179,7 +175,7 @@ export default {
   flex-direction: row;
 }
 
-#container content button {
+#container section button {
   width: 150px;
   height: 48px;
   background-color: #fff;
@@ -193,34 +189,34 @@ export default {
   margin: 6.99px 0px;
 }
 
-#container content #result {
+#container section #result {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#container content #result div {
+#container section #result div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#container content #result #result-icon {
+#container section #result #result-icon {
   font-size: 50px;
   margin-right: 10px;
 }
 
-#container content #result p {
+#container section #result p {
   font-size: 22px;
   font-weight: bolder;
 }
 
-#container content #result span {
+#container section #result span {
   font-size: 18px;
 }
 
-#container content button:nth-of-type(1):hover {
+#container section button:nth-of-type(1):hover {
   cursor: pointer;
   background-color: #d8d8d8;
 }

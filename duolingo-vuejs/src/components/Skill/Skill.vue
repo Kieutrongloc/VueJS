@@ -91,9 +91,7 @@ export default {
     answerValidate(id, result) {
       console.log(id, result, this.questionsData, this.currentQuestion, this.questionsData.length)
       if (!result) {
-        // console.log(this.questionsData)
         this.questionsData.push(this.questionsData[id])
-        // console.log(this.questionsData)
       } else {
         this.trueAnswerTotal++;
       }
@@ -148,6 +146,7 @@ export default {
 
   #container {
     width: 100vw;
+    min-width: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

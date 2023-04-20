@@ -6,6 +6,11 @@ export default {
       type: Object,
       required: true
     },
+
+    currentQuestion: {
+      type: Number,
+      required: true
+    }
   },
 
   data() {
@@ -14,6 +19,15 @@ export default {
       selectedAnswer : null,
       userAnswer : [],
     };
+  },
+
+  watch: {
+    currentQuestion: {
+      immediate: true,
+      handler(newVal) {
+        this.currentQuestionData.answers.forEach((item) => {item.hidden=false})
+      }
+    }
   },
   
   mounted() {

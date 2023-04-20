@@ -6,6 +6,11 @@ export default {
       type: Object,
       required: true
     },
+
+    currentQuestion: {
+      type: Number,
+      required: true
+    }
   },
 
   data() {
@@ -16,6 +21,15 @@ export default {
       answerLength : null,
       audioAnswer : null
     };
+  },
+
+  watch: {
+    currentQuestion: {
+      immediate: true,
+      handler(newVal) {
+        this.currentQuestionData.answers.forEach((item) => {item.hidden=false})
+      }
+    }
   },
 
   async created() {
@@ -115,17 +129,6 @@ export default {
 </template>
 
 <style scoped>
-.question-template {
-  width: 620px;
-  min-height: 400px;
-  max-height: 88%;
-  height: 460px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: auto;
-}
-
 .question-template h1 {
   font-size: 36px;
   font-weight: bolder;
@@ -281,7 +284,6 @@ export default {
   top: 0px;
   z-index: -2;
 }
-
 </style>
 
 
