@@ -65,6 +65,12 @@ export default {
 
 
 <style scoped>
+#text-selecting {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .question-template {
   width: 620px;
   min-height: 400px;

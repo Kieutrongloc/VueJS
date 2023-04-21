@@ -142,6 +142,12 @@ export default {
 </template>
 
 <style scoped>
+#list-reordering {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .question-template h1 {
   font-size: 36px;
   font-weight: bolder;

@@ -121,6 +121,8 @@ export default {
           return defineAsyncComponent(() => import('./SkillTemplate/SentenceReading.vue'));
         case 'word listening':
           return defineAsyncComponent(() => import('./SkillTemplate/WordListening.vue'));
+        case 'word linking':
+          return defineAsyncComponent(() => import('./SkillTemplate/WordLinking.vue'));
         case 'break template':
           return defineAsyncComponent(() => import('./SkillTemplate/BreakTemplate.vue'));
         case 'missed questions':

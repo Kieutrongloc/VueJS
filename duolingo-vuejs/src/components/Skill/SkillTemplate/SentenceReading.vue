@@ -48,9 +48,9 @@ export default {
 </script>
 
 <template>
-  <div id="list-selecting">
+  <div id="sentence-reading">
     <!-- Template list selecting  -->
-    <div class="question-template" id="template-list-selecting">
+    <div class="question-template" id="template-sentence-reading">
         <h1 class="question"> {{ currentQuestionData.question.title }}</h1>
         <div class="answer-list">
           <div class="question-detail">
@@ -81,6 +81,12 @@ export default {
 
 
 <style scoped>
+
+#sentence-reading {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
 .question-template {
   width: 620px;
   min-height: 400px;
@@ -107,29 +113,29 @@ audio {
 }
 
 /* Template list selecting  */
-#template-list-selecting .answer-list {
+#template-sentence-reading .answer-list {
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
 }
 
-#template-list-selecting .answer-list .question-detail {
+#template-sentence-reading .answer-list .question-detail {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-#template-list-selecting .answer-list .question-detail .question-detail-img {
+#template-sentence-reading .answer-list .question-detail .question-detail-img {
   height: 169px;
   width: 114px;
 }
 
-#template-list-selecting .answer-list .question-detail .question-detail-img img {
+#template-sentence-reading .answer-list .question-detail .question-detail-img img {
   height: 169px;
   width: 110px;
 }
 
-#template-list-selecting .answer-list .question-detail .question-detail-des {
+#template-sentence-reading .answer-list .question-detail .question-detail-des {
   margin-left: 10px;
   display: flex;
   align-items: center;
@@ -150,7 +156,7 @@ audio {
   cursor: pointer;
 }
 
-#template-list-selecting .answer-list .answer-area {
+#template-sentence-reading .answer-list .answer-area {
   display: flex;
   flex-direction: row;
   justify-content: center;

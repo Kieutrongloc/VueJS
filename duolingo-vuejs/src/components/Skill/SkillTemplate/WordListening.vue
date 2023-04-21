@@ -44,9 +44,9 @@ export default {
 </script>
 
 <template>
-  <div id="image-selecting">
+  <div id="word-listening">
     <!-- Template image selecting -->
-    <div class="question-template" id="template-image-selecting">
+    <div class="question-template" id="template-word-listening">
       <h1 class="question">{{ currentQuestionData.question.title }}</h1>
 
       <div id='answer-area'>
@@ -72,6 +72,12 @@ export default {
 </template>
 
 <style scoped>
+#word-listening {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .question-template {
   width: 620px;
   min-height: 400px;
@@ -98,7 +104,7 @@ export default {
   display: flex;
 }
 
-/* template-image-selecting */
+/* template-word-listening */
 #question-audio img {
   width: 152px;
 }
@@ -107,7 +113,7 @@ export default {
   cursor: pointer;
 }
 
-#template-image-selecting .answer-list {
+#template-word-listening .answer-list {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -117,7 +123,7 @@ export default {
   height: 140px;
 }
 
-#template-image-selecting .answer-list .answer-box {
+#template-word-listening .answer-list .answer-box {
   margin: 0px auto;
   border-style: solid;
   border-color: #bababa;
@@ -135,14 +141,14 @@ export default {
   background-color: #f4f4f4;
 }
 
-#template-image-selecting .answer-list .answer-box .text {
+#template-word-listening .answer-list .answer-box .text {
   display: flex;
   justify-content: space-between;
   width: 180px;
   margin: 0px auto;
 }
 
-#template-image-selecting .answer-list .answer-box .text p {
+#template-word-listening .answer-list .answer-box .text p {
   font-size: 18px;
 }
 
