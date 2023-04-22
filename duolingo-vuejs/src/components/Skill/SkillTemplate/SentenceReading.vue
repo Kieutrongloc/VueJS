@@ -6,6 +6,11 @@ export default {
       type: Object,
       required: true
     },
+
+    currentQuestion: {
+      type: Number,
+      required : true
+    }
   },
 
   data() {
@@ -17,7 +22,7 @@ export default {
   },
 
   watch: {
-    currentQuestionData: {
+    currentQuestion: {
       immediate: true,
       handler(newVal) {
         this.selectedAnswerId = null,

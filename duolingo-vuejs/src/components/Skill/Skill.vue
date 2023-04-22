@@ -77,8 +77,8 @@ export default {
   
   methods: {
     selectAnswerHandle(id, answer) {
-      this.selectAnswerTitle = answer,
-      this.selectAnswerId = id
+      this.selectAnswerId = id,
+      this.selectAnswerTitle = answer
     },
 
     handleDisbaleClick(newValue) {
@@ -91,7 +91,6 @@ export default {
     },
 
     answerValidate(id, result) {
-      console.log(id, result, this.questionsData, this.currentQuestion, this.questionsData.length)
       if (!result) {
         this.questionsData.push(this.questionsData[id])
       } else {

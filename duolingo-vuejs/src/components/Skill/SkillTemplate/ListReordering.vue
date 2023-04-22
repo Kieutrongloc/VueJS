@@ -28,21 +28,22 @@ export default {
       immediate: true,
       handler(newVal) {
         this.currentQuestionData.answers.forEach((item) => {item.hidden=false})
-      }
-    },
-
-    watch: {
-    currentQuestionData: {
-      immediate: true,
-      handler(newVal) {
         this.selectedAnswerId = null,
         this.selectedAnswer = null,
         this.userAnswer = [],
         this.answerLength = null,
         this.audioAnswer = null
       }
-    }
-  },
+    },
+
+  //   watch: {
+  //     currentQuestion: {
+  //     immediate: true,
+  //     handler(newVal) {
+
+  //     }
+  //   }
+  // },
   },
 
   async created() {

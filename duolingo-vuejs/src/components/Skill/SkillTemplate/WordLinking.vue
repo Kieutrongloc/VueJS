@@ -6,6 +6,10 @@ export default {
       type: Object,
       required: true
     },
+    currentQuestion : {
+      type: Number,
+      required: true
+    }
   },
 
   data() {
@@ -15,12 +19,19 @@ export default {
       selectedQuestionId : null,
       selectedQuestion : null,
       questionData : [],
-      answerData : []
+      answerData : [],
+      matchedQuestions : [],
+      matchedAnswers : [],
+      buttonStyleOnCheck : null,
+      textStyleOnCheck : null,
+      matchedButtonStyle : { cursor : 'default', borderColor : '#e5e5e5', color : '#e5e5e5'},
+      matchedTextStyle : { color : '#e5e5e5' },
+      defaultButtonStyle : {}
     };
   },
 
   watch: {
-    currentQuestionData: {
+    currentQuestion: {
       immediate: true,
       handler(newVal) {
         this.selectedAnswerId = null,
@@ -28,9 +39,11 @@ export default {
         this.selectedQuestionId = null,
         this.selectedQuestion = null,
         this.questionData = [],
-        this.answerData = []
+        this.answerData = [],
+        this.matchedQuestions = [],
+        this.matchedAnswers = []
       }
-    }
+    },
   },
   
   async created() {
@@ -63,16 +76,25 @@ export default {
 
     pairCheck() {
       if (this.selectedQuestion === this.selectedAnswer) {
-        console.log('true: ', this.selectedQuestion, this.selectedAnswer)
-        this.selectedQuestionId = this.selectedAnswerId = this.selectedQuestion = this.selectedAnswer  = null;
-      } else {
-        console.log('false: ', this.selectedQuestion, this.selectedAnswer)
-        this.selectedQuestion = this.selectedAnswer = null
+        this.matchedQuestions.push(this.selectedQuestionId);
+        this.matchedAnswers.push(this.selectedAnswerId);
+        this.selectedQuestion = this.selectedAnswer  = null;
+        this.buttonStyleOnCheck = { borderColor : '#58cc02' , backgroundColor : '#D8F2D8' };
+        this.textStyleOnCheck = {color : '#58cc02'};
         setTimeout(() => {
-          this.selectedQuestionId = this.selectedAnswerId = null;
-        }, 1000);
-
+          this.selectedQuestionId = this.selectedAnswerId = this.buttonStyleOnCheck = this.textStyleOnCheck = null;
+        }, 300);
+      } else {
+        this.selectedQuestion = this.selectedAnswer = null;
+        this.buttonStyleOnCheck = {borderColor : '#D79F9F' , backgroundColor : '#F2D8D8'},
+        this.textStyleOnCheck = {color : '#e86f6f' };
+        setTimeout(() => {
+          this.selectedQuestionId = this.selectedAnswerId = this.buttonStyleOnCheck = this.textStyleOnCheck = null;
+        }, 500);
       }
+
+      if (this.matchedAnswers.length === this.currentQuestionData.answers.length && this.matchedQuestions.length === this.currentQuestionData.answers.length)
+      {this.$emit('select-answer', 1 , 'completed');}
     }
   }
 };
@@ -80,26 +102,26 @@ export default {
 
 <template>
   <div id="word-link">
-    <!-- Template text selecting  -->
+    <!-- Template word linking  -->
     <div class="question-template" id="template-word-linking">
         <h1 class="question">{{ currentQuestionData.question.title }}</h1>
 
         <div id="answer-area">
 
           <div class="question-list">
-            <button :class="['question-box', { 'selected-question' : selectedQuestionId === index}]" v-for="(question, index) in currentQuestionData.question.description.split(' ')" @click="selectQuestion(index, question)">
+            <button :class="['question-box', { 'selected-question' : selectedQuestionId === index}]" :style="selectedQuestionId === index ? buttonStyleOnCheck : matchedQuestions.includes(index) ? matchedButtonStyle : {}" v-for="(question, index) in currentQuestionData.question.description.split(' ')" @click="selectQuestion(index, question)" :disabled="matchedQuestions.includes(index)">
               <div class="text">
-                <span>{{ index + 1 }}</span>
-                <p>{{ question }}</p>
+                <span :style="selectedQuestionId === index ? buttonStyleOnCheck : matchedQuestions.includes(index) ? matchedButtonStyle : {}">{{ index + 1 }}</span>
+                <p :style="selectedQuestionId === index ? textStyleOnCheck : matchedQuestions.includes(index) ? matchedTextStyle : {}">{{ question }}</p>
               </div>
             </button>
           </div>
   
           <div class="answer-list">
-            <button :class="['answer-box', { 'selected-answer': selectedAnswerId === answer.id }]" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)">
+            <button :class="['answer-box', { 'selected-answer': selectedAnswerId === answer.id }]" :style="selectedAnswerId === answer.id ? buttonStyleOnCheck : matchedAnswers.includes(answer.id) ? matchedButtonStyle : {}" v-for="(answer, index) in currentQuestionData.answers" :key="answer.id" @click="selectAnswer(answer)" :disabled="matchedAnswers.includes(answer.id)">
               <div class="text">
-                <span>{{ index + 6 }}</span>
-                <p>{{ answer.title.split('/')[1] }}</p>
+                <span :style="selectedAnswerId === answer.id ? buttonStyleOnCheck : matchedAnswers.includes(answer.id) ? matchedButtonStyle : {}">{{ index + 1 }}</span>
+                <p :style="selectedAnswerId === answer.id ? textStyleOnCheck : matchedAnswers.includes(answer.id) ? matchedTextStyle : {}">{{ answer.title.split('/')[1] }}</p>
               </div>
             </button>
           </div>
@@ -145,7 +167,6 @@ export default {
 #word-link .question-template #answer-area .question-list .question-box:hover,
 #word-link .question-template #answer-area .answer-list .answer-box:hover {
   cursor: pointer;
-  background-color: #f4f4f4;
 }
 #word-link .question-template #answer-area .question-list,
 #word-link .question-template #answer-area .answer-list {
@@ -180,7 +201,7 @@ export default {
 #word-link .question-template #answer-area .question-list .selected-question,
 #word-link .question-template #answer-area .answer-list .selected-answer {
   background-color: #ddf3ff;
-  border-color: #84d8ff!important;
+  border-color: #84d8ff;
   border-width: 2px 2px 5px 2px!important;
 }
 

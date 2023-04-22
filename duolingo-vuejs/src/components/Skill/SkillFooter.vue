@@ -23,7 +23,7 @@ export default {
   watch: {
     currentQuestion(newVal) {
       if (newVal === this.fixedQuestionsData.length - 1) {
-        this.isMissedQuestionsSection = true
+        this.isMissedQuestionsSection = true;
       }
     },
 
@@ -31,6 +31,10 @@ export default {
       if (this.selectAnswerTitle !=='') {
         this.isButtonDisable = false;
         this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
+        if(this.selectAnswerTitle === 'completed') {
+        this.handleTrue();
+        this.isResultShow = true;
+      }
       } else {
         this.isButtonDisable = true;
         this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px'}
@@ -55,6 +59,7 @@ export default {
       fixedQuestionsData : [],
       isMissedQuestionsSection : false,
       isEndingSection : false,
+      isHideAll : false,
       endingSectionTemplate : 1,
     };
   },
@@ -99,6 +104,8 @@ export default {
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
       this.answerId = 0;
+      console.log(this.answerId)
+      this.isHideAll = false;
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
         this.$emit('summation-section', this.trueInRow, this.isSummationSection);
         this.isSummationSection = false;
@@ -163,7 +170,7 @@ export default {
         <font-awesome-icon id="result-icon" v-bind:style="resultColor" :icon="resultMessage === 'CORRECT' ? ['fas', 'circle-check'] : ['fas', 'circle-xmark']" />
         <div>
           <p v-bind:style="resultColor">{{ resultMessage }}</p>
-          <span v-if="resultMessage !== 'CORRECT'" v-bind:style="resultColor">{{ questionsData[currentQuestion].question.answer }}</span>
+          <span v-if="resultMessage !== 'CORRECT' && selectAnswerTitle !== 'completed'" v-bind:style="resultColor">{{ questionsData[currentQuestion].question.answer }}</span>
         </div>
       </div>
 

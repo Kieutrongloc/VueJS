@@ -6,10 +6,14 @@ export default {
       type: Object,
       required: true
     },
+    currentQuestion : {
+      type: Number,
+      required: true
+    }
   },
 
   watch: {
-    currentQuestionData: {
+    currentQuestion: {
       immediate: true,
       handler(newVal) {
         this.newSentence = this.currentQuestionData.answers[0].title.split(" ")

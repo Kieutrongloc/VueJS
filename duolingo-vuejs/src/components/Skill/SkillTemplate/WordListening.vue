@@ -8,7 +8,12 @@ export default {
       type: Object,
       required: true
     },
+    currentQuestion : {
+      type: Number,
+      required: true
+    }
   },
+
   data() {
     return {
       selectedAnswerId : null,
@@ -16,6 +21,16 @@ export default {
     };
   },
   
+  watch: {
+    currentQuestion: {
+      immediate: true,
+      handler(newVal) {
+        this.selectedAnswerId = null,
+        this.selectAnswer = null
+      }
+    }
+  },
+
   async created() {
     while ((this.currentQuestionData) === null) {
       await new Promise(resolve => setTimeout(resolve,100))
