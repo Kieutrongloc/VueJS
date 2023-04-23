@@ -56,7 +56,6 @@ export default {
       const [englishWord, vietnameseWord] = answer.title.split('/');
       return { englishWord, vietnameseWord };
     });
-
   },
 
   methods: {

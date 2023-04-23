@@ -18,31 +18,6 @@ export default {
     },
   },
 
-  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section', 'select-answer', 'ending-section'],
-
-  watch: {
-    currentQuestion(newVal) {
-      if (newVal === this.fixedQuestionsData.length - 1) {
-        this.isMissedQuestionsSection = true;
-      }
-    },
-
-    answerId() {
-      if (this.selectAnswerTitle !=='') {
-        this.isButtonDisable = false;
-        this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
-        if(this.selectAnswerTitle === 'completed') {
-        this.handleTrue();
-        this.isResultShow = true;
-      }
-      } else {
-        this.isButtonDisable = true;
-        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px'}
-      }
-    },
-  },
-
-  
   data() {
     return {
       isSubmit: false,
@@ -61,7 +36,43 @@ export default {
       isEndingSection : false,
       isHideAll : false,
       endingSectionTemplate : 1,
+      isNewQuestion : false,
     };
+  },
+
+  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section', 'select-answer', 'ending-section'],
+
+  watch: {
+    currentQuestion(newVal) {
+      if (newVal === this.fixedQuestionsData.length - 1) {
+        this.isMissedQuestionsSection = true;
+      }
+      
+    },
+
+    selectAnswerId: {
+      immediate: true,
+      handler(newVal) {
+        console.log(this.selectAnswerId, this.isNewQuestion, this.selectAnswerTitle, this.answerId)
+      }
+    },
+
+    answerId() {
+      if (this.answerId !==0) {
+        console.log(this.answerId, this.isNewQuestion, this.selectAnswerTitle)
+        if (this.selectAnswerTitle !=='') {
+          this.isButtonDisable = false;
+          this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
+          if(this.selectAnswerTitle === 'completed') {
+          this.handleTrue();
+          this.isResultShow = true;
+          }
+        } else {
+          this.isButtonDisable = true;
+          this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px'}
+        }
+      }
+    },
   },
 
   methods: {
@@ -103,8 +114,6 @@ export default {
     handleContinue() {
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
-      this.answerId = 0;
-      console.log(this.answerId)
       this.isHideAll = false;
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
         this.$emit('summation-section', this.trueInRow, this.isSummationSection);
@@ -150,7 +159,11 @@ export default {
 
   computed: {
     answerId() {
-      return this.selectAnswerId;
+      if (this.isNewQuestion === false) {
+        return this.selectAnswerId;
+      } else {
+        return 0;
+      }
     }
   },
 
