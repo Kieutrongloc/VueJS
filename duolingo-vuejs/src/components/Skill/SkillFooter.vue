@@ -34,7 +34,6 @@ export default {
       fixedQuestionsData : [],
       isMissedQuestionsSection : false,
       isEndingSection : false,
-      isHideAll : false,
       endingSectionTemplate : 1,
     };
   },
@@ -49,27 +48,17 @@ export default {
       
     },
 
-    selectAnswerId: {
-      immediate: true,
-      handler(newVal) {
-        console.log(this.selectAnswerId, this.selectAnswerTitle, this.answerId)
-      }
-    },
-
     answerId() {
-      if (this.answerId !==0) {
-        console.log(this.answerId, this.selectAnswerTitle)
-        if (this.selectAnswerTitle !=='') {
-          this.isButtonDisable = false;
-          this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
-          if(this.selectAnswerTitle === 'completed') {
-          this.handleTrue();
-          this.isResultShow = true;
-          }
-        } else {
-          this.isButtonDisable = true;
-          this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px'}
+      if (this.selectAnswerTitle !=='') {
+        this.isButtonDisable = false;
+        this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
+        if(this.selectAnswerTitle === 'completed') {
+        this.handleTrue();
+        this.isResultShow = true;
         }
+      } else {
+        this.isButtonDisable = true;
+        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px'}
       }
     },
   },
@@ -113,7 +102,6 @@ export default {
     handleContinue() {
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
-      this.isHideAll = false;
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
         this.$emit('summation-section', this.trueInRow, this.isSummationSection);
         this.isSummationSection = false;
