@@ -46,7 +46,7 @@ export default {
   methods: {
     answerHandle(index) {
       this.answerId++;
-      this.$emit('select-answer', this.answerId, this.userAnswer.join('').toLowerCase().replace(/\s/g,''));
+      this.$emit('select-answer', this.answerId, Object.values(this.userAnswer).join('/'));
     }
   }
 };

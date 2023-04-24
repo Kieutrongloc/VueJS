@@ -1,4 +1,5 @@
 <script>
+import ScoreCard from './SkillFooter/ScoreCard.vue';
 
 export default {
   props: {
@@ -18,6 +19,10 @@ export default {
     },
   },
 
+  components: {
+    ScoreCard
+  },
+
   data() {
     return {
       isSubmit: false,
@@ -35,6 +40,7 @@ export default {
       isMissedQuestionsSection : false,
       isEndingSection : false,
       endingSectionTemplate : 1,
+      isScoreCard : false
     };
   },
 
@@ -67,9 +73,11 @@ export default {
     handleCheck() {
     this.isResultShow = true;
     this.$emit('disable-click', true);
-    if(this.selectAnswerTitle.toLowerCase().replace(/\s/g,'') === this.questionsData[this.currentQuestion].question.answer.toLowerCase().replace(/ /g, '').replace(/\//g, '')) {
+    if(this.selectAnswerTitle.toLowerCase().replace(/[\s/]/g, '') === this.questionsData[this.currentQuestion].question.answer.toLowerCase().replace(/ /g, '').replace(/\//g, '')) {
+      this.handleScorecard(true);
       this.handleTrue()
     } else {
+      this.handleScorecard(false);
       this.handleFalse()
     }
     },
@@ -100,6 +108,7 @@ export default {
     },
     
     handleContinue() {
+      console.log(this.selectAnswerTitle)
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
@@ -133,10 +142,20 @@ export default {
       this.isButtonDisable = false;
       this.isResultShow = true;
       this.$emit('disable-click', true);
+      this.handleScorecard('Skipped');
+    },
+
+    handleScorecard(result) {
+      if(this.currentQuestion < this.fixedQuestionsData.length) {
+        result === 'Skipped' ?
+        this.fixedQuestionsData[this.currentQuestion] = {...this.fixedQuestionsData[this.currentQuestion], result: 'Skipped', userAnswer: null} :
+        this.fixedQuestionsData[this.currentQuestion] = {...this.fixedQuestionsData[this.currentQuestion], result: result, userAnswer: this.selectAnswerTitle};
+        console.log(result, this.fixedQuestionsData)
+      }
     },
 
     handleReviewLesson() {
-      alert('catched')
+      this.isScoreCard = !this.isScoreCard
     },
 
     playAudio(audio) {
@@ -158,7 +177,7 @@ export default {
 </script>
 
 <template>
-  <div id="container" v-bind:style="backgroundStyle">
+  <div id="skillfooter-container" v-bind:style="backgroundStyle">
     <section>
       <button v-if="!isResultShow" @click="skipButtonText === 'SKIP' ? handleSkip() : handleReviewLesson()">{{ skipButtonText }}</button>
 
@@ -172,17 +191,23 @@ export default {
 
       <button v-if="!isSubmit" :disabled="isButtonDisable" v-bind:style="buttonStyle" @click="checkButtonText==='CHECK' ? handleCheck() : checkButtonText==='CONTINUE' ? handleContinue() : handleSubmit()">{{ checkButtonText }}</button>
     </section>
+
+    <div id="score-card" v-if="isScoreCard">
+      <ScoreCard></ScoreCard>
+    </div>
+
   </div>
 </template>
 
 
 <style scoped>
-#container {
+#skillfooter-container {
   max-height: 140px;
   border-top: 2px solid #e5e5e5 ;
+  width: 100vw;
 }
 
-#container section {
+#skillfooter-container section {
   width: 1000px;
   min-width: 670px;
   margin: auto;
@@ -192,7 +217,7 @@ export default {
   flex-direction: row;
 }
 
-#container section button {
+#skillfooter-container section button {
   width: 150px;
   min-width: fit-content;
   height: 48px;
@@ -207,40 +232,47 @@ export default {
   margin: 6.99px 0px;
 }
 
-#container section #result {
+#skillfooter-container section #result {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#container section #result div {
+#skillfooter-container section #result div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#container section #result #result-icon {
+#skillfooter-container section #result #result-icon {
   font-size: 50px;
   margin-right: 10px;
 }
 
-#container section #result p {
+#skillfooter-container section #result p {
   font-size: 22px;
   font-weight: bolder;
 }
 
-#container section #result span {
+#skillfooter-container section #result span {
   font-size: 18px;
 }
 
-#container section button:nth-of-type(1):hover {
+#skillfooter-container section button:nth-of-type(1):hover {
   cursor: pointer;
   background-color: #d8d8d8;
 }
 
 .invisible {
   visibility: hidden;
+}
+
+#skillfooter-container #score-card {
+  position: absolute;
+  bottom: 0px;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
 

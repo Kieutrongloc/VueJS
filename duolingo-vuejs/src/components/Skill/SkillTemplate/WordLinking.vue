@@ -57,10 +57,7 @@ export default {
       const [englishWord, vietnameseWord] = answer.title.split('/');
       return { englishWord, vietnameseWord };
     });
-  },
 
-  mounted() {
-    this.answerId++
   },
 
   methods: {
@@ -98,7 +95,10 @@ export default {
       }
 
       if (this.matchedAnswers.length === this.currentQuestionData.answers.length && this.matchedQuestions.length === this.currentQuestionData.answers.length)
-      {this.$emit('select-answer', this.answerId , 'completed');}
+      {
+        this.answerId = this.answerId + 1
+        this.$emit('select-answer', this.answerId , 'completed');
+      }
     }
   }
 };
