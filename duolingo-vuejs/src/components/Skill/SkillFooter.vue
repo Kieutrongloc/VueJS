@@ -36,7 +36,6 @@ export default {
       isEndingSection : false,
       isHideAll : false,
       endingSectionTemplate : 1,
-      isNewQuestion : false,
     };
   },
 
@@ -53,13 +52,13 @@ export default {
     selectAnswerId: {
       immediate: true,
       handler(newVal) {
-        console.log(this.selectAnswerId, this.isNewQuestion, this.selectAnswerTitle, this.answerId)
+        console.log(this.selectAnswerId, this.selectAnswerTitle, this.answerId)
       }
     },
 
     answerId() {
       if (this.answerId !==0) {
-        console.log(this.answerId, this.isNewQuestion, this.selectAnswerTitle)
+        console.log(this.answerId, this.selectAnswerTitle)
         if (this.selectAnswerTitle !=='') {
           this.isButtonDisable = false;
           this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
@@ -153,17 +152,13 @@ export default {
     },
 
     playAudio(audio) {
-      audio.play()
+      audio.play();
     }
   },
 
   computed: {
     answerId() {
-      if (this.isNewQuestion === false) {
-        return this.selectAnswerId;
-      } else {
-        return 0;
-      }
+      return this.selectAnswerId;
     }
   },
 

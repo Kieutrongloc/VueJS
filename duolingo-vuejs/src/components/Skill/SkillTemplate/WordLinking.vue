@@ -93,7 +93,7 @@ export default {
       }
 
       if (this.matchedAnswers.length === this.currentQuestionData.answers.length && this.matchedQuestions.length === this.currentQuestionData.answers.length)
-      {this.$emit('select-answer', 1 , 'completed');}
+      {this.$emit('select-answer', Math.floor(Math.random() * 100) , 'completed');}
     }
   }
 };
