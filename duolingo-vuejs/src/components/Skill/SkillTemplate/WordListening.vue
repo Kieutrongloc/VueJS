@@ -25,8 +25,7 @@ export default {
     currentQuestion: {
       immediate: true,
       handler(newVal) {
-        this.selectedAnswerId = null,
-        this.selectAnswer = null
+        this.selectedAnswerId = null
       }
     }
   },

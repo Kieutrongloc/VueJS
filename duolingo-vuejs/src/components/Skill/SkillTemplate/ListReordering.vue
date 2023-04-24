@@ -84,12 +84,12 @@ export default {
 
     finalAnswerHandle() {
       var finalAnswer = '';
-      var answerId = 0;
+      var answerId = 1;
       this.userAnswer.forEach((answer) => {
-        finalAnswer += answer.title;
+        finalAnswer += (answer.title + ' ');
         answerId++
       })
-      this.$emit('select-answer', answerId, finalAnswer);
+      this.$emit('select-answer', answerId, finalAnswer.trim());
     }
   }
 };

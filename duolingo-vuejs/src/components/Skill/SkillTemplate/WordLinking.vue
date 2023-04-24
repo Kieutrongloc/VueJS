@@ -26,7 +26,8 @@ export default {
       textStyleOnCheck : null,
       matchedButtonStyle : { cursor : 'default', borderColor : '#e5e5e5', color : '#e5e5e5'},
       matchedTextStyle : { color : '#e5e5e5' },
-      defaultButtonStyle : {}
+      defaultButtonStyle : {},
+      answerId: 1,
     };
   },
 
@@ -56,6 +57,10 @@ export default {
       const [englishWord, vietnameseWord] = answer.title.split('/');
       return { englishWord, vietnameseWord };
     });
+  },
+
+  mounted() {
+    this.answerId++
   },
 
   methods: {
@@ -93,7 +98,7 @@ export default {
       }
 
       if (this.matchedAnswers.length === this.currentQuestionData.answers.length && this.matchedQuestions.length === this.currentQuestionData.answers.length)
-      {this.$emit('select-answer', Math.floor(Math.random() * 100) , 'completed');}
+      {this.$emit('select-answer', this.answerId , 'completed');}
     }
   }
 };

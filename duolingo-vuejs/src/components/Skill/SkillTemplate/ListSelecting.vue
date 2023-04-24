@@ -25,7 +25,10 @@ export default {
     currentQuestion: {
       immediate: true,
       handler(newVal) {
-        this.currentQuestionData.answers.forEach((item) => {item.hidden=false})
+        this.currentQuestionData.answers.forEach((item) => {item.hidden=false});
+        this.selectedAnswerId = null,
+        this.selectedAnswer = null,
+        this.userAnswer = []
       }
     }
   },
@@ -62,10 +65,10 @@ export default {
       var finalAnswer = '';
       var answerId = 1;
       this.userAnswer.forEach((answer) => {
-        finalAnswer += answer.title;
+        finalAnswer += (answer.title + ' ');
         answerId++
       })
-      this.$emit('select-answer', answerId, finalAnswer);
+      this.$emit('select-answer', answerId, finalAnswer.trim());
     }
   }
 };
