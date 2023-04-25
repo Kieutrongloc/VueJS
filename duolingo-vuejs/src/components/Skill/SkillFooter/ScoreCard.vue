@@ -14,7 +14,8 @@ export default {
         textColorTrue : { color : '#58A700'},
         backgroundColorFalse : { backgroundColor : '#ffdfe0', color : '#EA2B2B'},
         textColorFalse : { color : '#EA2B2B'},
-        isShowResult : false
+        isShowResult : false,
+        selectedBoxIndex : null
     };
   },
 
@@ -30,6 +31,15 @@ export default {
   methods: {
     closeScoreCard() {
         this.$emit('close-scorecard', false);
+    },
+
+    selectBoxHandle(index) {
+        this.isShowResult = !this.isShowResult
+        this.selectedBoxIndex = index
+    },
+
+    playAudio(audio) {
+        new Audio(audio).play()
     }
   }
 };
@@ -47,18 +57,20 @@ export default {
             <p>Click the tiles below to reveal the solutions</p>
         </div>
         <div id="scorecard-board">
-            <div v-for="item in this.fixedQuestionsData" class="scorecard-box" v-bind:style="item.result === false || item.result === 'Skipped' ? backgroundColorFalse : backgroundColorTrue">
+            <div v-for="(item, index) in this.fixedQuestionsData" :key="index" class="scorecard-box" v-bind:style="item.result === false || item.result === 'Skipped' ? backgroundColorFalse : backgroundColorTrue" @click="selectBoxHandle(index)">
                 <div class="title">
                     <p>{{ item.question.title }}</p>
                     <font-awesome-icon class="result-icon" :icon="item.result === false || item.result === 'Skipped' ? ['fas', 'circle-xmark'] : ['fas', 'circle-check']" />
                 </div>
 
                 <div class="answer">
-                    <p>{{ item.question.answer === 'Completed' ? item.answers.map(item => item.title.split("/")[1]).join(", ") : item.question.title !== 'Read this sentence' ? item.question.answer : '' }}</p>
-                    <img v-if="item.question.audio !== ''" class="speaker-icon" src="/src/assets/img/addition/speaker.png" alt="speaker">
+                    <div v-if="item.question.audio !== ''" @click="playAudio(item.question.audio)">
+                        <img class="speaker-icon" src="/src/assets/img/addition/speaker.png" alt="speaker">
+                    </div>
+                    <p v-else>{{ item.question.answer === 'Completed' ? item.answers.map(item => item.title.split("/")[1]).join(", ") : item.question.title !== 'Read this sentence' ? item.question.answer : '' }}</p>
                 </div>
 
-                <div v-if="isShowResult" class="result">
+                <div v-if="isShowResult && selectedBoxIndex === index" class="result">
                     <div class="user-response">
                         <p>YOUR RESPONSE:</p>
                         <span>{{ item.userAnswer === "completed" ? item.answers.map(item => `${item.title.replace('/', '⟷')}`).join(', ') : item.userAnswer === null ? 'Skipped' : item.userAnswer }}</span>
@@ -165,6 +177,13 @@ export default {
     font-weight: bolder;
 }
 
+#scorecard #scorecard-board .scorecard-box .answer div {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    margin: 0px auto;
+}
+
 #scorecard #scorecard-board .scorecard-box .answer img {
     width: 39px;
     height: fit-content;
@@ -186,6 +205,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    z-index: 2;
 }
 
 #scorecard #scorecard-board .scorecard-box .result p {
