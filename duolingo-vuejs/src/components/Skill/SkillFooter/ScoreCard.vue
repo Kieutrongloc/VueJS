@@ -112,6 +112,7 @@ export default {
     max-width: 766px;
     margin: 0px auto;
     padding: 20px;
+    max-height: 90vh;
 }
 
 #scorecard #container #close-button {
@@ -191,11 +192,15 @@ export default {
     z-index: 1;
 }
 
+#scorecard #scorecard-board .scorecard-box .answer img:hover {
+    width: 40px;
+}
+
 #scorecard #scorecard-board .scorecard-box .result {
     position: absolute;
     width: max-content;
     left: 50%;
-    top: 90%;
+    top: 120%;
     transform: translate(-50%, -50%);
     background-color: #fff;
     padding: 12px;

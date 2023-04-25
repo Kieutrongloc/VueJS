@@ -1,5 +1,6 @@
 <script>
 import ScoreCard from './SkillFooter/ScoreCard.vue';
+import router from '../../router'
 
 export default {
   props: {
@@ -44,7 +45,7 @@ export default {
     };
   },
 
-  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section', 'select-answer', 'ending-section'],
+  emits: ['next-question','disable-click', 'summation-section', 'answer-validate', 'missed-questions-section', 'select-answer', 'ending-section', 'disable-header'],
 
   watch: {
     currentQuestion(newVal) {
@@ -58,7 +59,7 @@ export default {
       if (this.selectAnswerTitle !=='') {
         this.isButtonDisable = false;
         this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
-        if(this.selectAnswerTitle === 'Completed') {
+        if(this.selectAnswerTitle === 'completed') {
         this.handleTrue();
         this.handleScorecard('Completed');
         this.isResultShow = true;
@@ -109,22 +110,26 @@ export default {
     },
     
     handleContinue() {
-      // console.log(this.selectAnswerTitle)
-      this.backgroundStyle = { backgroundColor : '#fff' };
-      this.$emit('disable-click', false);
-      if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
-        this.$emit('summation-section', this.trueInRow, this.isSummationSection);
-        this.isSummationSection = false;
-      } else if (this.isMissedQuestionsSection === true) {
-        this.$emit('missed-questions-section', this.isMissedQuestionsSection);
-        this.isMissedQuestionsSection = !this.isMissedQuestionsSection
+      if (this.currentQuestion < this.questionsData.length && this.isEndingSection === false) {
+        this.backgroundStyle = { backgroundColor : '#fff' };
+        this.$emit('disable-click', false);
+        if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
+          this.$emit('summation-section', this.trueInRow, this.isSummationSection);
+          this.isSummationSection = false;
+        } else if (this.isMissedQuestionsSection === true) {
+          this.$emit('missed-questions-section', this.isMissedQuestionsSection);
+          this.isMissedQuestionsSection = !this.isMissedQuestionsSection
+        } else {
+          this.$emit('next-question', this.currentQuestion + 1);
+          this.checkButtonText = 'CHECK';
+          this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px' };
+          this.isButtonDisable = true;
+          this.isResultShow = false;
+          this.isSummationSection = true
+        }
       } else {
-        this.$emit('next-question', this.currentQuestion + 1);
-        this.checkButtonText = 'CHECK';
-        this.buttonStyle = { color: '#A3A3A3', backgroundColor : '#fff', cursor: 'default', borderColor: '#bababa', borderWidth: '2px 2px 4px 2px' };
-        this.isButtonDisable = true;
-        this.isResultShow = false;
-        this.isSummationSection = true
+      this.$emit('ending-section',  this.isEndingSection, this.endingSectionTemplate++);
+      if(this.endingSectionTemplate === 2) {router.push('/user-home')}
       }
     },
 
@@ -137,6 +142,7 @@ export default {
       this.skipButtonText = 'REVIEW LESSON'
       this.playAudio(new Audio('/src/assets/audio/addition/audio-ending.mp3'));
       this.$emit('disable-header', true);
+      this.checkButtonText = 'CONTINUE';
     },
 
     handleSkip() {
@@ -154,7 +160,6 @@ export default {
         result === 'Completed' ?
         this.fixedQuestionsData[this.currentQuestion] = {...this.fixedQuestionsData[this.currentQuestion], result: 'Completed', userAnswer: 'Completed'} :
         this.fixedQuestionsData[this.currentQuestion] = {...this.fixedQuestionsData[this.currentQuestion], result: result, userAnswer: this.selectAnswerTitle};
-        console.log(result, this.fixedQuestionsData)
       }
     },
 

@@ -4,7 +4,14 @@ import { defineAsyncComponent } from 'vue';
 export default {
   name: 'EndingSection',
   props: {
+    isEndingSection: {
+      type: Boolean
+    },
 
+    endingSectionTemplate: {
+      type: Number
+    }
+    
   },
 
   emits: [''],
@@ -19,7 +26,7 @@ export default {
   },
 
   created() {
-    this.endingTemplate = 'congratulation'
+    this.endingTemplate = 1
   },
 
   methods: {
@@ -29,12 +36,12 @@ export default {
   computed: {
     QuestionComponent() {
       switch (this.endingTemplate) {
-        case 'congratulation':
+        case 1:
           return defineAsyncComponent(() => import('./EndingSection/Congratulation.vue'));
-        case 'xp earning':
-          return defineAsyncComponent(() => import('./EndingSection/XpEarning.vue'));
-        case 'day streak':
-          return defineAsyncComponent(() => import('./EndingSection/DayStreak.vue'));
+        // case 'xp earning':
+        //   return defineAsyncComponent(() => import('./EndingSection/XpEarning.vue'));
+        // case 'day streak':
+        //   return defineAsyncComponent(() => import('./EndingSection/DayStreak.vue'));
         default:
           return null;
       }
@@ -45,7 +52,7 @@ export default {
 
 <template>
   <div id="container">
-    <div v-if="disableClick" id="disable-click"></div>
+    <div id="disable-click"></div>
     <section>
       <component :is="QuestionComponent" />
     </section>
