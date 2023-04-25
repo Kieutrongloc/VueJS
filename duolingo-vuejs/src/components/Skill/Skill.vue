@@ -5,6 +5,7 @@ import SkillFooter from './SkillFooter.vue'
 import router from '../../router'
 import loading from '../Loading.vue'
 import { apiService } from '../apiService'
+import { is } from '@babel/types'
 
 export default {
   name: 'Skill',
@@ -32,7 +33,8 @@ export default {
       trueAnswerTotal : 0,
       isMissedQuestionSection : null,
       isEndingSection : null,
-      endingSectionTemplate : null
+      endingSectionTemplate : null,
+      isDisableHeader : false
     }
   },
 
@@ -105,7 +107,12 @@ export default {
     endingSection(isEndingSection, template) {
       this.isEndingSection = isEndingSection;
       this.endingSectionTemplate = template
+    },
+
+    disableHeaderHandle(isTrue) {
+      this.isDisableHeader = isTrue
     }
+
   }
 }
 </script>
@@ -115,9 +122,9 @@ export default {
     <loading :loadingMessage="loadingMessage"/>
   </div>
   <div v-if="!isLoading" id="container">
-    <SkillHeader :questionsData="questionsData" :trueAnswerTotal="trueAnswerTotal"/>
+    <SkillHeader v-if="!isDisableHeader" :questionsData="questionsData" :trueAnswerTotal="trueAnswerTotal" :currentQuestion="currentQuestion"/>
     <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isSummationSection = "isSummationSection" :isMissedQuestionSection = "isMissedQuestionSection" :isEndingSection = "isEndingSection" :endingSectionTemplate = "endingSectionTemplate"/>
-    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate" @missed-questions-section = "missedQuestionsSection" @ending-section="endingSection" />
+    <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate" @missed-questions-section = "missedQuestionsSection" @ending-section="endingSection" @disable-header="disableHeaderHandle" />
   </div>
 </template>
 

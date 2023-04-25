@@ -10,6 +10,11 @@ export default {
     trueAnswerTotal: {
       type: Number,
       required: true
+    },
+
+    currentQuestion: {
+      type: Number,
+      required: true
     }
   },
 
@@ -34,7 +39,7 @@ export default {
     },
 
     quitBoxHandle() {
-      this.isQuitBox = !this.isQuitBox
+      this.currentQuestion < 5 ? this.quitConfirmHandle() : this.isQuitBox = !this.isQuitBox;
     },
 
     quitConfirmHandle(){

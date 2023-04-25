@@ -58,8 +58,9 @@ export default {
       if (this.selectAnswerTitle !=='') {
         this.isButtonDisable = false;
         this.buttonStyle = { color: '#fff', backgroundColor : '#58cc03', cursor: 'pointer', borderColor: '#58a700', borderWidth: '0px 0px 4px 0px'};
-        if(this.selectAnswerTitle === 'completed') {
+        if(this.selectAnswerTitle === 'Completed') {
         this.handleTrue();
+        this.handleScorecard('Completed');
         this.isResultShow = true;
         }
       } else {
@@ -108,7 +109,7 @@ export default {
     },
     
     handleContinue() {
-      console.log(this.selectAnswerTitle)
+      // console.log(this.selectAnswerTitle)
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.$emit('disable-click', false);
       if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
@@ -135,6 +136,7 @@ export default {
       this.backgroundStyle = { backgroundColor : '#fff' };
       this.skipButtonText = 'REVIEW LESSON'
       this.playAudio(new Audio('/src/assets/audio/addition/audio-ending.mp3'));
+      this.$emit('disable-header', true);
     },
 
     handleSkip() {
@@ -149,17 +151,23 @@ export default {
       if(this.currentQuestion < this.fixedQuestionsData.length) {
         result === 'Skipped' ?
         this.fixedQuestionsData[this.currentQuestion] = {...this.fixedQuestionsData[this.currentQuestion], result: 'Skipped', userAnswer: null} :
+        result === 'Completed' ?
+        this.fixedQuestionsData[this.currentQuestion] = {...this.fixedQuestionsData[this.currentQuestion], result: 'Completed', userAnswer: 'Completed'} :
         this.fixedQuestionsData[this.currentQuestion] = {...this.fixedQuestionsData[this.currentQuestion], result: result, userAnswer: this.selectAnswerTitle};
         console.log(result, this.fixedQuestionsData)
       }
     },
 
     handleReviewLesson() {
-      this.isScoreCard = !this.isScoreCard
+      this.isScoreCard = !this.isScoreCard;
     },
 
     playAudio(audio) {
       audio.play();
+    },
+
+    handleCloseScorecard(isValue) {
+      this.isScoreCard = isValue
     }
   },
 
@@ -185,7 +193,7 @@ export default {
         <font-awesome-icon id="result-icon" v-bind:style="resultColor" :icon="resultMessage === 'CORRECT' ? ['fas', 'circle-check'] : ['fas', 'circle-xmark']" />
         <div>
           <p v-bind:style="resultColor">{{ resultMessage }}</p>
-          <span v-if="resultMessage !== 'CORRECT' && selectAnswerTitle !== 'completed'" v-bind:style="resultColor">{{ questionsData[currentQuestion].question.answer }}</span>
+          <span v-if="resultMessage !== 'CORRECT' && selectAnswerTitle !== 'Completed'" v-bind:style="resultColor">{{ questionsData[currentQuestion].question.answer }}</span>
         </div>
       </div>
 
@@ -193,7 +201,7 @@ export default {
     </section>
 
     <div id="score-card" v-if="isScoreCard">
-      <ScoreCard></ScoreCard>
+      <ScoreCard :fixedQuestionsData = "fixedQuestionsData" @close-scorecard = 'handleCloseScorecard'></ScoreCard>
     </div>
 
   </div>
@@ -208,13 +216,14 @@ export default {
 }
 
 #skillfooter-container section {
-  width: 1000px;
-  min-width: 670px;
+  max-width: 1000px;
+  min-width: fit-content;
   margin: auto;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 #skillfooter-container section button {
