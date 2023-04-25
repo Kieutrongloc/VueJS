@@ -12,7 +12,7 @@ export default {
     return {
         backgroundColorTrue : { backgroundColor : '#d7ffb9', color: '#58A700'},
         textColorTrue : { color : '#58A700'},
-        backgroundColorFalse : { backgroundColor : '#d7ffb9', color : '#EA2B2B'},
+        backgroundColorFalse : { backgroundColor : '#ffdfe0', color : '#EA2B2B'},
         textColorFalse : { color : '#EA2B2B'},
         isShowResult : false
     };
