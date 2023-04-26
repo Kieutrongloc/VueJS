@@ -121,7 +121,7 @@ export default {
   <div v-if="isLoading">
     <loading :loadingMessage="loadingMessage"/>
   </div>
-  <div v-if="!isLoading" id="container">
+  <div v-if="!isLoading" id="skill-container">
     <SkillHeader v-if="!isDisableHeader" :questionsData="questionsData" :trueAnswerTotal="trueAnswerTotal" :currentQuestion="currentQuestion"/>
     <SkillBody :questionsData="questionsData" :currentQuestion="currentQuestion" @select-answer="selectAnswerHandle" :disableClick = "disableClick" :trueInRow = "trueInRow" :isSummationSection = "isSummationSection" :isMissedQuestionSection = "isMissedQuestionSection" :isEndingSection = "isEndingSection" :endingSectionTemplate = "endingSectionTemplate"/>
     <SkillFooter :questionsData="questionsData" :currentQuestion="currentQuestion" :selectAnswerTitle="selectAnswerTitle" :selectAnswerId="selectAnswerId" @next-question="currentQuestion = $event" @disable-click="handleDisbaleClick" @summation-section = "handleSummationSection" @answer-validate = "answerValidate" @missed-questions-section = "missedQuestionsSection" @ending-section="endingSection" @disable-header="disableHeaderHandle" />
@@ -129,7 +129,7 @@ export default {
 </template>
 
 <style scoped>
-  #loading {
+  /* #loading {
     display: flex;
     flex-direction: column;
     background-color: #fcfcff;
@@ -155,15 +155,5 @@ export default {
     font-weight: bolder;
     color: #727272;
     margin: 10px 0px;
-  }
-
-  #container {
-    width: 100vw;
-    min-width: fit-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100vh;
-  }
+  } */
 </style>

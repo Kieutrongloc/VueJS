@@ -110,9 +110,9 @@ export default {
     },
     
     handleContinue() {
+      this.$emit('disable-click', false);
       if (this.currentQuestion < this.questionsData.length && this.isEndingSection === false) {
         this.backgroundStyle = { backgroundColor : '#fff' };
-        this.$emit('disable-click', false);
         if(this.isSummationSection === true && (this.trueInRow === 5 || this.trueInRow === 10)) {
           this.$emit('summation-section', this.trueInRow, this.isSummationSection);
           this.isSummationSection = false;
@@ -211,83 +211,5 @@ export default {
 
   </div>
 </template>
-
-
-<style scoped>
-#skillfooter-container {
-  max-height: 140px;
-  border-top: 2px solid #e5e5e5 ;
-  width: 100vw;
-}
-
-#skillfooter-container section {
-  max-width: 1000px;
-  min-width: fit-content;
-  margin: auto;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#skillfooter-container section button {
-  width: 150px;
-  min-width: fit-content;
-  height: 48px;
-  background-color: #fff;
-  border-radius: 12px;
-  border-style: solid;
-  border-color: #bababa;
-  border-width: 2px 2px 4px 2px;
-  font-size: 18px;
-  color: #a3a3a3;
-  font-weight: bolder;
-  margin: 6.99px 0px;
-}
-
-#skillfooter-container section #result {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#skillfooter-container section #result div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#skillfooter-container section #result #result-icon {
-  font-size: 50px;
-  margin-right: 10px;
-}
-
-#skillfooter-container section #result p {
-  font-size: 22px;
-  font-weight: bolder;
-}
-
-#skillfooter-container section #result span {
-  font-size: 18px;
-}
-
-#skillfooter-container section button:nth-of-type(1):hover {
-  cursor: pointer;
-  background-color: #d8d8d8;
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-#skillfooter-container #score-card {
-  position: absolute;
-  bottom: 0px;
-  width: 100vw;
-  height: 100vh;
-}
-</style>
 
 

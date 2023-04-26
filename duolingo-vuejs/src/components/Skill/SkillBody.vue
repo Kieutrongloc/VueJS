@@ -138,35 +138,10 @@ export default {
 </script>
 
 <template>
-  <div id="container">
+  <div id="skill-body">
     <div v-if="disableClick" id="disable-click"></div>
     <section>
       <component :is="QuestionComponent" :currentQuestionData="currentQuestionData" @select-answer="selectAnswer" :trueInRow = "trueInRow" :currentQuestion = "currentQuestion" :endingSectionTemplate = "endingSectionTemplate" />
     </section>
   </div>
 </template>
-
-<style scoped>
-#container {
-  display: flex;
-  align-items: center;
-}
-
-#container section {
-  width: 1000px;
-  min-width: 670px;
-  margin: 0 auto;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  height: 100%;
-}
-
-#disable-click {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-</style>

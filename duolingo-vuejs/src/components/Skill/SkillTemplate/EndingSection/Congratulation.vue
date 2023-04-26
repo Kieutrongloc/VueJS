@@ -34,32 +34,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-#congratulations #container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#congratulations #container img {
-  width: 240px;
-  height: fit-content;
-}
-
-#congratulations #container h2 {
-  font-weight: bolder;
-}
-
-#congratulations #container p {
-  font-size: larger;
-  color: #787878;
-}
-
-#congratulations #container .xp-point {
-  color: #fed356;
-  font-weight: bolder;
-}
-
-</style>

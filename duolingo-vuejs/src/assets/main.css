@@ -5,9 +5,9 @@
   flex-direction: row;
   cursor: default;
 }
-main, .container {
+/* main, .container {
   width: 100vw;
-}
+} */
 /* a,
 .green {
   text-decoration: none;

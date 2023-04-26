@@ -50,7 +50,7 @@ export default {
 
 <template>
   <Loading v-if="isLoading" :loadingMessage="loadingMessage"/>
-  <div id="container" v-if="!isLoading">
+  <div id="user-home" v-if="!isLoading">
     <div id="to-padding-left"></div>
     <div id="user-nav">
       <UserNav id="user-nav-component"/>
@@ -60,34 +60,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-#container {
-  display: flex;
-  flex-direction: row;
-}
-#to-padding-left {
-  width: 20vw;
-}
-
-#user-nav {
-  margin-right: 28vw;
-  position: absolute;
-}
-
-#user-nav-component {
-  width: 100vw;
-}
-
-#user-learn {
-  width: 78vw;
-  /* display: flex;
-  justify-content: center; */
-}
-
-#user-learn-component {
- display: flex;
- margin: 30px 0px 0px 30px;
- justify-self: center;
-}
-</style>

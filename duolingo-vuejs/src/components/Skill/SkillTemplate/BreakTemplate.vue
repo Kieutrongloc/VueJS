@@ -45,6 +45,7 @@ export default {
   display: flex;
   align-items: flex-end;
   width: 100%;
+  height: 100%;
 }
 
 #true-in-row #message-box {

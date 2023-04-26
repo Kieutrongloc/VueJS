@@ -39,47 +39,4 @@ export default {
   </div>
 </template>
 
-<style scoped>
-#true-in-row {
-  display: flex;
-  align-items: flex-end;
-  width: 100%;
-}
-
-#true-in-row #message-box {
-  display: flex;
-  flex-direction: column;
-  margin-left: 20%;
-  position: relative;
-  top: 86px;
-}
-
-#message {
-  border: solid #d7d7d7 2px;
-  border-radius: 20px;
-  padding: 20px;
-  height: max-content;
-}
-
-#message p {
-  width: fit-content;
-  height: fit-content;
-  text-align: center;
-  display: block;
-  font-weight: bolder;
-  color: #545454;
-}
-
-/* #true-in-row #message-box #image {
-  display: flex;
-  flex-direction: row;
-} */
-
-#true-in-row #message-box img {
-  height: 180px;
-  width: fit-content;
-}
-
-</style>
-
 

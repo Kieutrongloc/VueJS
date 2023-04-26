@@ -53,9 +53,9 @@ export default {
 </script>
 
 <template>
-  <div id="list-selecting">
+  <div id="word-filling">
     <!-- Template word filling  -->
-    <div class="question-template" id="template-list-selecting">
+    <div class="question-template" id="template-word-filling">
         <h1 class="question"> {{ currentQuestionData.question.title }}</h1>
         <div class="answer-list">
           <div class="question-detail">
@@ -90,114 +90,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-#list-selecting {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.question-template {
-  width: 620px;
-  min-height: 400px;
-  max-height: 88%;
-  height: 460px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: auto;
-}
-
-.question-template h1 {
-  font-size: 36px;
-  font-weight: bolder;
-  color: #3c3c3c;
-}
-
-.question-template .answer-list {
-  display: flex;
-}
-
-/* Template list selecting  */
-#template-list-selecting .answer-list {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 30px;
-}
-
-#template-list-selecting .answer-list .question-detail {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-#template-list-selecting .answer-list .question-detail .question-detail-img {
-  height: 169px;
-  width: 114px;
-}
-
-#template-list-selecting .answer-list .question-detail .question-detail-img img {
-  height: 169px;
-  width: 110px;
-}
-
-#template-list-selecting .answer-list .question-detail .question-detail-des {
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  border-style: solid;
-  border-color: #bababa;
-  border-width: 2px 2px 4px 2px;
-  border-radius: 8px;
-  padding: 4px;
-  padding: 10px;
-}
-
-#template-list-selecting .answer-list .question-detail .question-detail-des p {
-  font-size: larger;
-  font-weight: 500;
-  color: #626262;
-}
-
-#answer-box {
-  height: 200px;
-  border-style: solid;
-  border-color: #bababa;
-  border-width: 2px 2px 4px 2px;
-  border-radius: 10px;
-}
-
-#template-list-selecting .answer-list .answer-area {
-
-  display: flex;
-  flex-direction: row;
-  padding: 10px;
-  flex-wrap: wrap;
-}
-
-#template-list-selecting .answer-list .answer-area .text {
-  margin: 4px;
-  height: fit-content;
-}
-
-#template-list-selecting .answer-list .answer-area .text p {
-  font-size: 18px;
-  font-weight: bolder;
-  color: #646464;
-}
-
-input {
-  width: 100px;
-  font-size: 18px;
-  border: none;
-  margin-top: 3.5px;
-  outline: none;
-  font-weight: bolder;
-  color: #646464;
-  text-align: center;
-  border-bottom: 1px dashed #c0c0c0;
-}
-
-
-</style>
