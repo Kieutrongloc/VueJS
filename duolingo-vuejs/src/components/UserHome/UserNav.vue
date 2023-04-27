@@ -35,7 +35,7 @@ export default {
 <template setup>
   <!-- <div id='container'> -->
     <nav id="user-nav">
-      <div>
+      <div id="user-nav-container">
         <RouterLink to="/user-home"><img id="logo-duolingo" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg" alt="logo-duolingo"></RouterLink>
         <div id="navigation">
           <ul>
