@@ -51,7 +51,6 @@ export default {
 <template>
   <Loading v-if="isLoading" :loadingMessage="loadingMessage"/>
   <div id="user-home" v-if="!isLoading">
-    <div id="to-padding-left"></div>
     <div id="user-nav">
       <UserNav id="user-nav-component"/>
     </div>
