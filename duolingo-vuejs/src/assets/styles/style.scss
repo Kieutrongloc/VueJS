@@ -49,9 +49,6 @@ $desktop-width: 1024px;
 		height: 100vh;
 		justify-content: space-between;
 		min-width: 100vw;
-		@include mobile {     
-			height:max-content;
-		}
 	}
 	#header {
 		max-width: 1000px;
@@ -110,10 +107,16 @@ $desktop-width: 1024px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+			height: 100%;
+			padding-bottom: 40px;
 		}
 		#logo-earth {
 			width: 320px;
 			height: 320px;
+			@include mobile {     
+				width: 160px;
+				height: 160px;
+			}
 		}
 		#body-content {
 			width: 80%;
@@ -424,6 +427,9 @@ $desktop-width: 1024px;
 				z-index: 1;
 				background-color: white;
 				top: 44px;
+				@include mobile {     
+					right: 0px;
+				}
 				a {
 					text-decoration: none;
 					color: blue;
@@ -434,6 +440,9 @@ $desktop-width: 1024px;
 			color: #a5a5a5;
 			font-size: 20px;
 			right: 30px;
+			position: absolute;
+			top: 18px;
+			right: 10px;
 			&:hover {
 				cursor: pointer;
 			}
