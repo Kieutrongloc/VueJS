@@ -42,6 +42,7 @@
           <input class="user-input" type="text" placeholder="Name (optional)" name="name">
           <input class="user-input" type="text" placeholder="Email" name="id">
           <input class="user-input" type="password" placeholder="Password" name="pw">
+          <input class="user-input" type="password" placeholder="Confirm password" name="cf-pw">
           <input id="submit" type="submit" value="CREATE ACCOUNT" name="submit">
         </form>
         <div id="text-or">

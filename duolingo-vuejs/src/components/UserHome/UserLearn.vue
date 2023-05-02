@@ -5,29 +5,30 @@ export default {
     name: 'UserLearn',
     data() {
         return {
-            onClickStartButton: false,
+            isStartButton: false,
             unit : JSON.parse(localStorage.getItem('unit')),
             lesson : JSON.parse(localStorage.getItem('lesson')),
+            userCurrentCourse : JSON.parse(localStorage.getItem('user')).current_course_id,
+            userCurrentLesson : JSON.parse(localStorage.getItem('user')).current_lesson,
+            userCurrentUnit : JSON.parse(localStorage.getItem('user')).current_unit,
             idClicked : ''
         }
     },
     methods: {
-        isLearned(status) {
-            return status === "learning"
-        },
         startButtonHandle(id) {
             this.idClicked = id
-            this.onClickStartButton = !this.onClickStartButton
+            this.isStartButton = !this.isStartButton
         },
-        alertReminder() {
+        alertReminder(id) {
             alert('Please complete your lesson in turn!')
+            console.log(id)
         }
     },
     created() {
         const user = localStorage.getItem("user");
         if (!user) {
         router.push('/')
-        }
+        };
     },
     mounted() {
     }
@@ -38,7 +39,7 @@ export default {
     <div id="user-learn">
         <div id="container">
           <div>
-            <div class="unit" v-for="itemUnit in unit" :key="itemUnit.id">
+            <div class="unit" v-for="(itemUnit, indexUnit) in unit" :key="itemUnit.id">
                 <div class="unit-box">
                     <div class="title">
                         <h2> Unit {{ itemUnit.id }}</h2>
@@ -51,20 +52,21 @@ export default {
                 </div>
                 <div class="lesson-section">
                     <div class="lesson">
-                        <ul class="lesson-list" v-for="itemLesson in lesson" :key="itemLesson.id">
+                        <ul class="lesson-list" v-for="(itemLesson, indexLesson) in lesson" :key="itemLesson.id">
                             <li v-if="itemLesson.unit_id == itemUnit.id">
-                                <div v-if="isLearned(itemLesson.status)" @click="startButtonHandle(itemLesson.id)">
-                                    <p id="button-start">START</p>
+                                <div v-if="((itemLesson.id === userCurrentLesson && itemUnit.id === userCurrentUnit) || (itemLesson.id % 5 == 1 && itemUnit.id > userCurrentUnit)) && isStartButton === false" @click="startButtonHandle(itemLesson.id)">
+                                    <p v-if="itemLesson.id === userCurrentLesson && itemUnit.id === userCurrentUnit" class="button-start">START</p>
+                                    <p v-else class="button-start">JUMP HERE!</p>
                                 </div>
-                                <button class="lesson-learning-learned" v-if="itemLesson.status === 'learning' || itemLesson.status === 'learned'" @click="startButtonHandle(itemLesson.id)">
+                                <button class="lesson-learning-learned" v-if="(itemLesson.id <= userCurrentLesson && itemUnit.id <= userCurrentUnit) || (itemUnit.id < userCurrentUnit) || (itemLesson.id % 5 == 1 && itemUnit.id > userCurrentUnit)" @click="startButtonHandle(itemLesson.id)">
                                     <font-awesome-icon class="colored-icon" :icon="`${'fa ' + itemLesson.icon}`" />
                                 </button>
-                                <div id="start-button" v-if="onClickStartButton && idClicked === itemLesson.id">
+                                <div id="start-button" v-if="isStartButton && idClicked === itemLesson.id">
                                     <h2>{{ itemLesson.title }}</h2>
                                     <span>Lesson of</span>
                                     <RouterLink id="enter-lesson" :to="'../skill/' + itemUnit.id + '/'+ itemLesson.id"><div><p>START +10 XP</p></div></RouterLink>
                                 </div>
-                                <button class="lesson-not-learned" v-else-if="itemLesson.status === 'not learned'" @click="alertReminder">
+                                <button class="lesson-not-learned" v-else-if="(itemLesson.id > userCurrentLesson && itemUnit.id >= userCurrentUnit && itemLesson.id % 5 !== 1)" @click="alertReminder(itemLesson.id)">
                                     <font-awesome-icon  class="gray-icon" icon="fa-solid fa-lock" />
                                 </button>
                             </li>
