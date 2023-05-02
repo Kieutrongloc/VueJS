@@ -568,15 +568,12 @@ $desktop-width: 1024px;
 	display: flex;
 	width: 100vw;
 	height: 100%;
-	#user-nav {
-		@include mobile {
-			// position: absolute;
-			// bottom: 0;
-			// z-index: 1;
-		}
-	}
+	// #user-nav {
+
+	// }
 	// #user-learn {
-	// 	width: 100%;
+	// 	@include mobile {
+	// 	}
 	// }
 	// #user-learn-component {
 
@@ -588,11 +585,14 @@ $desktop-width: 1024px;
 #user-nav {
 	border-right: 2px solid rgb(212, 212, 212);
 	width: fit-content;
+	// position: fixed;
+	// top: 0;
+	// z-index: 2;
 	@include mobile {    
 		border-right: none;
 		position: fixed;
-		top: 0;
-		z-index: 1;
+		bottom: 0;
+		z-index: 2;
 	}
 	#user-nav-container {
 		padding-top: 20px;
@@ -612,6 +612,9 @@ $desktop-width: 1024px;
 		@include mobile {     
 			display: none;
 		}
+		@include tablet {    
+			display: none;
+		}
 	}
 	#navigation {
 		ul {
@@ -619,6 +622,9 @@ $desktop-width: 1024px;
 				display: flex; 
 				flex-direction: row;
 				max-width: 100vw;
+				padding-inline-start: 0;
+			}
+			@include tablet {    
 				padding-inline-start: 0;
 			}
 			.nav-list {
@@ -631,7 +637,9 @@ $desktop-width: 1024px;
 					padding: 14px 20px;
 					margin: auto;
 				}
-				
+				@include tablet {    
+					margin: 10px 0px 10px 0px;
+				}
 				&:hover {
 					cursor: pointer;
 					background-color: #e3e3e3;
@@ -651,8 +659,11 @@ $desktop-width: 1024px;
 					@include mobile {    
 						display: none; 
 					}
+					@include tablet {    
+						display: none;
+					}
 				}
-				ul {
+				#show-more {
 					position: absolute;
 					list-style: none;
 					border: 2px #b1b1b1 solid;
@@ -663,7 +674,13 @@ $desktop-width: 1024px;
 					background-color: white;
 					width: 280px;
 					z-index: 2;
-					@include mobile {    
+					flex-direction: column;
+					@include mobile {   
+						left: -60vw;
+						bottom: 60px;
+					}
+					@include tablet {
+						left: 100px;
 					}
 					
 					div {
@@ -701,12 +718,16 @@ $desktop-width: 1024px;
 		min-width: fit-content;
 		justify-content: center;
 		padding-top: 20px;
+		@include mobile {
+			padding: 80px 0px;
+		}
 	}
 	.unit {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		margin-bottom: 30px;
+
 		.unit-box {
 			display: flex;
 			flex-direction: row;
@@ -717,6 +738,16 @@ $desktop-width: 1024px;
 			color: white;
 			width: 600px;
 			height: 110px;
+			@include mobile {
+				width: fit-content;
+				height: fit-content;
+
+			}
+			.title {
+				@include mobile {
+					height: fit-content;
+				}
+			}
 			h2 {
 				color: white;
 				font-weight: bolder;
@@ -840,6 +871,10 @@ $desktop-width: 1024px;
 			img {
 				width: 200px;
 				height: 150px;
+				@include mobile {
+					width: 160px;
+					height: fit-content;
+				}
 			}
 		}
 	}
@@ -850,12 +885,30 @@ $desktop-width: 1024px;
 	}
 	aside {
 		margin-left: 30px;
+		@include mobile {
+			position: fixed;
+			left: 0;
+			background-color: #fff;
+			width: 100vw;
+			margin-left: 0px;
+			top: 0px;
+			z-index: 1;
+		}
 	}
 	#aside {
 		width: max-content;
+		@include mobile {
+			width: 100vw;
+		}
 		#user {
 			display: flex;
 			justify-content: space-between;
+			@include mobile {
+				height: 68px;
+				border-bottom: 2px solid rgb(212, 212, 212);
+				justify-content: space-around;
+				padding: 10px 0px;
+			}
 			div {
 				display: flex;
 				align-items: center;
@@ -876,6 +929,9 @@ $desktop-width: 1024px;
 			}
 		}
 		#premium {
+			@include mobile {
+				display: none;
+			}
 			#premium-content {
 				width: 300px;
 			}
@@ -923,6 +979,9 @@ $desktop-width: 1024px;
         padding: 20px;
         margin-top: 20px;
         width: 400px;
+		@include mobile {
+			display: none;
+		}
 		p {
 			font-size: 26px;
 			font-weight: bolder;
@@ -955,6 +1014,9 @@ $desktop-width: 1024px;
         padding: 20px;
         margin-top: 20px;
         width: 400px;
+		@include mobile {
+			display: none;
+		}
 		#progress-xp {
 			h3 {
 				font-size: 26px;
@@ -1006,13 +1068,16 @@ $desktop-width: 1024px;
 	justify-content: center;
 }
 #skill-header {
+	max-width: 1000px;
+	width: 95%;
 	#container {
 		max-height: 90px;
 		display: flex;
 		align-items: center;
+		width: 100%;
 		section {
-			width: 1000px;
-			min-width: 670px;
+			max-width: 1000px;
+			width: 90%;
 			margin: 0 auto;
 			padding: 1rem;
 			display: flex;
@@ -1024,6 +1089,11 @@ $desktop-width: 1024px;
 				width: 100vw;
 				min-width: 0px;
 			}
+			div {
+				width: 100%;
+				display: flex;
+				justify-content: flex-end;
+			}
 			button {
 				background-color: #fff;
 				border: none;
@@ -1034,7 +1104,9 @@ $desktop-width: 1024px;
 			}
 		}
 		progress {
-			width: 900px;
+			max-width: 900px;
+			width: 95%;
+			min-width: fit-content;
 			height: 30px;
 			@include mobile {     
 				width: 70vw;
@@ -1120,9 +1192,11 @@ $desktop-width: 1024px;
 	display: flex;
 	align-items: center;
     height: 100%;
+	width: 100%;
 	section {
-		width: 1000px;
-		min-width: 670px;
+		max-width: 1000px;
+		width: 100%;
+		// min-width: 670px;
 		margin: 0 auto;
 		padding: 1rem;
 		display: flex;
@@ -1186,6 +1260,7 @@ $desktop-width: 1024px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			width: fit-content;
 			div {
 				display: flex;
 				flex-direction: column;
@@ -1208,6 +1283,7 @@ $desktop-width: 1024px;
 			}
 			span {
 				font-size: 14px;
+				max-width: 70%;
 			}
 		}
 	}
@@ -1335,6 +1411,10 @@ $desktop-width: 1024px;
 				flex-direction: column;
 				justify-content: space-between;
 				z-index: 2;
+				@include mobile {     
+					width: 100%;
+					height: fit-content;
+				}
 				p {
 					color: #999999;
 					font-weight: bolder;
@@ -1354,8 +1434,10 @@ $desktop-width: 1024px;
 	height: 100%;
 	display: flex;
 	justify-content: center;
+	width: 100%;
     .question-template {
-        width: 620px;
+        max-width: 620px;
+		width: 100%;
         min-height: 400px;
         max-height: 88%;
         height: 460px;
@@ -1476,8 +1558,10 @@ $desktop-width: 1024px;
 	height: 100%;
 	display: flex;
 	justify-content: center;
+	width: 100%;
     .question-template {
-        width: 620px;
+        max-width: 620px;
+		width: 100%;
 		min-width: fit-content;
         min-height: 400px;
         max-height: 88%;
@@ -1645,6 +1729,7 @@ $desktop-width: 1024px;
         }
     }
     #template-list-reordering {
+		margin: auto 0px;
         .answer-list {
             display: flex;
             flex-direction: column;
@@ -1712,6 +1797,7 @@ $desktop-width: 1024px;
                 justify-content: center;
                 flex-wrap: wrap;
                 height: 60px;
+				width: 90%;
                 .answer-box {
                     border-style: solid;
                     border-color: #bababa;
@@ -1777,8 +1863,10 @@ $desktop-width: 1024px;
 	height: 100%;
 	display: flex;
 	justify-content: center;
+	width: 100%;
     .question-template {
-        width: 620px;
+        max-width: 620px;
+		width: 100%;
         min-height: 400px;
         max-height: 88%;
         height: 460px;
@@ -1881,8 +1969,10 @@ $desktop-width: 1024px;
 	height: 100%;
 	display: flex;
 	justify-content: center;
+	width: 100%;
     .question-template {
-        width: 620px;
+        max-width: 620px;
+		width: 100%;
         min-height: 400px;
         max-height: 88%;
         height: 460px;
@@ -1966,8 +2056,10 @@ $desktop-width: 1024px;
 	height: 100%;
 	display: flex;
 	justify-content: center;
+	width: 100%;
     .question-template {
-        width: 620px;
+        max-width: 620px;
+		width: 100%;
         min-height: 400px;
         max-height: 88%;
         height: 460px;
@@ -2216,8 +2308,10 @@ $desktop-width: 1024px;
 	height: 90%;
 	display: flex;
 	justify-content: center;
+	width: 100%;
     .question-template {
-        width: 620px;
+        max-width: 620px;
+		width: 100%;
         min-height: 400px;
         max-height: 88%;
         height: 460px;

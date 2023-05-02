@@ -54,7 +54,7 @@ export default {
     <div id="user-nav">
       <UserNav id="user-nav-component"/>
     </div>
-    <div id="user-learn">
+    <div id="user-learn" v-if="true">
       <UserLearn id="user-learn-component"/>
     </div>
   </div>

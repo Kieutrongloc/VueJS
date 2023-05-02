@@ -73,7 +73,7 @@ export default {
                 <div v-if="isShowResult && selectedBoxIndex === index" class="result">
                     <div class="user-response">
                         <p>YOUR RESPONSE:</p>
-                        <span>{{ item.userAnswer === "completed" ? item.answers.map(item => `${item.title.replace('/', '⟷')}`).join(', ') : item.userAnswer === null ? 'Skipped' : item.userAnswer }}</span>
+                        <span>{{ item.userAnswer === "Completed" ? item.answers.map(item => `${item.title.replace('/', '⟷')}`).join(', ') : item.userAnswer === null ? 'Skipped' : item.userAnswer }}</span>
                     </div>
 
                     <div class="correct-result">

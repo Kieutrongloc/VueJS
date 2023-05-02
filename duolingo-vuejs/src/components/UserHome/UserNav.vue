@@ -16,6 +16,9 @@ export default {
     isHideNavMoreHandle() {
       return this.isShowNavMore = false
     },
+    isClickShowNavMoreHandle() {
+      return this.isShowNavMore = !this.isShowNavMore
+    },
     logoutHandle() {
       localStorage.clear();
       router.push('/')
@@ -56,10 +59,10 @@ export default {
               <img src="" alt="error">
               <p>PROFILE</p>
             </li>
-            <li @mouseover="isShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" class="nav-list">
+            <li @mouseover="isShowNavMoreHandle" @click="isClickShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" class="nav-list">
               <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="more">
               <p id="nav-more">MORE</p>
-              <ul v-if="isShowNavMore">
+              <ul v-if="isShowNavMore" id="show-more">
                 <div>
                   <img src="https://cdn1.iconfinder.com/data/icons/color-flat/4/12-512.png" alt="globe">
                   <span>SCHOOLS</span>
