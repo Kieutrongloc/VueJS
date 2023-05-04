@@ -12,14 +12,6 @@ $user = "locmysqldb";
 //create file named config.php in the same folder with this file and add $db_password = "MY PASSWORD"
 $password = $db_password;
 
-
-// //local
-// $host = "";
-// $dbname = "";
-// $user = "";
-// $password = "";
-
-
 try {
   $dbh = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
 } catch (PDOException $e) {

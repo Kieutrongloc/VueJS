@@ -28,9 +28,8 @@
     },
     mounted() {
     if (localStorage.getItem("user")) {
-      router.push('/user-home')
+      router.push('/user-home/learn')
     }
-    console.log(this.apiUrl)
   },
   }
 </script>

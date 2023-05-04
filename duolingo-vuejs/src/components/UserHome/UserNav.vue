@@ -16,9 +16,6 @@ export default {
     isHideNavMoreHandle() {
       return this.isShowNavMore = false
     },
-    isClickShowNavMoreHandle() {
-      return this.isShowNavMore = !this.isShowNavMore
-    },
     logoutHandle() {
       localStorage.clear();
       router.push('/')
@@ -29,6 +26,11 @@ export default {
       router.push('/')
     }
   },
+  computed:{
+    avatarUrl() {
+      return JSON.parse(localStorage.getItem('user')).avatar === '' ? '/src/assets/img/addition/default-avatar.png' : JSON.parse(localStorage.getItem('user')).avatar;
+    }
+  }
 }
 
 </script>
@@ -36,46 +38,46 @@ export default {
 
 
 <template setup>
-  <!-- <div id='container'> -->
-    <nav id="user-nav">
-      <div id="user-nav-container">
-        <RouterLink to="/user-home"><img id="logo-duolingo" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg" alt="logo-duolingo"></RouterLink>
-        <div id="navigation">
-          <ul>
-            <li class="nav-list">
+  <nav id="user-nav">
+    <div id="user-nav-container">
+      <RouterLink to="/user-home/learn"><img id="logo-duolingo" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg" alt="logo-duolingo"></RouterLink>
+      <div id="navigation">
+        <ul>
+          <li class="nav-list">
+            <RouterLink class="nav-list-router" to="/user-home/learn">
               <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg" alt="home">
               <p>LEARN</p>
-            </li>
-            <li class="nav-list">
-              <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/ca9178510134b4b0893dbac30b6670aa.svg" alt="leaderboard">
-              <p>LEADERBOARD</p>
-            </li>
-            <li class="nav-list">
-              <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="shop">
-              <p>SHOP</p>
-            </li>
-            <li class="nav-list">
-              <!-- <img id="img" :src="'data:image/jpeg;base64,' + (JSON.parse(localStorage.getItem('user'))).avatar"/> -->
-              <img src="" alt="error">
+            </RouterLink>
+          </li>
+          <li class="nav-list">
+            <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/ca9178510134b4b0893dbac30b6670aa.svg" alt="leaderboard">
+            <p>LEADERBOARD</p>
+          </li>
+          <li class="nav-list">
+            <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="shop">
+            <p>SHOP</p>
+          </li>
+          <li class="nav-list">
+            <RouterLink class="nav-list-router" to="/user-home/profile">
+              <img id="img" :src="avatarUrl" alt="avatar">
               <p>PROFILE</p>
-            </li>
-            <li @mouseover="isShowNavMoreHandle" @click="isClickShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" class="nav-list">
-              <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="more">
-              <p id="nav-more">MORE</p>
-              <ul v-if="isShowNavMore" id="show-more">
-                <div>
-                  <img src="https://cdn1.iconfinder.com/data/icons/color-flat/4/12-512.png" alt="globe">
-                  <span>SCHOOLS</span>
-                </div>
-                <li>SETTINGS</li>
-                <li>HELP</li>
-                <li @click="logoutHandle">LOGOUT</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+            </RouterLink>
+          </li>
+          <li @mouseover="isShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" class="nav-list">
+            <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="more">
+            <p id="nav-more">MORE</p>
+            <ul v-if="isShowNavMore" id="show-more">
+              <div>
+                <img src="https://cdn1.iconfinder.com/data/icons/color-flat/4/12-512.png" alt="globe">
+                <span>SCHOOLS</span>
+              </div>
+              <li>SETTINGS</li>
+              <li>HELP</li>
+              <li @click="logoutHandle">LOGOUT</li>
+            </ul>
+          </li>
+        </ul>
       </div>
-    </nav>
-  <!-- </div> -->
-  <RouterView />
+    </div>
+  </nav>
 </template>

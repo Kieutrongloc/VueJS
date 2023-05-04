@@ -9,7 +9,7 @@ const router = createRouter({
       component: () => import('../components/HomePage.vue')
     },
     {
-      path: '/user-home',
+      path: '/user-home/:switch_body',
       name: 'user-home',
       component: () => import('../components/UserHome.vue'),
     },
@@ -33,12 +33,6 @@ const router = createRouter({
       name: 'not-found',
       component: () => import('../components/NotFound.vue')
     },
-    {
-      path: '/template',
-      name: 'template',
-      component: () => import('../components/Template.vue')
-    },
-
   ]
 })
 

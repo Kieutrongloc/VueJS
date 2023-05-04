@@ -1,17 +1,16 @@
 <script>
 import UserNav from './UserHome/UserNav.vue'
-import UserLearn from './UserHome/UserLearn.vue'
+// import UserLearn from './UserHome/UserLearn.vue'
 import router from '../router'
 import Loading from './Loading.vue'
 import { apiService } from './apiService'
-
+import { defineAsyncComponent } from 'vue';
 
 export default {
   name: 'UserHome',
   components: {
     Loading,
     UserNav,
-    UserLearn
   },
 
   data() {
@@ -19,7 +18,8 @@ export default {
       isLoading: true,
       unit: [],
       lesson: [],
-      loadingMessage: 'Please wait while we are fetching your data'
+      loadingMessage: 'Please wait while we are fetching your data',
+      bodyComponent: 'learn'
     }
   },
 
@@ -43,6 +43,25 @@ export default {
       console.error('Error fetching data:', error);
     }
   },
+
+  watch: {
+    '$route': function() {
+      this.bodyComponent = this.$route.params.switch_body;
+    }
+  },
+
+  computed: {
+    switchComponent() {
+      switch (this.bodyComponent) {
+        case 'learn':
+          return defineAsyncComponent(() => import('./UserHome/UserLearn.vue'));
+        case 'profile':
+          return defineAsyncComponent(() => import('./UserHome/UserProfile.vue'));
+        default:
+          return null;
+      }
+    }
+  }
 }
 
 </script>
@@ -52,10 +71,10 @@ export default {
   <Loading v-if="isLoading" :loadingMessage="loadingMessage"/>
   <div id="user-home" v-if="!isLoading">
     <div id="user-nav">
-      <UserNav id="user-nav-component"/>
+      <UserNav/>
     </div>
     <div id="user-learn" v-if="true">
-      <UserLearn id="user-learn-component"/>
+      <component :is="switchComponent"></component>
     </div>
   </div>
 </template>

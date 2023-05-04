@@ -4,6 +4,9 @@ switch ($folder) {
     case "sign-in":
         require 'sign-in/sign-in.php';
         break;
+    case "sign-up":
+        require 'sign-up/sign-up.php';
+        break;
     case "courses":
         require 'courses/get-courses.php';
         break;

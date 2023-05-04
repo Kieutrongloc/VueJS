@@ -1,19 +1,3 @@
-// $breakpoints: (
-//   small: 576px,
-//   medium: 768px,
-//   large: 992px,
-//   xlarge: 1200px
-// );
-
-// @mixin media($size) {
-//   @media (min-width: map-get($breakpoints, $size)) {
-//     @content;
-//   }
-// }
-// @media (max-width: 480px) {
-
-// }
-
 $mobile-width: 480px; 
 $tablet-width: 768px; 
 $desktop-width: 1024px;  
@@ -33,6 +17,14 @@ $desktop-width: 1024px;
  } 
 }
 
+@font-face {
+	font-family: 'PointSoftExtraBold';
+	src: url('/src/assets/fonts/point-soft-extra-bold.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+  
+
 //Home page
 #home-page {
     width: 100vw;
@@ -40,6 +32,7 @@ $desktop-width: 1024px;
 	p {
 		font-weight: bolder;
 		color: white;
+		font-family: 'PointSoftExtraBold', sans-serif;
 	}
 	#top-page {
 		background-color: rgb(35,83,144);
@@ -435,6 +428,20 @@ $desktop-width: 1024px;
 					color: blue;
 				}
 			}
+			small {
+				color: rgb(237, 114, 114);
+				font-style: italic;
+				position: absolute;
+				width: max-content;
+				top: 22px;
+				right: 10px;
+			}
+			h5 {
+				color: rgb(237, 114, 114);
+				position: absolute;
+				bottom: 72px;
+				font-style: italic;
+			}
 		}
 		#icon-question {
 			color: #a5a5a5;
@@ -481,6 +488,12 @@ $desktop-width: 1024px;
 			&::placeholder {
 				color: #8e8e8e;
 			}
+
+			#submit[disabled] {
+				opacity: 0.5;
+				pointer-events: none;			  
+			}
+
 		}
 		#text-or {
 			display: flex;
@@ -648,6 +661,7 @@ $desktop-width: 1024px;
 					height: 30px;
 					width: 30px;
 					margin-right: 12px;
+					border-radius: 6px;
 					@include mobile {    
 						margin: auto;
 					}
@@ -706,6 +720,11 @@ $desktop-width: 1024px;
 					}
 				}
 			}
+			.nav-list-router {
+				display: flex;
+				flex-direction: row;
+				text-decoration: none;
+			}
 		}
 	}
 }
@@ -738,6 +757,7 @@ $desktop-width: 1024px;
 			color: white;
 			width: 600px;
 			height: 110px;
+			font-family: 'PointSoftExtraBold', sans-serif;
 			@include mobile {
 				width: fit-content;
 				height: fit-content;
@@ -1265,7 +1285,7 @@ $desktop-width: 1024px;
 		button {
 			width: 150px;
 			min-width: fit-content;
-			height: 48px;
+			height: 50px;
 			background-color: #fff;
 			border-radius: 12px;
 			border-style: solid;
@@ -1275,6 +1295,8 @@ $desktop-width: 1024px;
 			color: #a3a3a3;
 			font-weight: bolder;
 			margin: 6.99px 0px;
+			font-family: 'PointSoftExtraBold', sans-serif;
+			font-size: 20px;
 			transition: transform 0.2s ease-in-out;
 			&:hover {
 				transform: scale(1.04);
@@ -2493,6 +2515,7 @@ $desktop-width: 1024px;
                 display: block;
                 font-weight: bolder;
                 color: #545454;
+				font-family: 'PointSoftExtraBold', sans-serif;
             }
         }
     }
@@ -2556,5 +2579,95 @@ $desktop-width: 1024px;
 		font-weight: bolder;
 		color: #727272;
 		margin: 10px 0px;
+	}
+}
+
+//user profile
+#user-profile {
+	width: 100%;
+	max-width: 1000px;
+	margin: 0px auto;
+	padding-top: 28px;
+	padding: 28px 20px 20px;
+	header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding-bottom: 24px;
+		border-bottom: solid 2px #c3c3c3;
+		#header-main {
+			display: flex;
+			flex-direction: row;
+			#user-avatar {
+				.icon {
+					color: white;
+					background-color: #1CB0F6;
+					padding: 6px;
+					border-radius: 20px;
+					font-size: larger;
+					position: absolute;
+					right: 12px;
+					top: 12px;
+					border: solid white 2px;
+				}
+				.icon:hover {
+					cursor: pointer;
+				}
+				img {
+					width: 180px;
+					height: 180px;
+					border-radius: 100px;
+				}
+			}
+			#profile-info {
+				margin-left: 50px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				p {
+					font-size: 30px;
+					font-weight: bolder;
+					font-family: 'PointSoftExtraBold', sans-serif;
+				}
+				span {
+					color: #7d7d7d;
+				}
+				.icon {
+					color: #7d7d7d;
+					margin-right: 6px;
+				}
+			}
+			#profile-learning-languages {
+				ul {
+					padding-inline-start: 0;
+					li {
+						list-style: none;
+						img {
+							width: 40px;
+							height: fit-content;
+						}
+					}
+				}
+			}
+		}
+		#button-edit {
+			#button {
+				display: flex;
+				color: #fff;
+				font-size: 16px;
+				background-color: #1CB0F6;
+				justify-content: center;
+				align-items: center;
+				padding: 14px 24px;
+				border-radius: 14px;
+				p {
+					font-family: 'PointSoftExtraBold', sans-serif;
+					margin-left: 6px;
+				}
+			}
+			#button:hover {
+				cursor: pointer;
+			}
+		}
 	}
 }
