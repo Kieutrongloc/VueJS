@@ -9,11 +9,6 @@ const router = createRouter({
       component: () => import('../components/HomePage.vue')
     },
     {
-      path: '/user-home/:switch_body',
-      name: 'user-home',
-      component: () => import('../components/UserHome.vue'),
-    },
-    {
       path: '/sign-in',
       name: 'sign-in',
       component: () => import('../components/SignIn.vue')
@@ -22,6 +17,16 @@ const router = createRouter({
       path: '/sign-up',
       name: 'sign-up',
       component: () => import('../components/SignUp.vue')
+    },
+    {
+      path: '/user-home/:switch_body/',
+      name: 'user-home',
+      component: () => import('../components/UserHome.vue'),
+    },
+    {
+      path: '/user-home/:switch_body/:switch_setting',
+      name: 'user-setting',
+      component: () => import('../components/UserHome.vue'),
     },
     {
       path: '/skill/:lesson_id/:skill_id',

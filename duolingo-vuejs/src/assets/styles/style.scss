@@ -598,9 +598,6 @@ $desktop-width: 1024px;
 #user-nav {
 	border-right: 2px solid rgb(212, 212, 212);
 	width: fit-content;
-	// position: fixed;
-	// top: 0;
-	// z-index: 2;
 	@include mobile {    
 		border-right: none;
 		position: fixed;
@@ -609,12 +606,14 @@ $desktop-width: 1024px;
 	}
 	#user-nav-container {
 		padding-top: 20px;
+		margin-right: 10px;
 		@include mobile {    
 			padding: 10px 0px;
 			width: 100vw;
 			background-color: #fff;
 			border-top: 2px solid rgb(212, 212, 212);
 			border-right: none;
+			margin-right: 0px;
 		}
 	}
 	#logo-duolingo {
@@ -643,8 +642,8 @@ $desktop-width: 1024px;
 			.nav-list {
 				list-style: none;
 				display: flex;
-				padding: 12px 28px;
-				margin: 10px 20px 10px 0px;
+				// padding: 12px 28px;
+				// margin: 10px 20px 10px 0px;
 				border-radius: 12px;
 				@include mobile {    
 					padding: 14px 20px;
@@ -720,10 +719,17 @@ $desktop-width: 1024px;
 					}
 				}
 			}
+			#li-show-more,
 			.nav-list-router {
 				display: flex;
 				flex-direction: row;
 				text-decoration: none;
+				padding: 12px 28px;
+				width: 100%;
+				margin: 4px 0px;
+				@include mobile {   
+					padding: 0px;
+				}
 			}
 		}
 	}
@@ -2595,6 +2601,9 @@ $desktop-width: 1024px;
 		justify-content: space-between;
 		padding-bottom: 24px;
 		border-bottom: solid 2px #c3c3c3;
+		@include mobile {   
+			flex-direction: column;
+		}
 		#header-main {
 			display: flex;
 			flex-direction: row;
@@ -2609,6 +2618,11 @@ $desktop-width: 1024px;
 					right: 12px;
 					top: 12px;
 					border: solid white 2px;
+					@include mobile {   
+						font-size: small;
+						right: -6px;
+						top: 0px;
+					}
 				}
 				.icon:hover {
 					cursor: pointer;
@@ -2617,6 +2631,10 @@ $desktop-width: 1024px;
 					width: 180px;
 					height: 180px;
 					border-radius: 100px;
+					@include mobile {   
+						width: 80px;
+						height: 80px;
+					}
 				}
 			}
 			#profile-info {
@@ -2660,6 +2678,7 @@ $desktop-width: 1024px;
 				align-items: center;
 				padding: 14px 24px;
 				border-radius: 14px;
+				text-decoration: none;
 				p {
 					font-family: 'PointSoftExtraBold', sans-serif;
 					margin-left: 6px;
@@ -2667,7 +2686,58 @@ $desktop-width: 1024px;
 			}
 			#button:hover {
 				cursor: pointer;
+				background-color: #5ccbff;
 			}
 		}
 	}
 }
+
+//user setting
+#user-setting {
+	display: flex;
+	flex-direction: row;
+	max-width: 1000px;
+	width: 100%;
+	#setting-component {
+
+	}
+	#setting-side-bar {
+		#save-change {
+			button {
+				font-size: 16px;
+				font-weight: bolder;
+				width: 148px;
+				height: 46px;
+				border-radius: 14px;
+				border: none;
+				color: #fff;
+				background-color: #58cb05;
+				border-bottom: solid 4px #58a700;
+			}
+			button:hover {
+				cursor: pointer;
+			}
+			button[disabled] {
+				opacity: 0.5;
+				pointer-events: none;
+				background-color: #b5b5b5;
+				border-bottom: solid 4px #b5b5b5;
+			}
+		}
+		#setting-nav {
+			#user-info {
+
+			}
+			#setting-nav {
+				ul {
+					li {
+						.link {
+
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

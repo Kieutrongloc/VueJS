@@ -6,7 +6,13 @@ export default {
   data() {
     return {
       isShowNavMore: false,
-      userData : localStorage.getItem('user')
+      userData : localStorage.getItem('user'),
+      navList : [
+        {id: 1, title: 'LEARN', link: '/user-home/learn', img: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg', alt: 'home'},
+        {id: 2, title: 'LEADERBOARD', link: '/user-home/leaderboard', img: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/ca9178510134b4b0893dbac30b6670aa.svg', alt: 'leaderboard'},
+        {id: 3, title: 'SHOP', link: '/user-home/shop', img: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg', alt: 'shop'},
+        {id: 4, title: 'PROFILE', link: '/user-home/profile', img: JSON.parse(localStorage.getItem('user')).avatar === '' ? '/src/assets/img/addition/default-avatar.png' : JSON.parse(localStorage.getItem('user')).avatar, alt: 'profile'},
+      ]
     }
   },
   methods: {
@@ -26,11 +32,11 @@ export default {
       router.push('/')
     }
   },
-  computed:{
-    avatarUrl() {
-      return JSON.parse(localStorage.getItem('user')).avatar === '' ? '/src/assets/img/addition/default-avatar.png' : JSON.parse(localStorage.getItem('user')).avatar;
-    }
-  }
+  // computed:{
+  //   avatarUrl() {
+  //     return JSON.parse(localStorage.getItem('user')).avatar === '' ? '/src/assets/img/addition/default-avatar.png' : JSON.parse(localStorage.getItem('user')).avatar;
+  //   }
+  // }
 }
 
 </script>
@@ -43,27 +49,15 @@ export default {
       <RouterLink to="/user-home/learn"><img id="logo-duolingo" src="https://d35aaqx5ub95lt.cloudfront.net/vendor/70a4be81077a8037698067f583816ff9.svg" alt="logo-duolingo"></RouterLink>
       <div id="navigation">
         <ul>
-          <li class="nav-list">
-            <RouterLink class="nav-list-router" to="/user-home/learn">
-              <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/784035717e2ff1d448c0f6cc4efc89fb.svg" alt="home">
-              <p>LEARN</p>
+
+          <li class="nav-list" v-for="item in navList" :key="item.id">
+            <RouterLink class="nav-list-router" :to="item.link">
+              <img :src="item.img" alt="home">
+              <p>{{ item.title }}</p>
             </RouterLink>
           </li>
-          <li class="nav-list">
-            <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/ca9178510134b4b0893dbac30b6670aa.svg" alt="leaderboard">
-            <p>LEADERBOARD</p>
-          </li>
-          <li class="nav-list">
-            <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg" alt="shop">
-            <p>SHOP</p>
-          </li>
-          <li class="nav-list">
-            <RouterLink class="nav-list-router" to="/user-home/profile">
-              <img id="img" :src="avatarUrl" alt="avatar">
-              <p>PROFILE</p>
-            </RouterLink>
-          </li>
-          <li @mouseover="isShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" class="nav-list">
+
+          <li @mouseover="isShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" class="nav-list" id="li-show-more">
             <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="more">
             <p id="nav-more">MORE</p>
             <ul v-if="isShowNavMore" id="show-more">

@@ -19,7 +19,7 @@ export default {
       unit: [],
       lesson: [],
       loadingMessage: 'Please wait while we are fetching your data',
-      bodyComponent: 'learn'
+      bodyComponent: this.$route.params.switch_body,
     }
   },
 
@@ -57,6 +57,8 @@ export default {
           return defineAsyncComponent(() => import('./UserHome/UserLearn.vue'));
         case 'profile':
           return defineAsyncComponent(() => import('./UserHome/UserProfile.vue'));
+        case 'setting':
+        return defineAsyncComponent(() => import('./UserHome/UserSetting.vue'));
         default:
           return null;
       }

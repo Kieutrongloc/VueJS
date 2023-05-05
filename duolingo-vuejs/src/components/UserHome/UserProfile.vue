@@ -1,5 +1,6 @@
 <script>
 import router from '../../router'
+import { RouterLink } from 'vue-router';
 
 export default {
 
@@ -51,9 +52,11 @@ export default {
             </div>
         </div>
         <div id="button-edit">
-            <div id="button">
-                <font-awesome-icon class="icon" :icon="['fas', 'pen']" />
-                <p>EDIT PROFILE</p>
+            <div>
+                <RouterLink id="button" to="/user-home/setting/account">
+                    <font-awesome-icon class="icon" :icon="['fas', 'pen']" />
+                    <p>EDIT PROFILE</p>
+                </RouterLink>
             </div>
         </div> 
     </header>
