@@ -59,7 +59,7 @@ export default {
             </RouterLink>
           </li>
 
-          <li @mouseover="isShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" class="nav-list" id="li-show-more">
+          <li @mouseover="isShowNavMoreHandle" @mouseleave="isHideNavMoreHandle" @click="selectNavHandle(5)" :class="['nav-list', isSelectedNav === 5 ? 'selected-nav' : '']" id="li-show-more">
             <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/7159c0b5d4250a5aea4f396d53f17f0c.svg" alt="more">
             <p id="nav-more">MORE</p>
             <ul v-if="isShowNavMore" id="show-more">

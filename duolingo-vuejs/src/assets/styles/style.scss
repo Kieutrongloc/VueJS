@@ -664,6 +664,9 @@ $desktop-width: 1024px;
 					@include mobile {    
 						margin: auto;
 					}
+					@include tablet {    
+						margin: auto;
+					}
 				}
 				p {
 					color: #777777;
@@ -728,6 +731,12 @@ $desktop-width: 1024px;
 				width: 100%;
 				@include mobile {   
 					padding: 0px;
+				}
+			}
+			#li-show-more {
+				@include mobile {   
+					padding: 13px 0px;
+
 				}
 			}
 			.selected-nav {
