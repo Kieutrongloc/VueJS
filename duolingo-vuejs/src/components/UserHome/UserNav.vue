@@ -12,19 +12,26 @@ export default {
         {id: 2, title: 'LEADERBOARD', link: '/user-home/leaderboard', img: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/ca9178510134b4b0893dbac30b6670aa.svg', alt: 'leaderboard'},
         {id: 3, title: 'SHOP', link: '/user-home/shop', img: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg', alt: 'shop'},
         {id: 4, title: 'PROFILE', link: '/user-home/profile', img: JSON.parse(localStorage.getItem('user')).avatar === '' ? '/src/assets/img/addition/default-avatar.png' : JSON.parse(localStorage.getItem('user')).avatar, alt: 'profile'},
-      ]
+      ],
+      isSelectedNav : null
     }
   },
   methods: {
     isShowNavMoreHandle() {
       return this.isShowNavMore = true
     },
+
     isHideNavMoreHandle() {
       return this.isShowNavMore = false
     },
+
     logoutHandle() {
       localStorage.clear();
       router.push('/')
+    },
+
+    selectNavHandle(id) {
+      this.isSelectedNav = id
     }
   },
   created() {
@@ -32,11 +39,6 @@ export default {
       router.push('/')
     }
   },
-  // computed:{
-  //   avatarUrl() {
-  //     return JSON.parse(localStorage.getItem('user')).avatar === '' ? '/src/assets/img/addition/default-avatar.png' : JSON.parse(localStorage.getItem('user')).avatar;
-  //   }
-  // }
 }
 
 </script>
@@ -50,7 +52,7 @@ export default {
       <div id="navigation">
         <ul>
 
-          <li class="nav-list" v-for="item in navList" :key="item.id">
+          <li @click="selectNavHandle(item.id)" :class="['nav-list', isSelectedNav === item.id ? 'selected-nav' : '']" v-for="item in navList" :key="item.id">
             <RouterLink class="nav-list-router" :to="item.link">
               <img :src="item.img" alt="home">
               <p>{{ item.title }}</p>

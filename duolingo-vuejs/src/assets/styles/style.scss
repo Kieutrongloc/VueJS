@@ -642,9 +642,9 @@ $desktop-width: 1024px;
 			.nav-list {
 				list-style: none;
 				display: flex;
-				// padding: 12px 28px;
-				// margin: 10px 20px 10px 0px;
 				border-radius: 12px;
+				margin: 4px 0px;
+				border: 2px solid #fff;
 				@include mobile {    
 					padding: 14px 20px;
 					margin: auto;
@@ -726,10 +726,16 @@ $desktop-width: 1024px;
 				text-decoration: none;
 				padding: 12px 28px;
 				width: 100%;
-				margin: 4px 0px;
 				@include mobile {   
 					padding: 0px;
 				}
+			}
+			.selected-nav {
+				border: 2px solid #84d8ff;
+				background-color: #dcf4ff;
+			}
+			.selected-nav:hover {
+				background-color: #dcf4ff;
 			}
 		}
 	}
