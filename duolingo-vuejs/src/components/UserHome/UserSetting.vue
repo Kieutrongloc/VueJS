@@ -89,6 +89,7 @@ export default {
   watch: {
     '$route': function() {
       this.settingComponent = this.$route.params.switch_setting;
+      this.isDisableBtn = true;
     }
   },
 
