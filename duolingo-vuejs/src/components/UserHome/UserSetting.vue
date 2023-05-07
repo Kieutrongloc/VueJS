@@ -35,7 +35,8 @@ export default {
         ],
         selectedNav : 0,
         isDisableBtn : true,
-        isHidden : false
+        isHidden : false,
+        formData : null
     };
   },
 
@@ -46,6 +47,19 @@ export default {
 
     showNavbar() {
         this.isHidden = !this.isHidden
+    },
+
+    formDataHandle(formData) {
+        if (formData !== false) {
+            this.isDisableBtn = false
+            this.formData = formData
+        } else {
+            this.isDisableBtn = true
+        }
+    },
+
+    submitData() {
+        console.log(this.formData)
     }
   },
 
@@ -85,7 +99,7 @@ export default {
   <div id="user-setting">
     <div id="setting-component">
         <div id="component-box">
-            <component :is="switchSetting"></component>
+            <component :is="switchSetting" @form-data='formDataHandle'></component>
         </div>
 
         <div id="footer_content">
@@ -106,7 +120,7 @@ export default {
                     <font-awesome-icon v-if="!isHidden" class="bars-icon" :icon="['fas', 'bars']" />
                     <font-awesome-icon v-else class="bars-icon" :icon="['fas', 'xmark']" />
                 </div>
-                <button :disabled="isDisableBtn">SAVE CHANGES</button>
+                <button :disabled="isDisableBtn" @click="submitData">SAVE CHANGES</button>
             </div>
             <div id="setting-box" :class="[isHidden ? 'mobile-responsive' : '']" @click="showNavbar">
                 <div id="user-info">

@@ -2770,7 +2770,7 @@ $desktop-width: 1024px;
 		margin-left: 10px;
 		@include mobile {   
 			position: fixed;
-			background-color: #f3f3f3;
+			background-color: #fff;
 			margin-left: 0px;
 		}
 		#setting_side_bar_box {
@@ -2856,21 +2856,7 @@ $desktop-width: 1024px;
 				padding: 0px 20px 0px;
 				display: none;
 				min-width: max-content;
-				overflow: auto;
-				animation-name: drop-down;
-				animation-duration: 0.5s;
-				animation-timing-function: ease-in-out;
-				animation-fill-mode: forwards;
-				@keyframes drop-down {
-					from {
-					  transform: translateY(-4%);
-					  opacity: 0;
-					}
-					to {
-					  transform: translateY(0);
-					  opacity: 1;
-					}
-				}
+				overflow: auto;				
 			}
 			#user-info {
 				display: flex;
@@ -2932,7 +2918,21 @@ $desktop-width: 1024px;
 		.mobile-responsive {
 			@include mobile {   
 				display: block!important;
-				
+
+				animation-name: drop-down;
+				animation-duration: 0.5s;
+				animation-timing-function: ease-in-out;
+				animation-fill-mode: forwards;
+				@keyframes drop-down {
+					from {
+					  transform: translateY(-4%);
+					  opacity: 0;
+					}
+					to {
+					  transform: translateY(0);
+					  opacity: 1;
+					}
+				}
 			}
 		}
 	}
@@ -3037,6 +3037,20 @@ $desktop-width: 1024px;
 									border-radius: 10px;
 									position: absolute;
 									bottom: -6px;
+									animation-name: slide-left;
+									animation-duration: 0.2s;
+									animation-timing-function: ease-in-out;
+									animation-fill-mode: forwards;
+									@keyframes slide-left {
+										from {
+										  transform: translateX(70%);
+										  opacity: 0.5;
+										}
+										to {
+										  transform: translateX(0);
+										  opacity: 1;
+										}
+									}
 								}
 								#toggle-on {
 									width: 32px;
@@ -3048,6 +3062,20 @@ $desktop-width: 1024px;
 									position: absolute;
 									right: 0px;
 									bottom: -6px;
+									animation-name: slide-right;
+									animation-duration: 0.2s;
+									animation-timing-function: ease-in-out;
+									animation-fill-mode: forwards;
+									@keyframes slide-right {
+										from {
+										  transform: translateX(-70%);
+										  opacity: 0.5;
+										}
+										to {
+										  transform: translateX(0);
+										  opacity: 1;
+										}
+									}
 								}
 							}
 							#toggle:hover {
@@ -3188,7 +3216,6 @@ $desktop-width: 1024px;
 								min-width: max-content;
 							}
 						}
-
 						td:nth-of-type(2) {
 							padding: 18px 18px 0px 0px;
 							display: flex;

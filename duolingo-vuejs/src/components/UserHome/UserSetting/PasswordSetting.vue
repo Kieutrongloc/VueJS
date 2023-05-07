@@ -5,15 +5,28 @@ export default {
 
   data() {
     return {
-
+        formData : {
+            currentPw : '',
+            newPw : ''
+        }
     };
   },
+
+  emits: ['form-data'],
 
   methods: {
     demoHandle() {
       alert('Updating...')
     },
 
+    updateHandle() {
+        console.log(this.formData.currentPw, this.formData.newPw)
+        if(this.formData.currentPw !== '' && this.formData.newPw !== '') {
+            this.$emit('form-data', this.formData)
+        } else {
+            this.$emit('form-data', false)
+        }
+    }
   },
 
   computed: {
@@ -43,7 +56,7 @@ export default {
                                 <p>Current Password</p>
                             </td>
                             <td>
-                                <input type="password">
+                                <input type="password" name="current-password" v-model="formData.currentPw" @input="updateHandle">
                             </td>
                         </tr>
 
@@ -52,7 +65,7 @@ export default {
                                 <p>New Password</p>
                             </td>
                             <td>
-                                <input type="password">
+                                <input type="password" name="new-password" v-model="formData.newPw" @input="updateHandle">
                             </td>
                         </tr>
                     
