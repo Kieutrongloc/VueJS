@@ -58,6 +58,7 @@
             this.isVisible = false;
         }
     },
+    
     computed: {
     isValidEmail() {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
