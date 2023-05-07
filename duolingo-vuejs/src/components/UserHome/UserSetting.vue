@@ -34,13 +34,18 @@ export default {
             {id: 12, title: 'PRIVACY', link: ''},
         ],
         selectedNav : 0,
-        isDisableBtn : true
+        isDisableBtn : true,
+        isHidden : false
     };
   },
 
   methods: {
     selectedNavHandle(id) {
         this.selectedNav = id
+    },
+
+    showNavbar() {
+        this.isHidden = !this.isHidden
     }
   },
 
@@ -97,9 +102,13 @@ export default {
     <div id="setting-side-bar">
         <div id="setting_side_bar_box">
             <div id="save-change">
+                <div id="show-nav" @click="showNavbar">
+                    <font-awesome-icon v-if="!isHidden" class="bars-icon" :icon="['fas', 'bars']" />
+                    <font-awesome-icon v-else class="bars-icon" :icon="['fas', 'xmark']" />
+                </div>
                 <button :disabled="isDisableBtn">SAVE CHANGES</button>
             </div>
-            <div id="setting-box">
+            <div id="setting-box" :class="[isHidden ? 'mobile-responsive' : '']" @click="showNavbar">
                 <div id="user-info">
                     <img :src="userAvatar" alt="user-avatar">
                     <div id="user-name">

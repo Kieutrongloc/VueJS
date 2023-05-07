@@ -16,6 +16,11 @@ export default {
         {id: 6, title: 'Speaking exercises', name: 'speaking-exercises', status: true},
         {id: 7, title: 'Listening exercies', name: 'listening-exercises', status: true},
       ],
+      formData: {
+        profilePicture: '',
+        name: '',
+        email: ''
+      }
     };
   },
 
@@ -48,7 +53,7 @@ export default {
       </header>
 
       <section>
-        <form id="signup-form" ref="signupForm">          
+        <form>          
           <table>
             <tbody>
   

@@ -2617,6 +2617,10 @@ $desktop-width: 1024px;
 	max-width: 1000px;
 	margin: 0px auto;
 	padding: 0px 20px 20px;
+	@include mobile {   
+		padding-top: 14px;
+		padding-bottom: 56px;
+	}
 	header {
 		display: flex;
 		flex-direction: row;
@@ -2733,6 +2737,9 @@ $desktop-width: 1024px;
 	#setting-component {
 		width: 100%;
 		max-width: 562px;
+		@include mobile {
+			padding: 60px 10px;
+		}
 		#footer_content {
 			padding-top: 48px;
 			margin-top: 46px;
@@ -2761,14 +2768,58 @@ $desktop-width: 1024px;
 	}
 	#setting-side-bar {
 		margin-left: 10px;
-		position: relative;
+		@include mobile {   
+			position: fixed;
+			background-color: #f3f3f3;
+			margin-left: 0px;
+		}
 		#setting_side_bar_box {
 			position: sticky;
 			top: 0px;
+			@include mobile {   
+				border-bottom: solid 2px #e5e5e5;
+				width: 100vw;
+			}
 		}
 		#save-change {
 			display: flex;
 			justify-content: flex-end;
+			@include mobile {   
+				justify-content: space-between;
+				padding-bottom: 4px;
+				margin: 4px 0px;
+			}
+			#show-nav {
+				display: none;
+				@include mobile {   
+					display: flex;
+					padding: 0px 8px;
+					align-items: center;
+
+				}
+				.bars-icon {
+					@include mobile {   
+						display: block;
+						font-size: 28px;
+						color: #6c6c6c;
+						padding: 6px;
+
+						animation-name: zoom-out;
+						animation-duration: 0.2s;
+						animation-timing-function: ease-out;
+						@keyframes zoom-out {
+							from {
+							  transform: scale(0.8);
+							  opacity: 0;
+							}
+							to {
+							  transform: scale(1);
+							  opacity: 1;
+							}
+						}
+					}
+				}
+			}
 			button {
 				font-size: 16px;
 				font-weight: bolder;
@@ -2799,6 +2850,28 @@ $desktop-width: 1024px;
 			margin-top: 14px;
 			width: 100%;
 			max-width: 368px;
+			@include mobile {   
+				border: none;
+				margin-top: 0px;
+				padding: 0px 20px 0px;
+				display: none;
+				min-width: max-content;
+				overflow: auto;
+				animation-name: drop-down;
+				animation-duration: 0.5s;
+				animation-timing-function: ease-in-out;
+				animation-fill-mode: forwards;
+				@keyframes drop-down {
+					from {
+					  transform: translateY(-4%);
+					  opacity: 0;
+					}
+					to {
+					  transform: translateY(0);
+					  opacity: 1;
+					}
+				}
+			}
 			#user-info {
 				display: flex;
 				align-items: center;
@@ -2854,6 +2927,12 @@ $desktop-width: 1024px;
 						background-color: #dadada;
 					}
 				}
+			}
+		}
+		.mobile-responsive {
+			@include mobile {   
+				display: block!important;
+				
 			}
 		}
 	}
