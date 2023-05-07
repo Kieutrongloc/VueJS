@@ -12,20 +12,28 @@
     methods: {
       signIn(e) {
         var formData = new FormData(this.$refs.signinForm);
-        axios.post(this.apiUrl + '?folder=sign-in', formData)
-        .then(response => {
-          if (response.data.msg === 'ok') {
-            localStorage.setItem("user", JSON.stringify(response.data.user));
-            router.push('/user-home/learn')
-          } else {
-            this.signinMessage = 'Sign in failed';
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(formData.get('id') === '' || formData.get('pw') === '') {
+          this.signinMessage = 'Please enter both email and password';
+        } else if (!emailRegex.test(formData.get('id'))) {
+          this.signinMessage = 'Please enter valid email';
+        } else {
+          axios.post(this.apiUrl + '?folder=sign-in', formData)
+          .then(response => {
+            if (response.data.msg === 'ok') {
+              localStorage.setItem("user", JSON.stringify(response.data.user));
+              router.push('/user-home/learn')
+            } else {
+              this.signinMessage = 'Sign in failed';
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        }
       }
     },
+
     mounted() {
     if (localStorage.getItem("user")) {
       router.push('/user-home/learn')
