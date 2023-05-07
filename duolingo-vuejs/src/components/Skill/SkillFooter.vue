@@ -129,7 +129,7 @@ export default {
         }
       } else {
       this.$emit('ending-section',  this.isEndingSection, this.endingSectionTemplate++);
-      if(this.endingSectionTemplate === 2) {router.push('/user-home')}
+      if(this.endingSectionTemplate === 2) {router.push('/user-home/learn')}
       }
     },
 

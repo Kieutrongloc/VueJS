@@ -13,7 +13,7 @@ export default {
         {id: 3, title: 'SHOP', link: '/user-home/shop', img: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/0e58a94dda219766d98c7796b910beee.svg', alt: 'shop'},
         {id: 4, title: 'PROFILE', link: '/user-home/profile', img: JSON.parse(localStorage.getItem('user')).avatar === '' ? '/src/assets/img/addition/default-avatar.png' : JSON.parse(localStorage.getItem('user')).avatar, alt: 'profile'},
       ],
-      isSelectedNav : null
+      isSelectedNav : 0,
     }
   },
   methods: {
@@ -34,9 +34,18 @@ export default {
       this.isSelectedNav = id
     }
   },
+
   created() {
     if (!JSON.parse(localStorage.getItem("user"))) {
       router.push('/')
+    }
+
+    this.isSelectedNav = this.navList.findIndex(item => item.title.toLowerCase() === this.$route.params.switch_body) + 1;
+  },
+
+  watch: {
+    '$route': function() {
+      this.navList.map(item => item.title.toLowerCase() !== this.$route.params.switch_body) ? this.isSelectedNav = 0 : ''
     }
   },
 }

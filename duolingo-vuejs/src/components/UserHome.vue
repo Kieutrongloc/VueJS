@@ -72,10 +72,10 @@ export default {
 <template>
   <Loading v-if="isLoading" :loadingMessage="loadingMessage"/>
   <div id="user-home" v-if="!isLoading">
-    <div id="user-nav">
+    <div id="user-nav-area">
       <UserNav/>
     </div>
-    <div id="user-learn" v-if="true">
+    <div id="user-content" v-if="true">
       <component :is="switchComponent"></component>
     </div>
   </div>

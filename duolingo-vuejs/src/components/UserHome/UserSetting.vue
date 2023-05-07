@@ -17,13 +17,31 @@ export default {
             {id: 5, title: 'Notifications', link: '/user-home/setting/notifications'},
             {id: 6, title: 'Edit daily Goal', link: '/user-home/setting/goal'},
             {id: 7, title: 'Duolingo for Schools', link: '/user-home/setting/schools'},
-            {id: 7, title: 'Privacy', link: '/user-home/setting/privacy'},
-        ]
+            {id: 8, title: 'Privacy', link: '/user-home/setting/privacy'},
+        ],
+        footerNavList : [
+            {id: 1, title: 'ABOUT', link: ''},
+            {id: 2, title: 'BLOG', link: ''},
+            {id: 3, title: 'SCHOOLS', link: ''},
+            {id: 4, title: 'APPS', link: ''},
+            {id: 5, title: 'STORE', link: ''},
+            {id: 6, title: 'EFFICACY', link: ''},
+            {id: 7, title: 'HELP', link: ''},
+            {id: 8, title: 'GUIDELINES', link: ''},
+            {id: 9, title: 'CAREERS', link: ''},
+            {id: 10, title: 'INVESTORS', link: ''},
+            {id: 11, title: 'TERMS', link: ''},
+            {id: 12, title: 'PRIVACY', link: ''},
+        ],
+        selectedNav : 0,
+        isDisableBtn : true
     };
   },
 
   methods: {
-    
+    selectedNavHandle(id) {
+        this.selectedNav = id
+    }
   },
 
   computed: {
@@ -35,6 +53,10 @@ export default {
         switch (this.settingComponent) {
         case 'account':
             return defineAsyncComponent(() => import('./UserSetting/AccountSetting.vue'));
+        case 'courses':
+            return defineAsyncComponent(() => import('./UserSetting/CoursesSetting.vue'));
+        case 'password':
+            return defineAsyncComponent(() => import('./UserSetting/PasswordSetting.vue'));
         default:
           return null;
         }
@@ -42,7 +64,7 @@ export default {
   },
 
   created() {
-
+    this.selectedNav = this.settingNavList.findIndex(item => item.link === this.$route.path) + 1
   },
 
   watch: {
@@ -57,26 +79,43 @@ export default {
 <template>
   <div id="user-setting">
     <div id="setting-component">
-        <component :is="switchSetting"></component>
-    </div>
-    <div id="setting-side-bar">
-        <div id="save-change">
-            <button :disabled="false">SAVE CHANGES</button>
+        <div id="component-box">
+            <component :is="switchSetting"></component>
         </div>
-        <div id="setting-nav">
-            <div id="user-info">
-                <img src="" alt="">
-                <div id="user-name">
-                    <p></p>
-                    <RouterLink id="view-profile" to="/user-home/profile">VIEW YOUR PROFILE</RouterLink>
+
+        <div id="footer_content">
+            <footer>
+                <div id="footer_nav">
+                <div class="footer-items" v-for="item in footerNavList" :key="item.id">
+                    <RouterLink :to="item.link"><p>{{ item.title }}</p></RouterLink>
                 </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <div id="setting-side-bar">
+        <div id="setting_side_bar_box">
+            <div id="save-change">
+                <button :disabled="isDisableBtn">SAVE CHANGES</button>
             </div>
-            <div id="setting-nav">
-                <ul>
-                    <li v-for="item in settingNavList" :key="item.id">
-                        <RouterLink class="link" :to="item.link">{{ item.title }}</RouterLink>
-                    </li>
-                </ul>
+            <div id="setting-box">
+                <div id="user-info">
+                    <img :src="userAvatar" alt="user-avatar">
+                    <div id="user-name">
+                        <p>{{ userData.user_name }}</p>
+                        <RouterLink id="view-profile" to="/user-home/profile">VIEW YOUR PROFILE</RouterLink>
+                    </div>
+                </div>
+                <div id="setting-nav">
+                    <ul>
+                        <li @click="selectedNavHandle(item.id)" v-for="item in settingNavList" :key="item.id">
+                            <RouterLink :class="[selectedNav === item.id ? 'selected-nav' : '']" :to="item.link">
+                                <p class="link">{{ item.title }}</p>
+                            </RouterLink>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@
         .then(response => {
           if (response.data.msg === 'ok') {
             localStorage.setItem("user", JSON.stringify(response.data.user));
-            router.push('/user-home')
+            router.push('/user-home/learn')
           } else {
             this.signinMessage = 'Sign in failed';
           }

@@ -32,7 +32,10 @@ export default {
         <div id="header-main">
             <div id="user-avatar">
                 <img :src="userAvatar" alt="avatar">
-                <font-awesome-icon class="icon" :icon="['fas', 'pen']" />
+                <label for="upload-avatar" class="custom-file-upload">
+                    <font-awesome-icon class="icon" :icon="['fas', 'pen']" />
+                </label>
+                <input id="upload-avatar" type="file" name="upload-avatar" accept="image/png, image/jpeg">
             </div>
             <div id='profile-info'>
                 <p>{{ userData.user_name }}</p>

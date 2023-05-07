@@ -43,7 +43,7 @@ export default {
     },
 
     quitConfirmHandle(){
-      router.push('/user-home')
+      router.push('/user-home/learn')
     },
   },
   computed: {
