@@ -26,13 +26,21 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
 
             // Loop through each row and column to read the cell values
             for ($row = 1; $row <= $highestRow; ++$row) {
+
                 for ($col = 1; $col <= $highestColumnIndex; ++$col) {
 
                     
                     $cellValue = $worksheet->getCell(Coordinate::stringFromColumnIndex($col) . $row)->getValue();
-                    $columnName = Coordinate::stringFromColumnIndex($col);
+
+                    if($cellValue === 'id') {
+                        
+                        echo 'alo';
+                        
+                    }
+
+                    // $columnName = Coordinate::stringFromColumnIndex($col);
         
-                    echo "Cell ($row, $columnName) value is: $cellValue<br/>";
+                    // echo "Cell ($row, $columnName) value is: $cellValue<br/>";
                 }
             }
 
