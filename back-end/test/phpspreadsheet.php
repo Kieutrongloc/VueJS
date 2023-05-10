@@ -158,7 +158,6 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                             $stmt->execute();
                             $message="question '$title' did exist in the database";
                             echo json_encode(['msg' => $message]); die;
-                            die;
                         }
                         $db_id = $db_row[0]['id'];
                         
@@ -203,7 +202,10 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                         
                         // insert data into database
                         $stmt = $dbh->prepare("INSERT INTO answers (question_id, title, image, audio) VALUES (?, ?, ?, ?)");
-                        if (!$stmt->execute([$question['db_id'], $title, $image, $audio])) {
+                        if ($stmt->execute([$question['db_id'], $title, $image, $audio])) {
+                            $message="Successfully updated in the database";
+                            echo json_encode(['msg' => $message]); die;
+                        } else {
                             echo "Error: " . implode(", ", $stmt->errorInfo());
                         }
                     }
