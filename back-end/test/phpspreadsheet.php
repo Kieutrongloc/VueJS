@@ -80,6 +80,9 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                 $stmt->execute();
                 $db_row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if(count($db_row)!==1){
+                    $stmt = $dbh->prepare("DELETE FROM skills WHERE id=:id"); //delete the duplicated skill
+                    $stmt->bindParam(':id', end($db_row)['id']);
+                    $stmt->execute();
                     $message="skill '$title' did exist in the database";
                     echo json_encode(['msg' => $message]); die;
                 }
@@ -150,6 +153,9 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                         $stmt->execute();
                         $db_row = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if(count($db_row)!==1){
+                            $stmt = $dbh->prepare("DELETE FROM questions WHERE id=:id"); //delete the duplicated skill
+                            $stmt->bindParam(':id', end($db_row)['id']);
+                            $stmt->execute();
                             $message="question '$title' did exist in the database";
                             echo json_encode(['msg' => $message]); die;
                             die;
