@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 require '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+// use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 $fileName = 'sample-learn.xlsx';
 $spreadsheet = IOFactory::load($fileName);
@@ -90,9 +90,8 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                     $message="skill '$title' did exist in the database";
                     echo json_encode(['msg' => $message]); die;
                 }
-                $db_id = $db_row[0]['id'];
                 
-                $skillsArray[] = ['id' => $id, 'db_id' => $db_id, 'title' => $title];
+                $skillsArray[] = ['id' => $id, 'db_id' => $db_row[0]['id'], 'title' => $title];
             }
             
         } 
@@ -168,9 +167,7 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                             echo json_encode(['msg' => $message]); die;
                         }
                         
-                        $db_id = $db_row[0]['id'];
-                        
-                        $questionsArray[] = ['id' => $id, 'db_id' => $db_id, 'title' => $title];
+                        $questionsArray[] = ['id' => $id, 'db_id' => $db_row[0]['id'], 'title' => $title];
                     }
 
                 }
@@ -220,11 +217,8 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                             echo "Error: " . implode(", ", $stmt->errorInfo());
                         }
                     }
-                    
                 }
-                
             }
-            
         }
     }
     $message="Successfully updated in the database";
