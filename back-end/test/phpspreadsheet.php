@@ -18,7 +18,7 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
     $sheetNames = $spreadsheet->getSheetNames();
     $sheetOrder = ['skills', 'questions', 'answers'];
     $skillsArray = [];
-    $count = 0;
+    $questionsArray = [];
 
     // Sort $sheetNames based on order in $sheetOrder
     $commonSheets = array_intersect($sheetNames, $sheetOrder);
@@ -68,7 +68,6 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                 $title = $worksheet->getCell($columnIndexes['title'] . $rowIndex)->getValue();
                 $image = $worksheet->getCell($columnIndexes['image'] . $rowIndex)->getValue() === null ? '' : $worksheet->getCell($columnIndexes['image'] . $rowIndex)->getValue();
                 
-                
                 // insert data into database
                 $stmt = $dbh->prepare("INSERT INTO skills (course_id, lesson_id, title, image) VALUES (?, ?, ?, ?)");
                 if ($stmt->execute([$courseId, $lessonId, $title, $image])) {
@@ -78,19 +77,21 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                 }
                 
                 //get the skill id in the database
-                $sql = "SELECT id FROM skills WHERE title=:title";
-                $stmt = $dbh->prepare($sql);
+                $stmt = $dbh->prepare("SELECT id FROM skills WHERE title=:title");
                 $stmt->bindParam(':title', $title);
                 $stmt->execute();
-                $db_id = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $db_row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if(count($db_row)!==1){
+                    $message="skill '$title' did exist in the database";
+                    echo json_encode(['msg' => $message]); die;
+                }
+                $db_id = $db_row[0]['id'];
                 
                 $skillsArray[] = ['id' => $id, 'db_id' => $db_id, 'title' => $title];
-                // $skillsArray[] = ['id' => $count++, 'db_id' => $count++ +10, 'title' => 'test'];
             }
-
+            
         } 
         else if ($sheetName === 'questions') {
-            // echo json_encode($skillsArray);
 
             // loop through first row to get column indexes for each field
             foreach ($worksheet->getRowIterator(1, 1) as $row) {
@@ -120,52 +121,99 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                 }
             }
 
-            foreach ($skillsArray as $skillId) {
+            foreach ($skillsArray as $skill) {
                 
-                $questionsArray = [];
                 // loop through each row starting from the second row
                 for ($rowIndex = 2; $rowIndex <= $worksheet->getHighestRow(); $rowIndex++) {
                     // get values for each field using column indexes
                     $skill_id = $worksheet->getCell($columnIndexes['skill_id'] . $rowIndex)->getValue();
                     
-                    if($skill_id === $skillId) {
+                    if($skill_id === $skill['id']) {
+                        
                         $id = $worksheet->getCell($columnIndexes['id'] . $rowIndex)->getValue();
-                        $courseId = $worksheet->getCell($columnIndexes['unit_id'] . $rowIndex)->getValue();
-                        $lessonId = $worksheet->getCell($columnIndexes['lesson_id'] . $rowIndex)->getValue();
+                        $unit_id = $worksheet->getCell($columnIndexes['unit_id'] . $rowIndex)->getValue();
+                        $lesson_id = $worksheet->getCell($columnIndexes['lesson_id'] . $rowIndex)->getValue();
                         $title = $worksheet->getCell($columnIndexes['title'] . $rowIndex)->getValue();
                         $description = $worksheet->getCell($columnIndexes['description'] . $rowIndex)->getValue() === null ? '' : $worksheet->getCell($columnIndexes['description'] . $rowIndex)->getValue();
                         $answer = $worksheet->getCell($columnIndexes['answer'] . $rowIndex)->getValue();
-                        $image = $worksheet->getCell($columnIndexes['image'] . $rowIndex)->getValue();
-                        $audio = $worksheet->getCell($columnIndexes['audio'] . $rowIndex)->getValue();
+                        $image = $worksheet->getCell($columnIndexes['image'] . $rowIndex)->getValue() === null ? '' : $worksheet->getCell($columnIndexes['image'] . $rowIndex)->getValue();
+                        $audio = $worksheet->getCell($columnIndexes['audio'] . $rowIndex)->getValue() === null ? '' : $worksheet->getCell($columnIndexes['audio'] . $rowIndex)->getValue();
                         $template_name = $worksheet->getCell($columnIndexes['template_name'] . $rowIndex)->getValue();
                         
                         // insert data into database
                         $stmt = $dbh->prepare("INSERT INTO questions (unit_id, lesson_id, skill_id, title, description, answer, image, audio, template_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                        if ($stmt->execute([$unit_id, $lesson_id, $skill_id, $description, $answer, $image, $audio, $template_name])) {
+                        if ($stmt->execute([$unit_id, $lesson_id, $skill['db_id'], $title, $description, $answer, $image, $audio, $template_name])) {
                             // $message = "ok";
                         } else {
                             echo "Error: " . implode(", ", $stmt->errorInfo());
                         }
                         
                         // //get the question id in the database
-                        $sql = "SELECT id FROM questions WHERE title=:title";
-                        $stmt = $dbh->prepare($sql);
+                        $stmt = $dbh->prepare("SELECT id FROM questions WHERE title=:title");
                         $stmt->bindParam(':title', $title);
                         $stmt->execute();
-                        $db_id = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        $db_row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if(count($db_row)!==1){
+                            $message="question '$title' did exist in the database";
+                            echo json_encode(['msg' => $message]); die;
+                            die;
+                        }
+                        $db_id = $db_row[0]['id'];
                         
                         $questionsArray[] = ['id' => $id, 'db_id' => $db_id, 'title' => $title];
-                        // $skillsArray[] = ['id' => $count++, 'db_id' => $count++ +10, 'title' => 'test'];
                     }
 
                 }
 
             }
         }
+        else if ($sheetName === 'answers') {
+            // loop through first row to get column indexes for each field
+            foreach ($worksheet->getRowIterator(1, 1) as $row) {
+                foreach ($row->getCellIterator() as $cell) {
+                    $cellValue = $cell->getValue();
+                    if ($cellValue == 'id') {
+                        $columnIndexes['id'] = $cell->getColumn();
+                    } elseif ($cellValue == 'question_id') {
+                        $columnIndexes['question_id'] = $cell->getColumn();
+                    } elseif ($cellValue == 'title') {
+                        $columnIndexes['title'] = $cell->getColumn();
+                    } elseif ($cellValue == 'image') {
+                        $columnIndexes['image'] = $cell->getColumn();
+                    } elseif ($cellValue == 'audio') {
+                        $columnIndexes['audio'] = $cell->getColumn();
+                    }
+                }
+            }
 
+            foreach ($questionsArray as $question) {
+                
+                // loop through each row starting from the second row
+                for ($rowIndex = 2; $rowIndex <= $worksheet->getHighestRow(); $rowIndex++) {
+                    // get values for each field using column indexes
+                    $question_id = $worksheet->getCell($columnIndexes['question_id'] . $rowIndex)->getValue();
+                    
+                    if($question_id === $question['id']) {
+                        
+                        $title = $worksheet->getCell($columnIndexes['title'] . $rowIndex)->getValue();
+                        $image = $worksheet->getCell($columnIndexes['image'] . $rowIndex)->getValue() === null ? '' : $worksheet->getCell($columnIndexes['image'] . $rowIndex)->getValue();
+                        $audio = $worksheet->getCell($columnIndexes['audio'] . $rowIndex)->getValue() === null ? '' : $worksheet->getCell($columnIndexes['audio'] . $rowIndex)->getValue();
+                        
+                        // insert data into database
+                        $stmt = $dbh->prepare("INSERT INTO answers (question_id, title, image, audio) VALUES (?, ?, ?, ?)");
+                        if ($stmt->execute([$question['db_id'], $title, $image, $audio])) {
+                            // $message = "ok";
+                        } else {
+                            echo "Error: " . implode(", ", $stmt->errorInfo());
+                        }
+                    }
 
+                }
+
+            }
+
+        }
     }
-
 } else {
     // The file could not be loaded
     echo "Error loading file: $fileName";
