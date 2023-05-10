@@ -70,9 +70,7 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                 
                 // insert data into database
                 $stmt = $dbh->prepare("INSERT INTO skills (course_id, lesson_id, title, image) VALUES (?, ?, ?, ?)");
-                if ($stmt->execute([$courseId, $lessonId, $title, $image])) {
-                    // $message = "ok";
-                } else {
+                if (!$stmt->execute([$courseId, $lessonId, $title, $image])) {
                     echo "Error: " . implode(", ", $stmt->errorInfo());
                 }
                 
@@ -142,9 +140,7 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                         
                         // insert data into database
                         $stmt = $dbh->prepare("INSERT INTO questions (unit_id, lesson_id, skill_id, title, description, answer, image, audio, template_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                        if ($stmt->execute([$unit_id, $lesson_id, $skill['db_id'], $title, $description, $answer, $image, $audio, $template_name])) {
-                            // $message = "ok";
-                        } else {
+                        if (!$stmt->execute([$unit_id, $lesson_id, $skill['db_id'], $title, $description, $answer, $image, $audio, $template_name])) {
                             echo "Error: " . implode(", ", $stmt->errorInfo());
                         }
                         
@@ -201,9 +197,7 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                         
                         // insert data into database
                         $stmt = $dbh->prepare("INSERT INTO answers (question_id, title, image, audio) VALUES (?, ?, ?, ?)");
-                        if ($stmt->execute([$question['db_id'], $title, $image, $audio])) {
-                            // $message = "ok";
-                        } else {
+                        if (!$stmt->execute([$question['db_id'], $title, $image, $audio])) {
                             echo "Error: " . implode(", ", $stmt->errorInfo());
                         }
                     }
