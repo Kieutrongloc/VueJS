@@ -28,7 +28,7 @@
         selectLanguage(language){
             this.currentLanguage = language;
             this.isVisible = false;
-        }
+        },
     }
     };
     
@@ -59,7 +59,7 @@
                 </div>
             </header>
     
-            <body>
+            <div id="homepage-body">
                 <div id="body">
                     <img id="logo-earth" src="src/assets/img/addition/global-img.png" alt="earth-img">
                     <div id="body-content">
@@ -68,7 +68,7 @@
                         <RouterLink to="/sign-in"><button id="to-signin">I ALREADY HAVE AN ACCOUNT</button></RouterLink>
                     </div>
                 </div>
-            </body>
+            </div>
     
             <footer>
                 <div id="footer">

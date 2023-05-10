@@ -51,7 +51,7 @@
       </div>
     </header>
 
-    <body>
+    <div>
       <div id="body">
         <h2>Log in</h2>
         <form ref="signinForm" @submit.prevent="signIn">
@@ -78,7 +78,7 @@
           </button>
         </div>
       </div>
-    </body>
+    </div>
 
     <footer>
       <div id="footer">

@@ -85,7 +85,7 @@
       </div>
     </header>
 
-    <body>
+    <div>
       <div id="body">
         <h2>Create your profile</h2>
         <form id="signup-form" ref="signupForm" @submit.prevent="signUp" @click="resetError">
@@ -120,7 +120,7 @@
           </button>
         </div>
       </div>
-    </body>
+    </div>
 
     <footer>
       <div id="footer">

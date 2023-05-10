@@ -94,39 +94,34 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                 
                 $skillsArray[] = ['id' => $id, 'db_id' => $db_id, 'title' => $title];
             }
-            
-        } 
+        }
         else if ($sheetName === 'questions') {
 
-            // Get the first row
-            $firstRow = $worksheet->getRowIterator(1, 1)->current();
-
-            // Loop through each cell in the first row
-            foreach ($firstRow->getCellIterator() as $cell) {
-                $cellValue = $cell->getValue();
-                $columnIndex = $cell->getColumn();
-
-                // Check cell value and assign column index accordingly
-                if ($cellValue == 'id') {
-                    $columnIndexes['id'] = $cell->getColumn();
-                } elseif ($cellValue == 'unit_id') {
-                    $columnIndexes['unit_id'] = $cell->getColumn();
-                } elseif ($cellValue == 'lesson_id') {
-                    $columnIndexes['lesson_id'] = $cell->getColumn();
-                } elseif ($cellValue == 'skill_id') {
-                    $columnIndexes['skill_id'] = $cell->getColumn();
-                } elseif ($cellValue == 'title') {
-                    $columnIndexes['title'] = $cell->getColumn();
-                } elseif ($cellValue == 'description') {
-                    $columnIndexes['description'] = $cell->getColumn();
-                } elseif ($cellValue == 'answer') {
-                    $columnIndexes['answer'] = $cell->getColumn();
-                } elseif ($cellValue == 'image') {
-                    $columnIndexes['image'] = $cell->getColumn();
-                } elseif ($cellValue == 'audio') {
-                    $columnIndexes['audio'] = $cell->getColumn();
-                } elseif ($cellValue == 'template_name') {
-                    $columnIndexes['template_name'] = $cell->getColumn();
+            // loop through first row to get column indexes for each field
+            foreach ($worksheet->getRowIterator(1, 1) as $row) {
+                foreach ($row->getCellIterator() as $cell) {
+                    $cellValue = $cell->getValue();
+                    if ($cellValue == 'id') {
+                        $columnIndexes['id'] = $cell->getColumn();
+                    } elseif ($cellValue == 'unit_id') {
+                        $columnIndexes['unit_id'] = $cell->getColumn();
+                    } elseif ($cellValue == 'lesson_id') {
+                        $columnIndexes['lesson_id'] = $cell->getColumn();
+                    } elseif ($cellValue == 'skill_id') {
+                        $columnIndexes['skill_id'] = $cell->getColumn();
+                    } elseif ($cellValue == 'title') {
+                        $columnIndexes['title'] = $cell->getColumn();
+                    } elseif ($cellValue == 'description') {
+                        $columnIndexes['description'] = $cell->getColumn();
+                    } elseif ($cellValue == 'answer') {
+                        $columnIndexes['answer'] = $cell->getColumn();
+                    } elseif ($cellValue == 'image') {
+                        $columnIndexes['image'] = $cell->getColumn();
+                    } elseif ($cellValue == 'audio') {
+                        $columnIndexes['audio'] = $cell->getColumn();
+                    } elseif ($cellValue == 'template_name') {
+                        $columnIndexes['template_name'] = $cell->getColumn();
+                    }
                 }
             }
 
@@ -155,7 +150,7 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                             echo "Error: " . implode(", ", $stmt->errorInfo());
                         }
                         
-                        //get the question id in the database
+                        // //get the question id in the database
                         $stmt = $dbh->prepare("SELECT id FROM questions WHERE title=:title");
                         $stmt->bindParam(':title', $title);
                         $stmt->execute();
@@ -167,37 +162,29 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                             $message="question '$title' did exist in the database";
                             echo json_encode(['msg' => $message]); die;
                         }
-                        
                         $db_id = $db_row[0]['id'];
                         
                         $questionsArray[] = ['id' => $id, 'db_id' => $db_id, 'title' => $title];
                     }
-
                 }
-
             }
         }
         else if ($sheetName === 'answers') {
-
-            // Get the first row
-            $firstRow = $worksheet->getRowIterator(1, 1)->current();
-
-            // Loop through each cell in the first row
-            foreach ($firstRow->getCellIterator() as $cell) {
-                $cellValue = $cell->getValue();
-                $columnIndex = $cell->getColumn();
-
-                // Check cell value and assign column index accordingly
-                if ($cellValue == 'id') {
-                    $columnIndexes['id'] = $cell->getColumn();
-                } elseif ($cellValue == 'question_id') {
-                    $columnIndexes['question_id'] = $cell->getColumn();
-                } elseif ($cellValue == 'title') {
-                    $columnIndexes['title'] = $cell->getColumn();
-                } elseif ($cellValue == 'image') {
-                    $columnIndexes['image'] = $cell->getColumn();
-                } elseif ($cellValue == 'audio') {
-                    $columnIndexes['audio'] = $cell->getColumn();
+            // loop through first row to get column indexes for each field
+            foreach ($worksheet->getRowIterator(1, 1) as $row) {
+                foreach ($row->getCellIterator() as $cell) {
+                    $cellValue = $cell->getValue();
+                    if ($cellValue == 'id') {
+                        $columnIndexes['id'] = $cell->getColumn();
+                    } elseif ($cellValue == 'question_id') {
+                        $columnIndexes['question_id'] = $cell->getColumn();
+                    } elseif ($cellValue == 'title') {
+                        $columnIndexes['title'] = $cell->getColumn();
+                    } elseif ($cellValue == 'image') {
+                        $columnIndexes['image'] = $cell->getColumn();
+                    } elseif ($cellValue == 'audio') {
+                        $columnIndexes['audio'] = $cell->getColumn();
+                    }
                 }
             }
 
@@ -216,19 +203,17 @@ if ($spreadsheet instanceof PhpOffice\PhpSpreadsheet\Spreadsheet) {
                         
                         // insert data into database
                         $stmt = $dbh->prepare("INSERT INTO answers (question_id, title, image, audio) VALUES (?, ?, ?, ?)");
-                        if (!$stmt->execute([$question['db_id'], $title, $image, $audio])) {
+                        if ($stmt->execute([$question['db_id'], $title, $image, $audio])) {
+                            $message="Uploaded to the database successfully";
+                            echo json_encode(['msg' => $message]); die;
+                        } else {
                             echo "Error: " . implode(", ", $stmt->errorInfo());
                         }
                     }
-                    
                 }
-                
             }
-            
         }
     }
-    $message="Successfully updated in the database";
-    echo json_encode(['msg' => $message]); die;
 } else {
     // The file could not be loaded
     echo "Error loading file: $fileName";
